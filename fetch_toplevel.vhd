@@ -33,7 +33,7 @@ entity fetch_toplevel is
 port( clk: in std_logic;
 		addr: in std_logic_vector(4 downto 0);
 		writeEnable: in std_logic;
-		op: out std_logic_vector(15 downto 0));
+		inst: out std_logic_vector(15 downto 0));
 end fetch_toplevel;
 
 architecture Behavioral of fetch_toplevel is
@@ -52,8 +52,7 @@ ROM: entity work.ROM
 port map(
 			ADDRA => count,
 			CLKA => clk,
-			DOUTA => op
+			DOUTA => inst
 );
 
 end Behavioral;
-

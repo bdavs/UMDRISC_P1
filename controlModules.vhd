@@ -46,7 +46,7 @@ entity controlModules is
 
 end controlModules;
 
-SLITHarchitecture Behavioral of controlModules is
+architecture Behavioral of controlModules is
 
 
 	signal t1, t2, t3, t4, t5 : STD_LOGIC_VECTOR(15 downto 0);

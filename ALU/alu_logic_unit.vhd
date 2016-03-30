@@ -34,7 +34,7 @@ begin
         RESULT <=
             A and B when "010", -- AND  REG A, REG B
             A or  B when "011", -- OR   REG A, REG B
-            x"00"   when "100", -- CMP  REG A, REG B
+            x"0000"   when "100", -- CMP  REG A, REG B
             A and B when OTHERS;-- ANDI REG A, IMMED
 
     --Compare Operation

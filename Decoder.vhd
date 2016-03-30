@@ -35,7 +35,7 @@ entity Decoder is
            op : out  STD_LOGIC_VECTOR (3 downto 0);
            RA : out  STD_LOGIC_VECTOR (3 downto 0);
            RB : out  STD_LOGIC_VECTOR (3 downto 0);
-           Imm : out  STD_LOGIC_VECTOR (3 downto 0));
+           Imm : out  STD_LOGIC_VECTOR (7 downto 0));
 end Decoder;
 
 architecture Behavioral of Decoder is
