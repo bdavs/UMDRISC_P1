@@ -14,10 +14,11 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity mux_2to1 is
+	Generic(width:natural := 16);
     Port ( SEL  : in  STD_LOGIC;
-           IN_1 : in  STD_LOGIC_vector(15 downto 0);
-           IN_2 : in  STD_LOGIC_vector(15 downto 0);
-           MOUT : out STD_LOGIC);
+           IN_1 : in  STD_LOGIC_vector(width-1 downto 0);
+           IN_2 : in  STD_LOGIC_vector(width-1 downto 0);
+           MOUT : out STD_LOGIC_vector(width-1 downto 0));
 end mux_2to1;
 
 architecture Behavioral of mux_2to1 is
