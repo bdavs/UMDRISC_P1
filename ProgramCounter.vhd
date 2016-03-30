@@ -35,7 +35,7 @@ entity ProgramCounter is
 	port( clk: in std_logic;
 			addr: in std_logic_vector(4 downto 0);
 			writeEnable: in std_logic;
-			count: buffer std_logic_vector(4 downto 0));
+			count: buffer std_logic_vector(4 downto 0) := (others => '0'));
 
 end ProgramCounter;
 

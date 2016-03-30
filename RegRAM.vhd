@@ -19,16 +19,15 @@ generic(	width:	integer:=16;
 			depth:	integer:=16;
 			addr:	integer:=4);
 port(	Clock:		in std_logic;	
-	Enable:		in std_logic;
-	Read:		in std_logic;
-	Write:		in std_logic;
-	Read_AddrA:	in std_logic_vector(addr-1 downto 0);
-	Read_AddrB:	in std_logic_vector(addr-1 downto 0);
-	Write_AddrA: 	in std_logic_vector(addr-1 downto 0); 
-	Data_inA: 	in std_logic_vector(width-1 downto 0);
-	Data_outA: 	out std_logic_vector(width-1 downto 0);
-	Data_outB: 	out std_logic_vector(width-1 downto 0)
-
+		Enable:		in std_logic;
+		Read:		in std_logic;
+		Write:		in std_logic;
+		Read_AddrA:	in std_logic_vector(addr-1 downto 0);
+		Read_AddrB:	in std_logic_vector(addr-1 downto 0);
+		Write_AddrA: 	in std_logic_vector(addr-1 downto 0); 
+		Data_inA: 	in std_logic_vector(width-1 downto 0);
+		Data_outA: 	out std_logic_vector(width-1 downto 0);
+		Data_outB: 	out std_logic_vector(width-1 downto 0)
 );
 end RegRAM;
 
