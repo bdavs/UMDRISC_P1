@@ -48,6 +48,7 @@ signal inst_latch : std_logic_vector(15 downto 0);
 
 signal op : std_logic_vector(3 downto 0); 
 signal op_latch : std_logic_vector(3 downto 0); 
+signal operand_op_latch : std_logic_vector(3 downto 0); 
 
 signal RA_addr : std_logic_vector(3 downto 0);
 signal RA_addr_latch : std_logic_vector(3 downto 0);
@@ -73,6 +74,14 @@ signal operand_write : std_logic := '0';
 signal operand_write_addr : std_logic_vector(3 downto 0);
 
 signal data_in : std_logic_vector(15 downto 0);
+
+signal ccr: std_logic_vector(3 downto 0);
+
+signal execute_alu_out: std_logic_vector(15 downto 0);
+signal execute_alu_out_latch: std_logic_vector(15 downto 0);
+
+signal execute_ldst_out: std_logic_vector(15 downto 0);
+signal execute_ldst_out_latch: std_logic_vector(15 downto 0);
 
 signal operand_mux_sel: std_logic; 
 begin
@@ -180,6 +189,40 @@ port map(
 			input => ALU_RB,
 			en => en_decode,
 			output => RB_data_latch);
+
+operand_latch_op: entity work.reg
+generic map (n => 4)
+port map(
+			clk => clk,
+			input => op_latch,
+			en => en_decode,
+			output => operand_op_latch);
 				
+execute: entity work.ALU
+port map(  CLK => clk,
+           RA  => RA_data_latch,
+           RB  => RB_data_latch,
+           OPCODE  => operand_op_latch,
+           CCR => ccr,
+           ALU_OUT  => execute_alu_out,
+           LDST_OUT => execute_ldst_out
+);
+	
+execute_alu_out_latch: entity work.reg
+generic map (n => 16)
+port map(
+			clk => clk,
+			input => execute_alu_out,
+			en => en_decode,
+			output => execute_alu_out_latch);
+			
+execute_ldst_out_latch: entity work.reg
+generic map (n => 16)
+port map(
+			clk => clk,
+			input => execute_ldst_out,
+			en => en_decode,
+			output => execute_ldst_out_latch);
+			
 end Behavioral;
 
