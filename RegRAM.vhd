@@ -48,17 +48,17 @@ begin
     process(Clock, Read)
     begin
 	if (Clock'event and Clock='1') then
-	    if Enable='1' then
-		if Read='1' then
+	   if (Enable='1') then
+		if (Read='1') then
 		    -- built in function conv_integer change the type
 		    -- from std_logic_vector to integer
 		    Data_outA <= tmp_ram(conv_integer(Read_AddrA)); 
 		    Data_outB <= tmp_ram(conv_integer(Read_AddrB)); 
 		else
-		    Data_outA <= (Data_out'range => 'Z');
-	            Data_outB <= (Data_out'range => 'Z');
+		    Data_outA <= (Data_outA'range => 'Z');
+	       Data_outB <= (Data_outB'range => 'Z');
 		end if;
-	    end if;
+	   end if;
 	end if;
     end process;
 	

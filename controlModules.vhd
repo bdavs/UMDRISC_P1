@@ -53,8 +53,8 @@ architecture Behavioral of controlModules is
 
 begin
 
-	pipeline: entity work.PipelineController 
-	port map( clk,en,input,t1,t2,t3,t4,t5);
+	--pipeline: entity work.PipelineController 
+	--port map( clk,en,input,t1,t2,t3,t4,t5);
 
 
 end Behavioral;
