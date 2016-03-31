@@ -19,6 +19,7 @@
 ----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use work.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -32,17 +33,23 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity controlModules is
 
 	port( clk : in  STD_LOGIC;
+	
+			op : in STD_LOGIC_vector(3 downto 0)
 			
-			latch1 : out  STD_LOGIC;
-			regBank : out  STD_LOGIC;
-			PCcnt : out  STD_LOGIC;
 			
-			decode: out  STD_LOGIC;
-			latch2 : out  STD_LOGIC;
+			--latch1 : out  STD_LOGIC;
+			--regBank : out  STD_LOGIC;
+			--PCcnt : out  STD_LOGIC;
 			
-			RBwrite : out  STD_LOGIC;
-			RBread : out  STD_LOGIC;
-			latch3 : out  STD_LOGIC);
+			--decode: out  STD_LOGIC;
+			--latch2 : out  STD_LOGIC;
+			
+			--RBwrite : out  STD_LOGIC;
+			--RBread : out  STD_LOGIC;
+			--latch3 : out  STD_LOGIC
+			);
+
+			
 
 end controlModules;
 
@@ -50,8 +57,19 @@ architecture Behavioral of controlModules is
 
 
 	signal t1, t2, t3, t4, t5 : STD_LOGIC_VECTOR(15 downto 0);
+	signal WE, RE : STD_LOGIC;
 
 begin
+
+
+ RE <= '1';
+ WE <= '0' when OP="1010" else '1';
+ RegBankCMD: entity work.RegBankCMD
+    port map(       
+           Writeback_Data => ALUOUT,
+           Writeback_Addr => Writeback,
+           WE => WE,
+           RE => RE);
 
 	--pipeline: entity work.PipelineController 
 	--port map( clk,en,input,t1,t2,t3,t4,t5);

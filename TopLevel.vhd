@@ -84,6 +84,12 @@ signal execute_ldst_out: std_logic_vector(15 downto 0);
 signal execute_ldst_out_latch: std_logic_vector(15 downto 0);
 
 signal operand_mux_sel: std_logic; 
+
+signal RE: std_logic; 
+signal WE: std_logic; 
+
+signal tmp: std_logic_vector(15 downto 0);
+
 begin
 
 fetch: entity work.fetch_toplevel
@@ -150,7 +156,16 @@ port map(
 			input => Imm,
 			en => en_decode,
 			output => Imm_latch);
-			
+		
+ControlModules: entity work.ControlModules
+port map(clk => clk,
+	
+			op => operand_op_latch,
+			RE => RE,
+			WE => WE
+			);
+
+		
 operand: entity work.RegRAM
 port map(
 			Clock => clk,
@@ -159,18 +174,20 @@ port map(
 			Write => operand_write,
 			Read_AddrA => RA_addr_latch,
 			Read_AddrB => RB_addr_latch,
-			Write_AddrA => operand_write_addr,
-			Data_inA => data_in,
+			Write_AddrA => RA_addr,
+			Data_inA => execute_alu_out,
 			Data_outA => RA_data,
 			Data_outB => RB_data
 );
+
+tmp <= "00000000" & Imm_latch;
 
 operand_RB_mux: entity work.mux_2to1
 generic map(width => 16)
 port map(
 			SEL => operand_mux_sel,
 			IN_1 => RB_data,
-			IN_2 => "00000000"&Imm_latch,
+			IN_2 => tmp,
 			MOUT => ALU_RB
 );
 
@@ -223,6 +240,8 @@ port map(
 			input => execute_ldst_out,
 			en => en_decode,
 			output => execute_ldst_out_latch);
+			
+			
 			
 end Behavioral;
 
