@@ -46,14 +46,16 @@ signal t1, t2, t3, t4, t5: std_logic_vector (15 downto 0);
 signal inst : std_logic_vector(15 downto 0); 
 signal inst_latch : std_logic_vector(15 downto 0); 
 
+ 
 signal op : std_logic_vector(3 downto 0); 
-signal op_latch : std_logic_vector(3 downto 0); 
 signal operand_op_latch : std_logic_vector(3 downto 0); 
 
+
 signal RA_addr : std_logic_vector(3 downto 0);
-signal RA_addr_latch : std_logic_vector(3 downto 0);
 signal RA_data : std_logic_vector(15 downto 0);
 signal RA_data_latch : std_logic_vector(15 downto 0);
+
+signal Writeback_Addr : std_logic_vector(3 downto 0);
 
 signal RB_addr : std_logic_vector(3 downto 0);
 signal RB_addr_latch : std_logic_vector(3 downto 0);
@@ -62,7 +64,7 @@ signal ALU_RB : std_logic_vector(15 downto 0);
 signal RB_data_latch : std_logic_vector(15 downto 0);
 
 signal Imm : std_logic_vector(7 downto 0);
-signal Imm_latch : std_logic_vector(7 downto 0);
+
 
 signal en_fetch : std_logic := '1';
 signal en_decode : std_logic := '1';
@@ -88,7 +90,7 @@ signal operand_mux_sel: std_logic;
 signal RE: std_logic; 
 signal WE: std_logic; 
 
-signal tmp: std_logic_vector(15 downto 0);
+signal full_imm: std_logic_vector(15 downto 0);
 
 begin
 
@@ -116,53 +118,30 @@ port map(
 			input => inst,
 			en => en_fetch,
 			output => inst_latch);
-
-decode: entity work.Decoder
-port map( 	inst => inst_latch,
-				clk => clk,
-				op => op,
-				RA => RA_addr,
-				RB => RB_addr,
-				Imm => Imm);
-			  
-decode_latch_op: entity work.reg
-generic map (n => 4)
-port map(
-			clk => clk,
-			input => op,
-			en => en_decode,
-			output => op_latch);
 			
-decode_latch_RA: entity work.reg
-generic map (n => 4)
-port map(
-			clk => clk,
-			input => RA_addr,
-			en => en_decode,
-			output => RA_addr_latch);
-
-decode_latch_RB: entity work.reg
-generic map (n => 4)
-port map(
-			clk => clk,
-			input => RB_addr,
-			en => en_decode,
-			output => RB_addr_latch);
 			
-decode_latch_Imm: entity work.reg
-generic map (n => 8)
-port map(
-			clk => clk,
-			input => Imm,
-			en => en_decode,
-			output => Imm_latch);
+Decode_top: entity work.Decode_top			
+port map(	clk => clk,
+		inst => inst_latch,
+		op_latch => op,
+		Imm_latch => Imm,
+		RA_addr_latch => RA_addr,
+		RB_addr_latch => RB_addr
+		
+);	
+
 		
 ControlModules: entity work.ControlModules
 port map(clk => clk,
-	
 			op => operand_op_latch,
+			RA_addr => Writeback_Addr,
 			RE => RE,
-			WE => WE
+			WE => WE,
+			t1 => t1,
+			 t2 => t2,
+			 t3 => t3,
+			 t4 => t4,
+			 t5 => t5
 			);
 
 		
@@ -170,24 +149,24 @@ operand: entity work.RegRAM
 port map(
 			Clock => clk,
 			Enable => en_operand,
-			Read => operand_read,
-			Write => operand_write,
-			Read_AddrA => RA_addr_latch,
-			Read_AddrB => RB_addr_latch,
-			Write_AddrA => RA_addr,
+			Read => RE,
+			Write => WE,
+			Read_AddrA => RA_addr,
+			Read_AddrB => RB_addr,
+			Write_AddrA => Writeback_Addr,
 			Data_inA => execute_alu_out,
 			Data_outA => RA_data,
 			Data_outB => RB_data
 );
 
-tmp <= "00000000" & Imm_latch;
+full_imm <= "00000000" & Imm;
 
 operand_RB_mux: entity work.mux_2to1
 generic map(width => 16)
 port map(
 			SEL => operand_mux_sel,
 			IN_1 => RB_data,
-			IN_2 => tmp,
+			IN_2 => full_imm,
 			MOUT => ALU_RB
 );
 
@@ -211,7 +190,7 @@ operand_latch_op: entity work.reg
 generic map (n => 4)
 port map(
 			clk => clk,
-			input => op_latch,
+			input => op,
 			en => en_decode,
 			output => operand_op_latch);
 				
