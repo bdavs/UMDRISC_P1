@@ -53,18 +53,14 @@ signal operand_op_latch : std_logic_vector(3 downto 0);
 
 signal RA_addr : std_logic_vector(3 downto 0);
 signal RA_data : std_logic_vector(15 downto 0);
-signal RA_data_latch : std_logic_vector(15 downto 0);
+
 
 signal Writeback_Addr : std_logic_vector(3 downto 0);
 
 signal RB_addr : std_logic_vector(3 downto 0);
-signal RB_addr_latch : std_logic_vector(3 downto 0);
 signal RB_data : std_logic_vector(15 downto 0);
-signal ALU_RB : std_logic_vector(15 downto 0);
-signal RB_data_latch : std_logic_vector(15 downto 0);
 
 signal Imm : std_logic_vector(7 downto 0);
-
 
 signal en_fetch : std_logic := '1';
 signal en_decode : std_logic := '1';
@@ -89,8 +85,6 @@ signal operand_mux_sel: std_logic;
 
 signal RE: std_logic; 
 signal WE: std_logic; 
-
-signal full_imm: std_logic_vector(15 downto 0);
 
 begin
 
@@ -144,60 +138,27 @@ port map(clk => clk,
 			 t5 => t5
 			);
 
-		
-operand: entity work.RegRAM
-port map(
-			Clock => clk,
-			Enable => en_operand,
-			Read => RE,
-			Write => WE,
-			Read_AddrA => RA_addr,
-			Read_AddrB => RB_addr,
-			Write_AddrA => Writeback_Addr,
-			Data_inA => execute_alu_out,
-			Data_outA => RA_data,
-			Data_outB => RB_data
-);
-
-full_imm <= "00000000" & Imm;
-
-operand_RB_mux: entity work.mux_2to1
-generic map(width => 16)
-port map(
-			SEL => operand_mux_sel,
-			IN_1 => RB_data,
-			IN_2 => full_imm,
-			MOUT => ALU_RB
-);
-
-operand_latch_RA_data: entity work.reg
-generic map (n => 16)
-port map(
-			clk => clk,
-			input => RA_data,
-			en => en_decode,
-			output => RA_data_latch);
-			
-operand_latch_RB_data: entity work.reg
-generic map (n => 16)
-port map(
-			clk => clk,
-			input => ALU_RB,
-			en => en_decode,
-			output => RB_data_latch);
-
-operand_latch_op: entity work.reg
-generic map (n => 4)
-port map(
-			clk => clk,
-			input => op,
-			en => en_decode,
-			output => operand_op_latch);
+operand_top: entity work.Operand_top
+port map(	clk => clk,
+		RE => RE,
+		WE => WE,
+		RA_addr => RA_addr,
+		RB_addr =>RB_addr,
+		Writeback_Addr =>Writeback_Addr,
+		execute_alu_out  =>execute_alu_out,
+		RA_data_latch =>RA_data,
+		RB_data_latch =>RB_data,
+		operand_op_latch =>operand_op_latch,
+		Imm =>Imm,
+		op => op,
+		operand_mux_sel  =>operand_mux_sel,
+		en_operand  =>	en_operand
+		);
 				
 execute: entity work.ALU
 port map(  CLK => clk,
-           RA  => RA_data_latch,
-           RB  => RB_data_latch,
+           RA  => RA_data,
+           RB  => RB_data,
            OPCODE  => operand_op_latch,
            CCR => ccr,
            ALU_OUT  => execute_alu_out,
