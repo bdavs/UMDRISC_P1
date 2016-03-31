@@ -208,7 +208,7 @@ port map(  CLK => clk,
            LDST_OUT => execute_ldst_out
 );
 	
-execute_alu_out_latch: entity work.reg
+alu_out_latch: entity work.reg
 generic map (n => 16)
 port map(
 			clk => clk,
@@ -216,7 +216,7 @@ port map(
 			en => en_decode,
 			output => execute_alu_out_latch);
 			
-execute_ldst_out_latch: entity work.reg
+ldst_out_latch: entity work.reg
 generic map (n => 16)
 port map(
 			clk => clk,
