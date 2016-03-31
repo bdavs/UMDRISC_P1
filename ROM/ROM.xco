@@ -1,7 +1,7 @@
 ##############################################################
 #
 # Xilinx Core Generator version 14.7
-# Date: Wed Mar 30 18:47:48 2016
+# Date: Thu Mar 31 01:19:15 2016
 #
 ##############################################################
 #
@@ -46,7 +46,7 @@ CSET axi_id_width=4
 CSET axi_slave_type=Memory_Slave
 CSET axi_type=AXI4_Full
 CSET byte_size=9
-CSET coe_file="/home/dan/DanNoyesRepo/Project Lab 1/Assembler Example/output.coe"
+CSET coe_file=./output.coe
 CSET collision_warnings=ALL
 CSET component_name=ROM
 CSET disable_collision_warnings=false
@@ -105,4 +105,4 @@ CSET write_width_b=16
 MISC pkg_timestamp=2012-11-19T16:22:25Z
 # END Extra information
 GENERATE
-# CRC: ca2baf8b
+# CRC: 1c6fc08b
