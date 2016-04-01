@@ -30,7 +30,9 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity WriteBack is
-Port (
+Port (		clk : in std_logic;
+				RE : in std_logic;
+				WE : in std_logic;
            execute_alu_out_latch  : in STD_LOGIC_VECTOR (15 downto 0);
            execute_ldst_out_latch : in STD_LOGIC_VECTOR (15 downto 0);
 			  en_Writeback  : in std_logic;
@@ -38,6 +40,11 @@ Port (
  end WriteBack;
 
 architecture Behavioral of WriteBack is
+
+signal LD_ALU_mux : std_logic;
+signal LD_execute_latch  :  STD_LOGIC_VECTOR (15 downto 0);
+signal LD_latch  : STD_LOGIC_VECTOR (15 downto 0);
+signal execute_alu_out  : STD_LOGIC_VECTOR (15 downto 0);
 
 begin
 Writeback: entity work.ExternalMem
@@ -56,16 +63,16 @@ generic map (n => 16)
 port map(
 			clk => clk,
 			input => execute_alu_out_latch,
-			en => en_decode,
-			output => execute_alu_out_latch);
+			en => en_Writeback,
+			output => execute_alu_out);
 			
-LD_latch: entity work.reg
+execute_latch: entity work.reg
 generic map (n => 16)
 port map(
 			clk => clk,
-			input => LD_mem,
-			en => en_decode,
-			output => LD_latch);
+			input => LD_latch,
+			en => en_Writeback,
+			output => LD_execute_latch);
 			
 writeback_mux: entity work.mux_2to1
 generic map(width => 16)

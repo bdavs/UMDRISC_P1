@@ -17,9 +17,10 @@
 -- Additional Comments: 
 --
 ----------------------------------------------------------------------------------
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
 --use IEEE.NUMERIC_STD.ALL;
@@ -37,7 +38,7 @@ port(	Clock:		in std_logic;
 		Enable:		in std_logic;
 		Read:		in std_logic;
 		Write:		in std_logic;
-		AddrA:	in std_logic_vector(addr-1 downto 0); 
+		AddrA:	in std_logic_vector(width-1 downto 0); 
 		Data_inA: 	in std_logic_vector(width-1 downto 0);
 		Data_outA: 	out std_logic_vector(width-1 downto 0)
 		
