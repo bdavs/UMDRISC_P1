@@ -41,26 +41,26 @@ architecture Behavioral of TopLevel is
 signal addr: std_logic_vector(4 downto 0)  := (others => '0');
 signal writeEnable : std_logic := '0';
 
-signal t1, t2, t3, t4, t5: std_logic_vector (15 downto 0);
+signal t1, t2, t3, t4, t5: std_logic_vector (15 downto 0):= (others => '0');
 
-signal inst : std_logic_vector(15 downto 0); 
-signal inst_latch : std_logic_vector(15 downto 0); 
+signal inst : std_logic_vector(15 downto 0):= (others => '0'); 
+signal inst_latch : std_logic_vector(15 downto 0):= (others => '0'); 
 
  
-signal op : std_logic_vector(3 downto 0); 
-signal operand_op_latch : std_logic_vector(3 downto 0); 
+signal op : std_logic_vector(3 downto 0):= (others => '0'); 
+signal operand_op_latch : std_logic_vector(3 downto 0):= (others => '0'); 
 
 
-signal RA_addr : std_logic_vector(3 downto 0);
-signal RA_data : std_logic_vector(15 downto 0);
+signal RA_addr : std_logic_vector(3 downto 0):= (others => '0');
+signal RA_data : std_logic_vector(15 downto 0):= (others => '0');
 
 
-signal Writeback_Addr : std_logic_vector(3 downto 0);
+signal Writeback_Addr : std_logic_vector(3 downto 0):= (others => '0');
 
-signal RB_addr : std_logic_vector(3 downto 0);
-signal RB_data : std_logic_vector(15 downto 0);
+signal RB_addr : std_logic_vector(3 downto 0):= (others => '0');
+signal RB_data : std_logic_vector(15 downto 0):= (others => '0');
 
-signal Imm : std_logic_vector(7 downto 0);
+signal Imm : std_logic_vector(7 downto 0):= (others => '0');
 
 signal en_fetch : std_logic := '1';
 signal en_decode : std_logic := '1';
@@ -69,22 +69,22 @@ signal en_operand : std_logic := '1';
 
 signal operand_read : std_logic := '1';
 signal operand_write : std_logic := '0';
-signal operand_write_addr : std_logic_vector(3 downto 0);
+signal operand_write_addr : std_logic_vector(3 downto 0):= (others => '0');
 
-signal data_in : std_logic_vector(15 downto 0);
+signal data_in : std_logic_vector(15 downto 0):= (others => '0');
 
-signal ccr: std_logic_vector(3 downto 0);
+signal ccr: std_logic_vector(3 downto 0):= (others => '0');
 
-signal execute_alu_out: std_logic_vector(15 downto 0);
-signal execute_alu_out_latch: std_logic_vector(15 downto 0);
+signal execute_alu_out: std_logic_vector(15 downto 0):= (others => '0');
+signal execute_alu_out_latch: std_logic_vector(15 downto 0):= (others => '0');
 
-signal execute_ldst_out: std_logic_vector(15 downto 0);
-signal execute_ldst_out_latch: std_logic_vector(15 downto 0);
+signal execute_ldst_out: std_logic_vector(15 downto 0):= (others => '0');
+signal execute_ldst_out_latch: std_logic_vector(15 downto 0):= (others => '0');
 
-signal operand_mux_sel: std_logic; 
+signal operand_mux_sel: std_logic:='0'; 
 
-signal RE: std_logic; 
-signal WE: std_logic; 
+signal RE: std_logic:='0'; 
+signal WE: std_logic:='0'; 
 
 begin
 
@@ -93,7 +93,9 @@ port map(
 			clk => clk,
 			addr => addr,
 			writeEnable => writeEnable,
-			inst => inst);
+			en_fetch => en_fetch,
+			output => inst
+			);
 
 pipline: entity work.PipelineController
 port map (
@@ -106,12 +108,7 @@ port map (
 			 t4 => t4,
 			 t5 => t5);
 
-fetch_latch: entity work.reg
-port map(
-			clk => clk,
-			input => inst,
-			en => en_fetch,
-			output => inst_latch);
+
 			
 			
 Decode_top: entity work.Decode_top			

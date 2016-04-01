@@ -41,10 +41,16 @@ end Decoder;
 architecture Behavioral of Decoder is
 
 begin
-op <= inst(15 downto 12);
-RA <= inst(11 downto 8);
-RB <= inst(7 downto 4);
-Imm <= inst(7 downto 0);
+process (clk)
+	begin
+		if (clk'event and clk='0') then
+			op <= inst(15 downto 12);
+			RA <= inst(11 downto 8);
+			RB <= inst(7 downto 4);
+			Imm <= inst(7 downto 0);		
+		end if;
+	end process;
+
 
 end Behavioral;
 

@@ -32,12 +32,14 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity fetch_toplevel is
 port( clk: in std_logic;
 		addr: in std_logic_vector(4 downto 0);
+		en_fetch: in std_logic;
 		writeEnable: in std_logic;
-		inst: out std_logic_vector(15 downto 0));
+		output: out std_logic_vector(15 downto 0));
 end fetch_toplevel;
 
 architecture Behavioral of fetch_toplevel is
 signal count: std_logic_vector(4 downto 0);
+signal inst: std_logic_vector(15 downto 0);
 begin
 
 ProgramCounter: entity work.ProgramCounter
@@ -47,12 +49,20 @@ port map(
 			writeEnable => writeEnable,
 			count => count
 );
-
+  
 ROM: entity work.ROM
 port map(
 			ADDRA => count,
 			CLKA => clk,
 			DOUTA => inst
 );
+
+fetch_latch: entity work.reg
+port map(
+			clk => clk,
+			input => inst,
+			en => en_fetch,
+			output => output
+			);
 
 end Behavioral;
