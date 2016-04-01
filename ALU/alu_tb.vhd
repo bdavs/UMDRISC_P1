@@ -23,24 +23,24 @@ ARCHITECTURE behavior OF ALU_tb_vhd IS
     -- Component Declaration for the Unit Under Test (UUT)
     COMPONENT ALU
     PORT( CLK      : in  STD_LOGIC;    
-          RA       : in  STD_LOGIC_VECTOR(7 downto 0);
-          RB       : in  STD_LOGIC_VECTOR(7 downto 0);
+          RA       : in  STD_LOGIC_VECTOR(15 downto 0);
+          RB       : in  STD_LOGIC_VECTOR(15 downto 0);
           OPCODE   : in  STD_LOGIC_VECTOR(3 downto 0);          
           CCR      : out STD_LOGIC_VECTOR(3 downto 0);
-          ALU_OUT  : out STD_LOGIC_VECTOR(7 downto 0);
-          LDST_OUT : out STD_LOGIC_VECTOR(7 downto 0));
+          ALU_OUT  : out STD_LOGIC_VECTOR(15 downto 0);
+          LDST_OUT : out STD_LOGIC_VECTOR(15 downto 0));
     END COMPONENT;
 
     --Inputs
     SIGNAL CLK     : STD_LOGIC := '0';
-    SIGNAL RA      : STD_LOGIC_VECTOR(7 downto 0) := (others=>'0');
-    SIGNAL RB      : STD_LOGIC_VECTOR(7 downto 0) := (others=>'0');
+    SIGNAL RA      : STD_LOGIC_VECTOR(15 downto 0) := (others=>'0');
+    SIGNAL RB      : STD_LOGIC_VECTOR(15 downto 0) := (others=>'0');
     SIGNAL OPCODE  : STD_LOGIC_VECTOR(3 downto 0) := (others=>'0');
 
     --Outputs
     SIGNAL CCR      : STD_LOGIC_VECTOR(3 downto 0);
-    SIGNAL ALU_OUT  : STD_LOGIC_VECTOR(7 downto 0);
-    SIGNAL LDST_OUT : STD_LOGIC_VECTOR(7 downto 0);
+    SIGNAL ALU_OUT  : STD_LOGIC_VECTOR(15 downto 0);
+    SIGNAL LDST_OUT : STD_LOGIC_VECTOR(15 downto 0);
     
     -- Constants
     -- constant period : time := 20 ns; -- 25 MHz =(1/20E-9)/2
@@ -86,8 +86,8 @@ BEGIN
         report "Start ALU Test Bench" severity NOTE;
         
         ----- Register-Register Arithmetic Tests -----
-        RA <= "00000101"; -- 5
-        RB <= "00000011"; -- 3
+        RA <= "0000000000000101"; -- 5
+        RB <= "0000000000000011"; -- 3
         
         OPCODE <= "0000";  wait for period;
         assert (ALU_OUT = 8)  report "Failed ADD 1. ALU_OUT=" & integer'image(to_integer(unsigned(ALU_OUT))) severity ERROR;
@@ -102,8 +102,8 @@ BEGIN
         assert (ALU_OUT = 7)  report "Failed OR 1. ALU_OUT=" & integer'image(to_integer(unsigned(ALU_OUT))) severity ERROR;
         assert (CCR = "0000")  report "Failed OR 1 - CCR. CCR=" & integer'image(to_integer(unsigned(CCR))) severity ERROR;
         
-        RA <= "01100100"; -- 100
-        RB <= "00110010"; -- 50        
+        RA <= "0000000001100100"; -- 100
+        RB <= "0000000000110010"; -- 50        
         
         OPCODE <= "0000";  wait for period;
         assert (ALU_OUT = 150)  report "Failed ADD 2. ALU_OUT=" & integer'image(to_integer(unsigned(ALU_OUT))) severity ERROR;
@@ -120,33 +120,33 @@ BEGIN
         ----- END Arithmetic Tests -----
         
         ----- CCR Tests -----
-        RA <= "00000000"; 
-        RB <= "00000000"; 
+        RA <= "0000000000000000"; 
+        RB <= "0000000000000000"; 
         
         OPCODE <= "0000";  wait for period;
         assert (CCR(2) = '1')  report "Failed CCR 1 (Z). CCR=" & integer'image(to_integer(unsigned(CCR))) severity ERROR;
         
-        RA <= "00000001"; 
-        RB <= "11111111"; 
+        RA <= "0000000000000001"; 
+        RB <= "0000000011111111"; 
         
         OPCODE <= "0000";  wait for period;
         assert (Z = '1')  report "Failed CCR 2 (Z). CCR=" & integer'image(to_integer(unsigned(CCR))) severity ERROR;
         assert (C = '1')  report "Failed CCR 3 (C). CCR=" & integer'image(to_integer(unsigned(CCR))) severity ERROR;
         
-        RA <= "00000000"; 
-        RB <= "00000001";         
+        RA <= "0000000000000000"; 
+        RB <= "0000000000000001";         
         
         OPCODE <= "0001";  wait for period;
         assert (N = '1')  report "Failed CCR 4 (N). CCR=" & integer'image(to_integer(unsigned(CCR))) severity ERROR;
         
-        RA <= "01111111"; 
-        RB <= "00000001";         
+        RA <= "0000000001111111"; 
+        RB <= "0000000000000001";         
         
         OPCODE <= "0000";  wait for period;
         assert (V = '1')  report "Failed CCR 5 (V). CCR=" & integer'image(to_integer(unsigned(CCR))) severity ERROR;
         
-        RA <= "11111111"; 
-        RB <= "00000001";         
+        RA <= "0000000011111111"; 
+        RB <= "0000000000000001";         
         
         OPCODE <= "0000";  wait for period;
         assert (C = '1')  report "Failed CCR 6 (C). CCR=" & integer'image(to_integer(unsigned(CCR))) severity ERROR;
@@ -157,7 +157,7 @@ BEGIN
         OPCODE <= "1001";  wait for period;
         assert (ALU_OUT = 0) report "Failed MEMORY READ(1) ALU_OUT=" & integer'image(to_integer(unsigned(CCR))) severity ERROR;
         
-        RA <= X"16";
+        RA <= X"0016";
         OPCODE <= "1010";  wait for period;
         assert (ALU_OUT = 0) report "Failed MEMORY WRITE ALU_OUT=" & integer'image(to_integer(unsigned(CCR))) severity ERROR;
         

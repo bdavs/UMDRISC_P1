@@ -32,8 +32,9 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity fetch_toplevel is
 port( clk: in std_logic;
 		addr: in std_logic_vector(4 downto 0);
-		en_fetch: in std_logic;
+		en_fetch: in std_logic := '1';
 		writeEnable: in std_logic;
+		pipelineoutput: out std_logic_vector(15 downto 0);
 		output: out std_logic_vector(15 downto 0));
 end fetch_toplevel;
 
@@ -56,7 +57,7 @@ port map(
 			CLKA => clk,
 			DOUTA => inst
 );
-
+pipelineoutput <= inst;
 fetch_latch: entity work.reg
 port map(
 			clk => clk,

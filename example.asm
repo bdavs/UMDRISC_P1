@@ -1,4 +1,4 @@
-SUB   R0, R1    ; ADDI R0<-2             R0=2
+ADDI  R0, 2    ; ADDI R0<-2             R0=2
 ADDI  R1, 1    ; ADDI R1<-1             R1=1
 SW    R1, $0F  ; DataMem[0F] <- [R1]    DM[0F]=1
 LW    R5, $0F  ; R5 <- DataMem[0F]      R5=1

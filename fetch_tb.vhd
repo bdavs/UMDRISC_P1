@@ -44,7 +44,7 @@ ARCHITECTURE behavior OF fetch_tb IS
          clk : IN  std_logic;
          addr : IN  std_logic_vector(4 downto 0);
          writeEnable : IN  std_logic;
-         op : OUT  std_logic_vector(15 downto 0)
+         output : OUT  std_logic_vector(15 downto 0)
         );
     END COMPONENT;
     
@@ -55,7 +55,7 @@ ARCHITECTURE behavior OF fetch_tb IS
    signal writeEnable : std_logic := '0';
 
  	--Outputs
-   signal op : std_logic_vector(15 downto 0);
+   signal output : std_logic_vector(15 downto 0);
 
    -- Clock period definitions
    constant period : time := 10 ns;
@@ -67,7 +67,7 @@ BEGIN
           clk => clk,
           addr => addr,
           writeEnable => writeEnable,
-          op => op
+          output => output
         );
 
    -- Clock process definitions

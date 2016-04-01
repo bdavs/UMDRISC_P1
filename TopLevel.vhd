@@ -70,6 +70,7 @@ signal en_operand : std_logic := '1';
 signal operand_read : std_logic := '1';
 signal operand_write : std_logic := '0';
 signal operand_write_addr : std_logic_vector(3 downto 0):= (others => '0');
+signal pipelineoutput: std_logic_vector(15 downto 0):= (others => '0');
 
 signal data_in : std_logic_vector(15 downto 0):= (others => '0');
 
@@ -94,6 +95,7 @@ port map(
 			addr => addr,
 			writeEnable => writeEnable,
 			en_fetch => en_fetch,
+			pipelineoutput => pipelineoutput,
 			output => inst
 			);
 
@@ -101,7 +103,7 @@ pipline: entity work.PipelineController
 port map (
 			 clk => clk,
 			 en => en_pipeline,
-			 input => inst,
+			 input => pipelineoutput,
 			 t1 => t1,
 			 t2 => t2,
 			 t3 => t3,
@@ -134,6 +136,15 @@ port map(clk => clk,
 			 t4 => t4,
 			 t5 => t5
 			);
+			
+process(CLK)
+begin
+	if (clk'event and clk = '0') then
+		if(operand_op_latch = "0101" or operand_op_latch = "0110" or operand_op_latch = "0111" or operand_op_latch = "1000") then
+			operand_mux_sel <= '1';
+		end if;
+	end if;
+end process;
 
 operand_top: entity work.Operand_top
 port map(	clk => clk,
