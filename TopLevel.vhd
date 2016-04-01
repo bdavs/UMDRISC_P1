@@ -113,7 +113,7 @@ port map (
 			
 Decode_top: entity work.Decode_top			
 port map(	clk => clk,
-		inst => inst_latch,
+		inst => inst,
 		op_latch => op,
 		Imm_latch => Imm,
 		RA_addr_latch => RA_addr,

@@ -31,11 +31,11 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity Decode_top is
 port(	clk : in std_logic;
-		inst : in std_logic_vector(15 downto 0);
-		op_latch : out std_logic_vector(3 downto 0); 
-		Imm_latch : out std_logic_vector(7 downto 0);
-		RA_addr_latch : out std_logic_vector(3 downto 0);
-		RB_addr_latch : out std_logic_vector(3 downto 0)
+		inst : in std_logic_vector(15 downto 0) := (others => '0');
+		op_latch : out std_logic_vector(3 downto 0) := (others => '0'); 
+		Imm_latch : out std_logic_vector(7 downto 0) := (others => '0');
+		RA_addr_latch : out std_logic_vector(3 downto 0) := (others => '0');
+		RB_addr_latch : out std_logic_vector(3 downto 0) := (others => '0')
 		
 );	
 end Decode_top;
@@ -45,19 +45,19 @@ architecture Behavioral of Decode_top is
 
 
 
-signal inst_latch : std_logic_vector(15 downto 0); 
+signal inst_latch : std_logic_vector(15 downto 0):= (others => '0'); 
 
-signal op : std_logic_vector(3 downto 0); 
+signal op : std_logic_vector(3 downto 0):= (others => '0'); 
  
 
-signal RA_addr : std_logic_vector(3 downto 0);
+signal RA_addr : std_logic_vector(3 downto 0):= (others => '0');
 
 
-signal RB_addr : std_logic_vector(3 downto 0);
+signal RB_addr : std_logic_vector(3 downto 0):= (others => '0');
 
 
 
-signal Imm : std_logic_vector(7 downto 0);
+signal Imm : std_logic_vector(7 downto 0):= (others => '0');
 
 signal en_fetch : std_logic := '1';
 signal en_decode : std_logic := '1';
@@ -71,7 +71,7 @@ begin
 
 
 decode: entity work.Decoder
-port map( 	inst => inst_latch,
+port map( 	inst => inst,
 				clk => clk,
 				op => op,
 				RA => RA_addr,
