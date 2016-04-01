@@ -38,7 +38,7 @@ end TopLevel;
 
 architecture Behavioral of TopLevel is
 
-signal addr: std_logic_vector(4 downto 0)  := (others => '0');
+signal addr: std_logic_vector(15 downto 0)  := (others => '0');
 signal writeEnable : std_logic := '0';
 
 signal t1, t2, t3, t4, t5: std_logic_vector (15 downto 0):= (others => '0');
@@ -80,8 +80,6 @@ signal execute_alu_out_latch: std_logic_vector(15 downto 0):= (others => '0');
 signal execute_ldst_out: std_logic_vector(15 downto 0):= (others => '0');
 signal execute_ldst_out_latch: std_logic_vector(15 downto 0):= (others => '0');
 
-signal operand_mux_sel: std_logic:='0'; 
-
 signal RE: std_logic:='0'; 
 signal WE: std_logic:='0'; 
 
@@ -96,43 +94,15 @@ port map(
 			output => inst
 			);
 
-pipline: entity work.PipelineController
-port map (
-			 clk => clk,
-			 en => en_pipeline,
-			 input => inst,
-			 t1 => t1,
-			 t2 => t2,
-			 t3 => t3,
-			 t4 => t4,
-			 t5 => t5);
-
-
-			
-			
 Decode_top: entity work.Decode_top			
 port map(	clk => clk,
 		inst => inst,
 		op_latch => op,
 		Imm_latch => Imm,
 		RA_addr_latch => RA_addr,
-		RB_addr_latch => RB_addr
-		
+		RB_addr_latch => RB_addr		
 );	
 
-		
-ControlModules: entity work.ControlModules
-port map(clk => clk,
-			op => operand_op_latch,
-			RA_addr => Writeback_Addr,
-			RE => RE,
-			WE => WE,
-			t1 => t1,
-			 t2 => t2,
-			 t3 => t3,
-			 t4 => t4,
-			 t5 => t5
-			);
 
 operand_top: entity work.Operand_top
 port map(	clk => clk,
@@ -147,11 +117,10 @@ port map(	clk => clk,
 		operand_op_latch =>operand_op_latch,
 		Imm =>Imm,
 		op => op,
-		operand_mux_sel  =>operand_mux_sel,
 		en_operand  =>	en_operand
 		);
-				
-execute: entity work.ALU
+	
+	execute: entity work.ALU
 port map(  CLK => clk,
            RA  => RA_data,
            RB  => RB_data,
@@ -161,6 +130,41 @@ port map(  CLK => clk,
            LDST_OUT => execute_ldst_out
 );
 	
+	
+	
+	
+pipline: entity work.PipelineController
+port map (
+			 clk => clk,
+			 en => en_pipeline,
+			 input => inst,
+			 t1 => t1,
+			 t2 => t2,
+			 t3 => t3,
+			 t4 => t4,
+			 t5 => t5);
+
+
+			
+			
+
+		
+ControlModules: entity work.ControlModules
+port map(clk => clk,
+			op => operand_op_latch,
+			ccr => ccr,
+			RA_addr => Writeback_Addr,
+			RE => RE,
+			WE => WE,
+			t1 => t1,
+			 t2 => t2,
+			 t3 => t3,
+			 t4 => t4,
+			 t5 => t5
+			);
+
+			
+
 alu_out_latch: entity work.reg
 generic map (n => 16)
 port map(

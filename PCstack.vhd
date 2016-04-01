@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date:    15:30:57 03/25/2016 
+-- Create Date:    16:50:23 04/01/2016 
 -- Design Name: 
--- Module Name:    ProgramCounter - Structural 
+-- Module Name:    PCstack - Behavioral 
 -- Project Name: 
 -- Target Devices: 
 -- Tool versions: 
@@ -19,8 +19,6 @@
 ----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_ARITH.ALL;
-use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -31,26 +29,24 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity ProgramCounter is
-	port( clk: in std_logic;
-			addr: in std_logic_vector(15 downto 0);
-			writeEnable: in std_logic;
-			count: buffer std_logic_vector(15 downto 0) := (others => '0'));
+entity PCstack is
+    Port ( input : in  STD_LOGIC_VECTOR (15 downto 0);
+           output : out  STD_LOGIC_VECTOR (15 downto 0);
+           push : in  STD_LOGIC;
+           pop : in  STD_LOGIC);
+end PCstack;
 
-end ProgramCounter;
+architecture Behavioral of PCstack is
+signal stack_pointer : std_logic_vector(4 downto 0);
+begin
 
-architecture Structural of ProgramCounter is
- --signal tmpcnt :in std_logic_vector( 4 downto 0);
-begin
-process(clk)
-begin
-		if (writeEnable ='1') then
-			count <= addr;
-		else
-			if (clk'event and clk = '1') then
-				count <= count + 1;
-			end if;
-		end if;
-end process;
-end Structural;
+stack_RAM: entity work.stack_RAM
+port map(
+			ADDRA => input,
+			CLKA => clk,
+			DOUTA => output
+);
+
+
+end Behavioral;
 
