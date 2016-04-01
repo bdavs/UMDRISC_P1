@@ -44,13 +44,13 @@ architecture Structural of ProgramCounter is
 begin
 process(clk)
 begin
---		if (writeEnable ='1')
---			count <= addr;
---		else
+		if (writeEnable ='1') then
+			count <= addr;
+		else
 			if (clk'event and clk = '1') then
 				count <= count + 1;
 			end if;
---		end if;
+		end if;
 end process;
 end Structural;
 

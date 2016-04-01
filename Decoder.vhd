@@ -30,12 +30,13 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity Decoder is
-    Port ( inst : in  STD_LOGIC_VECTOR (15 downto 0):= (others => '0');
+    Port ( inst : in  STD_LOGIC_VECTOR (15 downto 0);
 			  clk : in  STD_LOGIC;
-           op : out  STD_LOGIC_VECTOR (3 downto 0):= (others => '0');
-           RA : out  STD_LOGIC_VECTOR (3 downto 0):= (others => '0');
-           RB : out  STD_LOGIC_VECTOR (3 downto 0):= (others => '0');
-           Imm : out  STD_LOGIC_VECTOR (7 downto 0):= (others => '0'));
+           op : out  STD_LOGIC_VECTOR (3 downto 0);
+           RA : out  STD_LOGIC_VECTOR (3 downto 0);
+           RB : out  STD_LOGIC_VECTOR (3 downto 0);
+           Imm : out  STD_LOGIC_VECTOR (3 downto 0)
+			  );
 end Decoder;
 
 architecture Behavioral of Decoder is
@@ -46,8 +47,9 @@ process (clk)
 		if (clk'event and clk='0') then
 			op <= inst(15 downto 12);
 			RA <= inst(11 downto 8);
+			Imm <= inst(3 downto 0);
 			RB <= inst(7 downto 4);
-			Imm <= inst(7 downto 0);		
+		
 		end if;
 	end process;
 
