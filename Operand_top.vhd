@@ -42,7 +42,7 @@ port(	clk : in std_logic;
 		RB_data_latch : out std_logic_vector(15 downto 0);
 		operand_op_latch : out std_logic_vector(3 downto 0);
 		op : in std_logic_vector(3 downto 0);
-		Imm : in std_logic_vector(7 downto 0);
+		Imm : in std_logic_vector(3 downto 0);
 		operand_mux_sel  : in std_logic;
 		en_operand  : in std_logic		
 );
@@ -72,7 +72,7 @@ port map(
 );
 
 -- turn 8 bit imm into 16 bits
-full_imm <= "00000000" & Imm;
+full_imm <= "00000000" & RB_addr & Imm;
 
 operand_RB_mux: entity work.mux_2to1
 generic map(width => 16)
