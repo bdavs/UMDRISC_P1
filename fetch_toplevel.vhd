@@ -49,6 +49,15 @@ port map(
 			writeEnable => writeEnable,
 			count => count
 );
+
+PCstack: entity work.PCstack
+port map(
+			  input : inp,
+           output : outp,
+           push : push,
+           pop : pop,
+			  clk : clk
+);
   
 ROM: entity work.ROM
 port map(
