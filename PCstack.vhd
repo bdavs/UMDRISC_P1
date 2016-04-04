@@ -33,16 +33,35 @@ entity PCstack is
     Port ( input : in  STD_LOGIC_VECTOR (15 downto 0);
            output : out  STD_LOGIC_VECTOR (15 downto 0);
            push : in  STD_LOGIC;
-           pop : in  STD_LOGIC);
+           pop : in  STD_LOGIC;
+			  clk : in std_logic);
 end PCstack;
 
 architecture Behavioral of PCstack is
 signal stack_pointer : std_logic_vector(4 downto 0);
+signal write_en : std_logic;
 begin
+
+	process(clk)
+	begin
+		if(push = '1')then
+			stack_pointer <= stack_pointer + 1;
+			write_en <= '1'; 
+		elsif(pop = '1')then
+			stack_pointer <= stack_pointer - 1;
+			write_en <= '0';
+		else
+			stack_pointer <= stack_pointer;
+			write_en <= '0';
+		end if; 
+	end process;
+	
 
 stack_RAM: entity work.stack_RAM
 port map(
-			ADDRA => input,
+			ADDRA => stack_pointer,
+			DINA =>  input,
+			WEA => write_en,
 			CLKA => clk,
 			DOUTA => output
 );
