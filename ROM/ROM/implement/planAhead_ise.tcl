@@ -45,7 +45,7 @@
 # PART OF THIS FILE AT ALL TIMES.
 
 
-set device xc7a100tcsg324-3
+set device xc3s500efg320-4
 set projName ROM
 set design ROM
 set projDir [file dirname [info script]]
@@ -61,7 +61,7 @@ opt_design
 place_design 
 route_design 
 write_sdf -rename_top_module ROM_exdes -file routed.sdf 
-write_verilog -nolib -mode timesim -sdf_anno false -rename_top_module ROM_exdes routed.v
+write_vhdl -mode sim routed.vhd
 report_timing -nworst 30 -path_type full -file routed.twr
 report_drc -file report.drc
 write_bitstream -bitgen_options {-g UnconstrainedPins:Allow}

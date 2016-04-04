@@ -8,11 +8,10 @@ Memory Depth			:	32
 --------------------------------------------------------------
 
 Block RAM resource(s) (18K BRAMs)		: 1
-Block RAM resource(s) (36K BRAMs)		: 0
 --------------------------------------------------------------
 Clock A Frequency		:  100
 Port A Enable Rate		:  100
 Port A Write Rate		:  0
 ----------------------------------------------------------
-Estimated Power for IP : 0.416 mW
+Estimated Power for IP : 6.945616 mW
 ----------------------------------------------------------

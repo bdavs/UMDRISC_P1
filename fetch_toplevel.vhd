@@ -40,6 +40,16 @@ end fetch_toplevel;
 architecture Behavioral of fetch_toplevel is
 signal count: std_logic_vector(4 downto 0);
 signal inst: std_logic_vector(15 downto 0);
+signal inp: std_logic_vector(15 downto 0);
+signal outp: std_logic_vector(15 downto 0);
+signal push: std_logic := '0';
+signal pop: std_logic := '0';
+
+
+
+
+
+
 begin
 
 ProgramCounter: entity work.ProgramCounter
@@ -52,11 +62,11 @@ port map(
 
 PCstack: entity work.PCstack
 port map(
-			  input : inp,
-           output : outp,
-           push : push,
-           pop : pop,
-			  clk : clk
+			  input => inp,
+           output => outp,
+           push => push,
+           pop => pop,
+			  clk => clk
 );
   
 ROM: entity work.ROM

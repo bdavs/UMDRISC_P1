@@ -115,7 +115,7 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path ROM/simulati
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path ROM/simulation/functional/simulate_isim.sh
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path ROM/simulation/functional/simulate_isim.bat
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
 incr fcount
 
@@ -163,7 +163,7 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path ROM/simulati
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path ROM/simulation/timing/simulate_isim.sh
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path ROM/simulation/timing/simulate_isim.bat
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
 incr fcount
 
@@ -219,12 +219,12 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path ROM.sym
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type symbol
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path ROM.v
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type verilog
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path ROM.vhd
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type vhdl
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path ROM.veo
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type verilog_template
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path ROM.vho
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type vhdl_template
 incr fcount
 
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path ROM.xco

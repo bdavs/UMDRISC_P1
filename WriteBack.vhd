@@ -66,7 +66,7 @@ port map(
 			en => en_Writeback,
 			output => execute_alu_out);
 			
-execute_latch: entity work.reg
+Writeback_latch: entity work.reg
 generic map (n => 16)
 port map(
 			clk => clk,

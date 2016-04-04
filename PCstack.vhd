@@ -19,7 +19,8 @@
 ----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
+use IEEE.STD_LOGIC_arith.ALL;
+use IEEE.STD_LOGIC_unsigned.ALL;
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
 --use IEEE.NUMERIC_STD.ALL;
@@ -39,20 +40,20 @@ end PCstack;
 
 architecture Behavioral of PCstack is
 signal stack_pointer : std_logic_vector(4 downto 0);
-signal write_en : std_logic;
+signal write_en : std_logic_vector(0 downto 0);
 begin
 
 	process(clk)
 	begin
 		if(push = '1')then
-			stack_pointer <= stack_pointer + 1;
-			write_en <= '1'; 
+			stack_pointer <= stack_pointer + '1';
+			write_en <= "0"; 
 		elsif(pop = '1')then
-			stack_pointer <= stack_pointer - 1;
-			write_en <= '0';
+			stack_pointer <= stack_pointer - '1';
+			write_en <= "0";
 		else
 			stack_pointer <= stack_pointer;
-			write_en <= '0';
+			write_en <= "0";
 		end if; 
 	end process;
 	

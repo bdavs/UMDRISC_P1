@@ -73,6 +73,7 @@ signal operand_write_addr : std_logic_vector(3 downto 0):= (others => '0');
 signal data_in : std_logic_vector(15 downto 0):= (others => '0');
 
 signal ccr: std_logic_vector(3 downto 0):= (others => '0');
+signal ccr1: std_logic_vector(3 downto 0):= (others => '0');
 
 signal execute_alu_out: std_logic_vector(15 downto 0):= (others => '0');
 signal execute_alu_out_latch: std_logic_vector(15 downto 0):= (others => '0');
@@ -152,7 +153,7 @@ port map (
 ControlModules: entity work.ControlModules
 port map(clk => clk,
 			op => operand_op_latch,
-			ccr => ccr,
+			ccr => ccr1,
 			RA_addr => Writeback_Addr,
 			RE => RE,
 			WE => WE,

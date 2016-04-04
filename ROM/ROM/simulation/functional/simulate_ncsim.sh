@@ -49,9 +49,9 @@ cp ../../../ROM.mif .
 
 
 mkdir work
-echo "Compiling Core Verilog UNISIM/Behavioral model"
-ncvlog -work work ../../../ROM.v 
-ncvhdl -v93 -work work ../../example_design/ROM_exdes.vhd
+echo "Compiling Core VHDL UNISIM/Behavioral model"
+ncvhdl -v93  -work work ../../../ROM.vhd \
+    ../../example_design/ROM_exdes.vhd
 
 echo "Compiling Test Bench Files"
 
@@ -62,8 +62,7 @@ ncvhdl -v93 -work work    ../ROM_synth.vhd
 ncvhdl -v93 -work work    ../ROM_tb.vhd
 
 echo "Elaborating Design"
-ncvlog -work work $XILINX/verilog/src/glbl.v
-ncelab -access +rwc glbl work.ROM_tb
+ncelab -access +rwc work.ROM_tb
 
 echo "Simulating Design"
 ncsim -gui -input @"simvision -input wave_ncsim.sv" work.ROM_tb
