@@ -43,13 +43,13 @@ port(	clk : in std_logic;
 		operand_op_latch : out std_logic_vector(3 downto 0);
 		op : in std_logic_vector(3 downto 0);
 		Imm : in std_logic_vector(3 downto 0);
-		operand_mux_sel  : in std_logic;
 		en_operand  : in std_logic		
 );
 end Operand_top;
 
 architecture Behavioral of Operand_top is
 
+signal operand_mux_sel: std_logic;
 signal ALU_RB : std_logic_vector(15 downto 0);
 signal RA_data : std_logic_vector(15 downto 0);
 signal RB_data : std_logic_vector(15 downto 0);

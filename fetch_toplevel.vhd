@@ -31,14 +31,14 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity fetch_toplevel is
 port( clk: in std_logic;
-		addr: in std_logic_vector(15 downto 0);
+		addr: in std_logic_vector(4 downto 0);
 		en_fetch: in std_logic;
 		writeEnable: in std_logic;
 		output: out std_logic_vector(15 downto 0));
 end fetch_toplevel;
 
 architecture Behavioral of fetch_toplevel is
-signal count: std_logic_vector(15 downto 0);
+signal count: std_logic_vector(4 downto 0);
 signal inst: std_logic_vector(15 downto 0);
 begin
 

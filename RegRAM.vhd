@@ -42,23 +42,7 @@ type ram_type is array (0 to depth-1) of
 signal tmp_ram: ram_type;
 
 begin	
-	tmp_ram(0) <= x"0000";
-	tmp_ram(1) <= x"0000";
-	tmp_ram(2) <= x"0000";
-	tmp_ram(3) <= x"0000";
-	tmp_ram(4) <= x"0000";
-	tmp_ram(5) <= x"0000";
-	tmp_ram(6) <= x"0000";
-	tmp_ram(7) <= x"0000";
-	tmp_ram(8) <= x"0000";
-	tmp_ram(9) <= x"0000";
-	tmp_ram(10) <= x"0000";
-	tmp_ram(11) <= x"0000";
-	tmp_ram(12) <= x"0000";
-	tmp_ram(13) <= x"0000";
-	tmp_ram(14) <= x"0000";
-	tmp_ram(15) <= x"0000";
-		   
+
     -- Read Functional Section operates on rising edge
     process(Clock, Read)
     begin
