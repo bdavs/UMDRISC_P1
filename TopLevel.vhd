@@ -185,9 +185,10 @@ port map(
 			en => en_decode,
 			output => execute_ldst_out_latch);
 WriteBack: entity work.WriteBack
-Port map(		clk =>clk,
-				RE => RE,
-				WE => WE,
+Port map(		
+			  clk =>clk,
+			  RE => RE,
+			  WE => WE,
            execute_alu_out_latch => execute_alu_out_latch,
            execute_ldst_out_latch =>execute_ldst_out_latch,
 			  en_Writeback =>en_Writeback,

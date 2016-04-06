@@ -31,6 +31,8 @@ use IEEE.STD_LOGIC_unsigned.ALL;
 --use UNISIM.VComponents.all;
 
 entity PCstack is
+	generic(	width:	integer:=16;
+			depth:	integer:=4);
     Port ( input : in  STD_LOGIC_VECTOR (15 downto 0);
            output : out  STD_LOGIC_VECTOR (15 downto 0);
            push : in  STD_LOGIC;
@@ -41,32 +43,35 @@ end PCstack;
 architecture Behavioral of PCstack is
 signal stack_pointer : std_logic_vector(4 downto 0);
 signal write_en : std_logic_vector(0 downto 0);
+
+type ram_type is array (0 to depth-1) of
+	std_logic_vector(width-1 downto 0);
+signal tmp_ram: ram_type;
+
 begin
 
 	process(clk)
 	begin
+	if(clk'event and clk = '0')then
 		if(push = '1')then
 			stack_pointer <= stack_pointer + '1';
-			write_en <= "0"; 
 		elsif(pop = '1')then
 			stack_pointer <= stack_pointer - '1';
-			write_en <= "0";
 		else
 			stack_pointer <= stack_pointer;
-			write_en <= "0";
 		end if; 
-	end process;
+	end if;
 	
-
-stack_RAM: entity work.stack_RAM
-port map(
-			ADDRA => stack_pointer,
-			DINA =>  input,
-			WEA => write_en,
-			CLKA => clk,
-			DOUTA => output
-);
-
+	if(clk'event and clk = '1')then
+		if(push = '1')then
+			tmp_ram(conv_integer(stack_pointer)) <= input;
+		elsif(pop = '1')then
+			output <= tmp_ram(conv_integer(stack_pointer));
+		else
+			output <= (others => 'Z');
+		end if;
+	end if;
+	end process;
 
 end Behavioral;
 
