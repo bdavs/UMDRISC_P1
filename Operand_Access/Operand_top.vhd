@@ -31,11 +31,12 @@ use work.all;
 --use UNISIM.VComponents.all;
 
 entity Operand_top is
-port(	clk : in std_logic;
+port(clk : in std_logic;
 		RE : in std_logic;
 		WE : in std_logic;
 		RA_addr : in std_logic_vector(3 downto 0);
 		RB_addr : in std_logic_vector(3 downto 0);
+		Write_Back : in std_logic_vector(15 downto 0);
 		Writeback_Addr : in std_logic_vector(3 downto 0);
 		execute_alu_out  : in std_logic_vector(15 downto 0);
 		RA_data_latch : out std_logic_vector(15 downto 0);
@@ -43,7 +44,8 @@ port(	clk : in std_logic;
 		operand_op_latch : out std_logic_vector(3 downto 0);
 		op : in std_logic_vector(3 downto 0);
 		Imm : in std_logic_vector(3 downto 0);
-		en_operand  : in std_logic		
+
+		en_operand  : in std_logic	
 );
 end Operand_top;
 
