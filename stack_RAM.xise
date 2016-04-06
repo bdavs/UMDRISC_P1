@@ -16,6 +16,7 @@
 
   <files>
     <file xil_pn:name="stack_RAM.ngc" xil_pn:type="FILE_NGC"/>
+    <file xil_pn:name="stack_RAM.vhd" xil_pn:type="FILE_VHDL"/>
   </files>
 
   <properties>

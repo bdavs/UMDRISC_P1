@@ -153,7 +153,7 @@ port map (
 ControlModules: entity work.ControlModules
 port map(clk => clk,
 			op => operand_op_latch,
-			ccr => ccr1,
+			ccr => ccr,
 			RA_addr => Writeback_Addr,
 			RE => RE,
 			WE => WE,

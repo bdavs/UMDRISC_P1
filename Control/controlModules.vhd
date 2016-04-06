@@ -35,7 +35,7 @@ entity controlModules is
 	port( clk : in  STD_LOGIC;
 	
 			op : in STD_LOGIC_vector(3 downto 0);
-			ccr : buffer STD_LOGIC_vector(3 downto 0);
+			ccr : in STD_LOGIC_vector(3 downto 0);
 			t1, t2, t3, t4, t5 : in STD_LOGIC_VECTOR(15 downto 0);
 			RA_addr : out STD_LOGIC_vector(3 downto 0);
 			WE, RE : out STD_LOGIC
