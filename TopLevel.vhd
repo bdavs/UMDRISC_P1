@@ -75,13 +75,9 @@ signal operand_write_addr : std_logic_vector(3 downto 0):= (others => '0');
 signal data_in : std_logic_vector(15 downto 0):= (others => '0');
 
 signal ccr: std_logic_vector(3 downto 0):= (others => '0');
-signal ccr1: std_logic_vector(3 downto 0):= (others => '0');
 
 signal execute_alu_out: std_logic_vector(15 downto 0):= (others => '0');
-signal execute_alu_out_latch: std_logic_vector(15 downto 0):= (others => '0');
-
 signal execute_ldst_out: std_logic_vector(15 downto 0):= (others => '0');
-signal execute_ldst_out_latch: std_logic_vector(15 downto 0):= (others => '0');
 
 signal RE: std_logic:='0'; 
 signal WE: std_logic:='0'; 
@@ -134,7 +130,18 @@ port map(  CLK => clk,
            LDST_OUT => execute_ldst_out
 );
 	
-	
+	WriteBack: entity work.WriteBack
+Port map(		
+			  clk =>clk,
+			  RE => RE,
+			  WE => WE,
+           execute_alu_out_latch => execute_alu_out,
+           execute_ldst_out_latch =>execute_ldst_out,
+			  en_Writeback =>en_Writeback,
+			  Write_back =>Write_back); 
+			
+			
+			
 	
 	
 pipline: entity work.PipelineController
@@ -147,10 +154,6 @@ port map (
 			 t3 => t3,
 			 t4 => t4,
 			 t5 => t5);
-
-
-			
-			
 
 		
 ControlModules: entity work.ControlModules
@@ -169,32 +172,5 @@ port map(clk => clk,
 
 			
 
-alu_out_latch: entity work.reg
-generic map (n => 16)
-port map(
-			clk => clk,
-			input => execute_alu_out,
-			en => en_decode,
-			output => execute_alu_out_latch);
-			
-ldst_out_latch: entity work.reg
-generic map (n => 16)
-port map(
-			clk => clk,
-			input => execute_ldst_out,
-			en => en_decode,
-			output => execute_ldst_out_latch);
-WriteBack: entity work.WriteBack
-Port map(		
-			  clk =>clk,
-			  RE => RE,
-			  WE => WE,
-           execute_alu_out_latch => execute_alu_out_latch,
-           execute_ldst_out_latch =>execute_ldst_out_latch,
-			  en_Writeback =>en_Writeback,
-			  Write_back =>Write_back); 
-			
-			
-			
 end Behavioral;
 

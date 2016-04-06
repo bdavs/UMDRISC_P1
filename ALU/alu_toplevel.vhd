@@ -34,10 +34,12 @@ architecture Structural of ALU is
     signal memory    : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
     signal ccr_arith : STD_LOGIC_VECTOR (3 downto 0) := (OTHERS => '0');
     signal ccr_logic : STD_LOGIC_VECTOR (3 downto 0) := (OTHERS => '0');
+	 signal ALU_OUT_tmp     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
+
 
 begin
 
-    LDST_OUT <= memory;
+    --LDST_OUT <= memory;
 
     Arith_Unit: entity work.Arith_Unit
     port map( A      => RA,
@@ -74,8 +76,24 @@ begin
               MEMORY    => memory,
               CCR_ARITH => ccr_arith,
               CCR_LOGIC => ccr_logic,
-              ALU_OUT   => ALU_OUT,
+              ALU_OUT   => ALU_OUT_tmp,
               CCR_OUT   => CCR);
+				  
+	alu_out_latch: entity work.reg
+	generic map (n => 16)
+	port map(
+			clk => clk,
+			input => ALU_OUT_tmp,
+			en => '1',
+			output => ALU_OUT);
+			
+	ldst_out_latch: entity work.reg
+	generic map (n => 16)
+	port map(
+			clk => clk,
+			input => memory,
+			en => '1',
+			output => LDST_OUT);
 
-end Structural;
+	end Structural;
 
