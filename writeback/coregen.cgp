@@ -1,9 +1,17 @@
 SET busformat = BusFormatAngleBracketNotRipped
 SET designentry = VHDL
+<<<<<<< HEAD
+SET device = xc7a100t
+SET devicefamily = artix7
+SET flowvendor = Other
+SET package = csg324
+SET speedgrade = -3
+=======
 SET device = xc3s500e
 SET devicefamily = spartan3e
 SET flowvendor = Other
 SET package = fg320
 SET speedgrade = -5
+>>>>>>> 208413fe0c91207c5197bda9b4852b2c78bb0748
 SET verilogsim = false
 SET vhdlsim = true
