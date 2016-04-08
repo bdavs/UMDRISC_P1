@@ -32,27 +32,31 @@ use IEEE.STD_LOGIC_unsigned.ALL;
 --use UNISIM.VComponents.all;
 
 entity Movement_Unit is
-    Port ( OP : in  STD_LOGIC_VECTOR (3 downto 0);
+    Port ( CLK      : in  STD_LOGIC;
+			  OP : in  STD_LOGIC_VECTOR (3 downto 0);
            Ra : in  STD_LOGIC_VECTOR (15 downto 0);
            Rb : in  STD_LOGIC_VECTOR (15 downto 0);
 			  br_en : out std_logic;
-           addr : out  STD_LOGIC_VECTOR (15 downto 0));
+           result : out  STD_LOGIC_VECTOR (15 downto 0));
 end Movement_Unit;
 
 architecture Behavioral of Movement_Unit is
 
 signal tmp : std_logic_vector(15 downto 0) := (others => '0');
-signal tmp2 : std_logic_vector(15 downto 0) := (others => '0');
-signal tmp3 : std_logic_vector(15 downto 0) := (others => '0');
+signal tmp2 : std_logic_vector(3 downto 0) := (others => '0');
+signal tmp3 : std_logic_vector(3 downto 0) := (others => '0');
 
 begin
 tmp2<= Ra(15 downto 12);
 tmp3<= Ra(3 downto 0);
+
+
 process(clk)
+begin
 	if (tmp2 = tmp3)then
 		tmp <= Rb;
 	end if;
-	end process;
+end process;
 	
 	with OP select
         RESULT <=
