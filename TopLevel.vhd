@@ -168,7 +168,8 @@ port map(clk => clk,
 			 t3 => t3,
 			 t4 => t4,
 			 t5 => t5,
-			 wea=>wea
+			 wea=>wea,
+			 en_writeback=>en_Writeback
 			);
 
 			
