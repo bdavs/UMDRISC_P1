@@ -60,6 +60,9 @@ port map(
 			count => count
 );
 
+addr <= outp;
+writeEnable <= pop;
+
 PCstack: entity work.PCstack
 port map(
 			  input => inp,
