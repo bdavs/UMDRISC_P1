@@ -38,7 +38,9 @@ entity controlModules is
 			ccr : in STD_LOGIC_vector(3 downto 0);
 			t1, t2, t3, t4, t5 : in STD_LOGIC_VECTOR(15 downto 0);
 			RA_addr : out STD_LOGIC_vector(3 downto 0);
-			WE, RE : out STD_LOGIC
+			WE, RE : out STD_LOGIC;
+					wea : out STD_LOGIC_vector(0 downto 0);
+			en_Writeback : out STD_LOGIC
 			--latch1 : out  STD_LOGIC;
 			--regBank : out  STD_LOGIC;
 			--PCcnt : out  STD_LOGIC;
@@ -67,6 +69,11 @@ begin
 
  RE <= '1';
  WE <= '0' when OP="1010" else '1';
+ wea<="1" when OP="1010" else "0";
+
+
+ en_Writeback<='1' when OP="1001" else '0';
+ 
  
  RA_addr <= t4(11 downto 8);
  
