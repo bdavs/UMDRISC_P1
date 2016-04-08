@@ -47,7 +47,7 @@ signal LD_latch  : STD_LOGIC_VECTOR (15 downto 0);
 signal execute_alu_out  : STD_LOGIC_VECTOR (15 downto 0);
 
 begin
-Writeback: entity work.ExternalMem
+Writeblack: entity work.ExternalMem
 port map(
 			Clock => clk,
 			Enable => en_writeback,
