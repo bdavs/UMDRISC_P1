@@ -57,6 +57,7 @@ signal RA_data : std_logic_vector(15 downto 0):= (others => '0');
 signal Writeback_Addr : std_logic_vector(3 downto 0):= (others => '0');
 signal Write_back : std_logic_vector(15 downto 0):= (others => '0');
 signal en_Writeback : std_logic := '0';
+signal wea: std_logic_vector( 0 downto 0):=(others => '0'); 
 
 signal RB_addr : std_logic_vector(3 downto 0):= (others => '0');
 signal RB_data : std_logic_vector(15 downto 0):= (others => '0');
@@ -130,16 +131,14 @@ port map(  CLK => clk,
            LDST_OUT => execute_ldst_out
 );
 	
-	WriteBack: entity work.WriteBack
-Port map(		
-			  clk =>clk,
-			  RE => RE,
-			  WE => WE,
+WriteBack: entity work.WriteBack
+Port map(		clk =>clk,
            execute_alu_out_latch => execute_alu_out,
            execute_ldst_out_latch =>execute_ldst_out,
 			  en_Writeback =>en_Writeback,
-			  Write_back =>Write_back); 
-			
+			  Write_back =>Write_back,
+			  wea=>wea
+			  );
 			
 			
 	
@@ -153,7 +152,8 @@ port map (
 			 t2 => t2,
 			 t3 => t3,
 			 t4 => t4,
-			 t5 => t5);
+			 t5 => t5
+			 );
 
 		
 ControlModules: entity work.ControlModules
@@ -167,7 +167,8 @@ port map(clk => clk,
 			 t2 => t2,
 			 t3 => t3,
 			 t4 => t4,
-			 t5 => t5
+			 t5 => t5,
+			 wea=>wea
 			);
 
 			
