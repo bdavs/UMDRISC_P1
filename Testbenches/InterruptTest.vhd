@@ -94,7 +94,13 @@ BEGIN
       wait for period*20;
 		int(0) <= '0';
 		inst <= x"000E";
-
+		wait for period*20;
+		inst <= x"0000";
+		int <= "1111";
+		wait for period*20;
+		int(0) <= '0';
+		inst <= x"000E";
+		
       -- insert stimulus here 
 
       wait;
