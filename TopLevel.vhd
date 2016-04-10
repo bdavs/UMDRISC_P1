@@ -121,7 +121,7 @@ port map(	clk => clk,
 		en_operand  =>	en_operand
 		);
 	
-	execute: entity work.ALU
+execute: entity work.ALU
 port map(  CLK => clk,
            RA  => RA_data,
            RB  => RB_data,
@@ -137,9 +137,10 @@ Port map(		clk =>clk,
            execute_ldst_out_latch =>execute_ldst_out,
 			  en_Writeback =>en_Writeback,
 			  Write_back =>Write_back,
-			  wea=>wea
+			  RE => RE,
+			  WE => WE
+			 -- wea=>wea
 			  );
-			
 			
 	
 	
