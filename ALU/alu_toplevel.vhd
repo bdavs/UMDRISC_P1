@@ -31,6 +31,7 @@ architecture Structural of ALU is
     signal arith     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
     signal logic     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
     signal shift     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
+	 signal move     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
     signal memory    : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
     signal ccr_arith : STD_LOGIC_VECTOR (3 downto 0) := (OTHERS => '0');
     signal ccr_logic : STD_LOGIC_VECTOR (3 downto 0) := (OTHERS => '0');
@@ -67,6 +68,12 @@ begin
               IMMED  => RB,
               OP     => opcode,
               RESULT => memory);
+	 Movement_Unit: entity work.Movement_Unit
+    port map( CLK    => CLK,
+              Ra      => RA,
+              Rb  => RB,
+              OP     => opcode,
+              RESULT => move);
 
     ALU_Mux: entity work.ALU_Mux
     port map( OP        => opcode,
@@ -74,6 +81,7 @@ begin
               LOGIC     => logic,
               SHIFT     => shift,
               MEMORY    => memory,
+				  MOVE	   => move,
               CCR_ARITH => ccr_arith,
               CCR_LOGIC => ccr_logic,
               ALU_OUT   => ALU_OUT_tmp,
