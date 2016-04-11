@@ -50,7 +50,7 @@ signal clock_wait : std_logic_vector(2 downto 0):= "100";
 signal int_latch_en: std_logic := '1';
 signal int_latch: std_logic_vector(3 downto 0);
 signal return_found: std_logic := '0';
-signal int_addr: std_logic_vector(4 downto 0);
+signal int_addr: std_logic_vector(11 downto 0);
 
 
 --int stack signals
@@ -161,6 +161,7 @@ with int_latch select
             "ZZZZZ"   when OTHERS;     -- This will not happen unless I can't count
 
 int_statck: entity work.PCstack
+generic map(width => 12)
 port map(
 			  input => int_stack_input,
            output => int_stack_output,
