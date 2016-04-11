@@ -33,18 +33,18 @@ entity fetch_toplevel is
 port( clk: in std_logic;
 		en_fetch: in std_logic := '1';
 		int: in std_logic_vector (3 downto 0);
-		output: out std_logic_vector(15 downto 0)
+		output: out std_logic_vector(11 downto 0)
 		);
 end fetch_toplevel;
 
 architecture Behavioral of fetch_toplevel is
 signal count: std_logic_vector(15 downto 0);
 signal inst: std_logic_vector(15 downto 0);
-signal inp: std_logic_vector(15 downto 0);
-signal outp: std_logic_vector(15 downto 0);
+signal inp: std_logic_vector(11 downto 0);
+signal outp: std_logic_vector(11 downto 0);
 signal push: std_logic := '0';
 signal pop: std_logic := '0';
-signal addr: std_logic_vector(15 downto 0);
+signal addr: std_logic_vector(11 downto 0);
 signal writeEnable : std_logic;
 
 

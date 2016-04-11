@@ -39,7 +39,7 @@ end TopLevel;
 
 architecture Behavioral of TopLevel is
 
-signal addr: std_logic_vector(4 downto 0)  := (others => '0');
+signal addr: std_logic_vector(11 downto 0)  := (others => '0');
 signal writeEnable : std_logic := '0';
 
 signal t1, t2, t3, t4, t5: std_logic_vector (15 downto 0):= (others => '0');
