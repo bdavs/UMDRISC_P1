@@ -46,19 +46,15 @@
 # PART OF THIS FILE AT ALL TIMES.
 set work work
 #--------------------------------------------------------------------------------
-cp ../../../blk_mem_gen_v7_3.mif .
 mkdir work
 
 
-ncvlog -work work ../../implement/results/routed.v
+ncvhdl -v93  -work work ../../implement/results/routed.vhd
 
 echo "Compiling Test Bench Files"
 
 ncvhdl -v93 -work work    ../bmg_tb_pkg.vhd
-ncvhdl -v93 -work work    ../random.vhd
-ncvhdl -v93 -work work    ../data_gen.vhd
 ncvhdl -v93 -work work    ../addr_gen.vhd
-ncvhdl -v93 -work work    ../checker.vhd
 ncvhdl -v93 -work work    ../bmg_stim_gen.vhd
 ncvhdl -v93 -work work    ../blk_mem_gen_v7_3_synth.vhd 
 ncvhdl -v93 -work work    ../blk_mem_gen_v7_3_tb.vhd
@@ -73,7 +69,7 @@ echo 'MTM_CONTROL = "MAXIMUM";' >> sdf.cmd
 
 
 echo "Elaborating Design"
-ncelab -access +rwc glbl -sdf_cmd_file sdf.cmd $work.blk_mem_gen_v7_3_tb
+ncelab -access +rwc -sdf_cmd_file sdf.cmd $work.blk_mem_gen_v7_3_tb
 
 echo "Simulating Design"
 ncsim -gui -input @"simvision -input wave_ncsim.sv" $work.blk_mem_gen_v7_3_tb

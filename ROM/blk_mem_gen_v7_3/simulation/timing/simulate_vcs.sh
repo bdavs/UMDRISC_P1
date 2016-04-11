@@ -45,26 +45,22 @@
 # PART OF THIS FILE AT ALL TIMES.
 #--------------------------------------------------------------------------------
 #!/bin/sh
-cp ../../../blk_mem_gen_v7_3.mif .
 
 rm -rf simv* csrc DVEfiles AN.DB
 
-echo "Compiling Core Verilog UNISIM/Behavioral model"
-vlogan +v2k  ../../implement/results/routed.v
+echo "Compiling Core VHDL UNISIM/Behavioral model"
+vhdlan  ../../implement/results/routed.vhd
 
 echo "Compiling Test Bench Files"
 vhdlan    ../bmg_tb_pkg.vhd
-vhdlan    ../random.vhd
-vhdlan    ../data_gen.vhd
 vhdlan    ../addr_gen.vhd
-vhdlan    ../checker.vhd
 vhdlan    ../bmg_stim_gen.vhd
 vhdlan    ../blk_mem_gen_v7_3_synth.vhd 
 vhdlan    ../blk_mem_gen_v7_3_tb.vhd
 
 
 echo "Elaborating Design"
-vcs +neg_tchk +vcs+lic+wait -debug blk_mem_gen_v7_3_tb glbl
+vcs +neg_tchk +vcs+lic+wait -debug blk_mem_gen_v7_3_tb
 
 echo "Simulating Design"
 ./simv -ucli -i ucli_commands.key

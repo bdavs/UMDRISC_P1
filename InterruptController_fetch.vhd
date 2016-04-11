@@ -34,8 +34,8 @@ use work.all;
 entity InterruptController_fetch is
 port( 	clk: in std_logic;
 			int: in std_logic_vector(3 downto 0);
-			addr: out std_logic_vector(15 downto 0);
-			pc_count: in std_logic_vector(15 downto 0);
+			addr: out std_logic_vector(11 downto 0);
+			pc_count: in std_logic_vector(11 downto 0);
 			inst: in std_logic_vector(15 downto 0);
 			writeEnable: out std_logic
 			);
@@ -54,8 +54,8 @@ signal int_addr: std_logic_vector(4 downto 0);
 
 
 --int stack signals
-signal int_stack_input: std_logic_vector(15 downto 0);
-signal int_stack_output: std_logic_vector(15 downto 0);
+signal int_stack_input: std_logic_vector(11 downto 0);
+signal int_stack_output: std_logic_vector(11 downto 0);
 signal int_stack_push: std_logic := '0';
 signal int_stack_pop: std_logic := '0';
 
@@ -85,7 +85,7 @@ begin
 				writeEnable_flag <= '1';
 			else
 				clock_wait <= clock_wait - 1;
-				addr <= "ZZZZZZZZZZZZZZZZ"; --dont do this
+				addr <= "ZZZZZZZZZZZZ"; --dont do this
 				writeEnable <= '1';
 			end if;
 		end if;
@@ -120,7 +120,7 @@ begin
 				clock_wait <= clock_wait - 1;
 			else
 				clock_wait <= clock_wait - 1;
-				addr <= "ZZZZZZZZZZZZZZZZ"; --dont do this
+				addr <= "ZZZZZZZZZZZZ"; --dont do this
 				writeEnable <= '1';
 			end if;
 		end if;

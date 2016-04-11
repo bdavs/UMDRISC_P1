@@ -3,7 +3,6 @@
  
  
 
- 
 
 
 
@@ -31,7 +30,7 @@ copy ..\example_design\blk_mem_gen_v7_3_exdes.ucf results\
 cd results
 
 echo 'Running ngdbuild'
-ngdbuild -p xc7a100t-csg324-3 blk_mem_gen_v7_3_exdes
+ngdbuild -p xc3s500e-fg320-4 blk_mem_gen_v7_3_exdes
 
 echo 'Running map'
 map blk_mem_gen_v7_3_exdes -o mapped.ncd  -pr i
@@ -43,7 +42,7 @@ echo 'Running trce'
 trce -e 10 routed.ncd mapped.pcf -o routed
 
 echo 'Running design through bitgen'
-bitgen -w routed -g UnconstrainedPins:Allow
+bitgen -w routed
 
-echo 'Running netgen to create gate level Verilog model'
-netgen -ofmt verilog -sim -tm blk_mem_gen_v7_3_exdes -pcf mapped.pcf -w -sdf_anno false routed.ncd routed.v
+echo 'Running netgen to create gate level VHDL model'
+netgen -ofmt vhdl -sim -tm blk_mem_gen_v7_3_exdes -pcf mapped.pcf -w routed.ncd routed.vhd
