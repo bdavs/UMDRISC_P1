@@ -40,19 +40,17 @@ ARCHITECTURE behavior OF fetch_tb IS
     -- Component Declaration for the Unit Under Test (UUT)
  
     COMPONENT fetch_toplevel
-    PORT(
-         clk : IN  std_logic;
-         addr : IN  std_logic_vector(4 downto 0);
-         writeEnable : IN  std_logic;
-         output : OUT  std_logic_vector(15 downto 0)
-        );
+    port( clk: in std_logic;
+		en_fetch: in std_logic;
+		int: in std_logic_vector (3 downto 0);
+		output: out std_logic_vector(15 downto 0));
     END COMPONENT;
     
 
    --Inputs
    signal clk : std_logic := '0';
-   signal addr : std_logic_vector(4 downto 0) := (others => '0');
-   signal writeEnable : std_logic := '0';
+	signal int: std_logic_vector (3 downto 0) := "0000";
+	signal en_fetch: std_logic:= '1';
 
  	--Outputs
    signal output : std_logic_vector(15 downto 0);
@@ -65,9 +63,9 @@ BEGIN
 	-- Instantiate the Unit Under Test (UUT)
    uut: fetch_toplevel PORT MAP (
           clk => clk,
-          addr => addr,
-          writeEnable => writeEnable,
-          output => output
+			 en_fetch => en_fetch,
+          output => output,
+			 int => int
         );
 
    -- Clock process definitions
@@ -82,9 +80,12 @@ BEGIN
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
-      wait for 100 ns;	
-
-      wait for period*10;
+      wait for 1 ns;	
+		int(0) <= '1';
+      wait for period*20;
+		int(0) <= '0';
+		wait for period*20;
+		
 
       -- insert stimulus here 
 

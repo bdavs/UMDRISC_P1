@@ -31,19 +31,20 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity fetch_toplevel is
 port( clk: in std_logic;
-		addr: in std_logic_vector(4 downto 0);
 		en_fetch: in std_logic;
-		writeEnable: in std_logic;
+		int: in std_logic_vector (3 downto 0);
 		output: out std_logic_vector(15 downto 0));
 end fetch_toplevel;
 
 architecture Behavioral of fetch_toplevel is
-signal count: std_logic_vector(4 downto 0);
+signal count: std_logic_vector(15 downto 0);
 signal inst: std_logic_vector(15 downto 0);
 signal inp: std_logic_vector(15 downto 0);
 signal outp: std_logic_vector(15 downto 0);
 signal push: std_logic := '0';
 signal pop: std_logic := '0';
+signal addr: std_logic_vector(15 downto 0);
+signal writeEnable : std_logic;
 
 
 
@@ -60,6 +61,15 @@ port map(
 			count => count
 );
 
+InterruptController: entity work.InterruptController_fetch 
+port map ( 	clk => clk,
+			int => int,
+			addr => addr,
+			pc_count => count,
+			inst => inst,
+			writeEnable => writeEnable
+			);
+			
 --addr <= outp;
 --writeEnable <= pop;
 
@@ -72,7 +82,7 @@ port map(
 			  clk => clk
 );
   
-ROM: entity work.ROM
+ROM: entity work.ROMv2
 port map(
 			ADDRA => count,
 			CLKA => clk,

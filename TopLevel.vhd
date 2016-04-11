@@ -32,7 +32,8 @@ use work.all;
 
 entity TopLevel is
 port(	clk : in std_logic;
-		rst : in std_logic
+		rst : in std_logic;
+		int : in std_logic_vector( 3 downto 0)
 );	
 end TopLevel;
 

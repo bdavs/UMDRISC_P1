@@ -81,7 +81,8 @@ begin
 				return_found <= '0';
 				wait_complete <= '1';
 				addr <= int_addr;
-				writeEnable <= '0';
+				writeEnable <= '1';
+				writeEnable_flag <= '1';
 			else
 				clock_wait <= clock_wait - 1;
 				addr <= "ZZZZZZZZZZZZZZZZ"; --dont do this
