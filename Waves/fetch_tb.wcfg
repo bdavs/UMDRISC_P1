@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/home/dan/otherDanUMDRISC/fetch_tb_isim_beh1.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="fetch_tb" />
+            <top_module name="glbl" />
+            <top_module name="std_logic_1164" />
+            <top_module name="std_logic_arith" />
+            <top_module name="std_logic_unsigned" />
+            <top_module name="vl_types" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="13" />
+   <wvobject fp_name="/fetch_tb/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/int" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">int[3:0]</obj_property>
+      <obj_property name="ObjectShortName">int[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/en_fetch" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">en_fetch</obj_property>
+      <obj_property name="ObjectShortName">en_fetch</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/output" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">output[15:0]</obj_property>
+      <obj_property name="ObjectShortName">output[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/output" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">output[15:0]</obj_property>
+      <obj_property name="ObjectShortName">output[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/count" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">count[15:0]</obj_property>
+      <obj_property name="ObjectShortName">count[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/inst" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">inst[15:0]</obj_property>
+      <obj_property name="ObjectShortName">inst[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/inp" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">inp[15:0]</obj_property>
+      <obj_property name="ObjectShortName">inp[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/outp" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">outp[15:0]</obj_property>
+      <obj_property name="ObjectShortName">outp[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/push" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">push</obj_property>
+      <obj_property name="ObjectShortName">push</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/pop" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">pop</obj_property>
+      <obj_property name="ObjectShortName">pop</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">addr[15:0]</obj_property>
+      <obj_property name="ObjectShortName">addr[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/writeenable" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">writeenable</obj_property>
+      <obj_property name="ObjectShortName">writeenable</obj_property>
+   </wvobject>
+</wave_config>

@@ -81,11 +81,11 @@ BEGIN
    begin		
       -- hold reset state for 100 ns.
       wait for 1 ns;	
-		int(0) <= '1';
+		--int(0) <= '1';
       wait for period*20;
-		int(0) <= '0';
-		wait for period*20;
-		
+		--int(0) <= '0';
+		wait for period*5;
+		--int <= "0111";
 
       -- insert stimulus here 
 

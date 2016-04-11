@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/home/dan/otherDanUMDRISC/fetch_tb_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="fetch_tb" />
+            <top_module name="glbl" />
+            <top_module name="std_logic_1164" />
+            <top_module name="std_logic_arith" />
+            <top_module name="std_logic_unsigned" />
+            <top_module name="vl_types" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="19" />
+   <wvobject fp_name="/fetch_tb/uut/InterruptController/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/InterruptController/int" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">int[3:0]</obj_property>
+      <obj_property name="ObjectShortName">int[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/InterruptController/addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">addr[15:0]</obj_property>
+      <obj_property name="ObjectShortName">addr[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/InterruptController/pc_count" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">pc_count[15:0]</obj_property>
+      <obj_property name="ObjectShortName">pc_count[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/InterruptController/inst" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">inst[15:0]</obj_property>
+      <obj_property name="ObjectShortName">inst[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/InterruptController/writeenable" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">writeenable</obj_property>
+      <obj_property name="ObjectShortName">writeenable</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/InterruptController/interrupts_enabled" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">interrupts_enabled</obj_property>
+      <obj_property name="ObjectShortName">interrupts_enabled</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/InterruptController/wait_complete" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">wait_complete</obj_property>
+      <obj_property name="ObjectShortName">wait_complete</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/InterruptController/wait_ready" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">wait_ready</obj_property>
+      <obj_property name="ObjectShortName">wait_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/InterruptController/clock_wait" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">clock_wait[2:0]</obj_property>
+      <obj_property name="ObjectShortName">clock_wait[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/InterruptController/int_latch_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">int_latch_en</obj_property>
+      <obj_property name="ObjectShortName">int_latch_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/InterruptController/int_latch" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">int_latch[3:0]</obj_property>
+      <obj_property name="ObjectShortName">int_latch[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/InterruptController/return_found" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">return_found</obj_property>
+      <obj_property name="ObjectShortName">return_found</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/InterruptController/int_addr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">int_addr[4:0]</obj_property>
+      <obj_property name="ObjectShortName">int_addr[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/InterruptController/int_stack_input" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">int_stack_input[15:0]</obj_property>
+      <obj_property name="ObjectShortName">int_stack_input[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/InterruptController/int_stack_output" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">int_stack_output[15:0]</obj_property>
+      <obj_property name="ObjectShortName">int_stack_output[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/InterruptController/int_stack_push" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">int_stack_push</obj_property>
+      <obj_property name="ObjectShortName">int_stack_push</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/InterruptController/int_stack_pop" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">int_stack_pop</obj_property>
+      <obj_property name="ObjectShortName">int_stack_pop</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/InterruptController/writeenable_flag" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">writeenable_flag</obj_property>
+      <obj_property name="ObjectShortName">writeenable_flag</obj_property>
+   </wvobject>
+</wave_config>

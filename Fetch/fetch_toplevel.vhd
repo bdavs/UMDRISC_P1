@@ -31,9 +31,10 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity fetch_toplevel is
 port( clk: in std_logic;
-		en_fetch: in std_logic;
+		en_fetch: in std_logic := '1';
 		int: in std_logic_vector (3 downto 0);
-		output: out std_logic_vector(15 downto 0));
+		output: out std_logic_vector(15 downto 0)
+		);
 end fetch_toplevel;
 
 architecture Behavioral of fetch_toplevel is
