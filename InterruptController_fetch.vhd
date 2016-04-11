@@ -100,11 +100,11 @@ begin
 			int_stack_pop <= '0';
 		end if;
 		
-		if(inst = x"000E") then
+		if(inst = x"E000") then
 			return_found <= '1';
 		end if;
 		
-		if(interrupts_enabled = '0' and wait_complete = '1' and (return_found = '1' or inst = x"000E")) then
+		if(interrupts_enabled = '0' and wait_complete = '1' and (return_found = '1' or inst = x"E000")) then
 			-- time to load addr
 			if(clock_wait = "000")then
 				clock_wait <= "100";
