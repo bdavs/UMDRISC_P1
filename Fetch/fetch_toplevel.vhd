@@ -44,6 +44,8 @@ signal inp: std_logic_vector(15 downto 0);
 signal outp: std_logic_vector(15 downto 0);
 signal push: std_logic := '0';
 signal pop: std_logic := '0';
+signal tpush: std_logic := '0';
+signal tpop: std_logic := '0';
 signal addr: std_logic_vector(15 downto 0);
 signal writeEnable : std_logic;
 
@@ -66,6 +68,8 @@ InterruptController: entity work.InterruptController_fetch
 port map ( 	clk => clk,
 			int => int,
 			addr => addr,
+			int_stack_push => tpush,
+			int_stack_pop => tpop,
 			pc_count => count,
 			inst => inst,
 			writeEnable => writeEnable
