@@ -46,10 +46,10 @@
 # PART OF THIS FILE AT ALL TIMES.
 #--------------------------------------------------------------------------------
 
-cp ../../../ROM.mif .
 
 
-vlogcomp -work work ../../implement/results/routed.v
+echo "Compiling Core VHDL UNISIM/Behavioral model"
+vhpcomp  -work work ../../implement/results/routed.vhd
 
 echo "Compiling Test Bench Files"
 
@@ -59,6 +59,7 @@ vhpcomp -work work    ../bmg_stim_gen.vhd
 vhpcomp -work work    ../ROM_synth.vhd 
 vhpcomp -work work    ../ROM_tb.vhd
 
-    fuse -L simprims_ver work.ROM_tb work.glbl -o ROM_tb.exe
+
+    fuse -L simprim work.ROM_tb -o ROM_tb.exe
 
 ./ROM_tb.exe -sdftyp /ROM_tb/ROM_synth_inst/bmg_port=../../implement/results/routed.sdf -gui -tclbatch simcmds.tcl

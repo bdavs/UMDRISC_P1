@@ -46,12 +46,11 @@
 # PART OF THIS FILE AT ALL TIMES.
 #--------------------------------------------------------------------------------
 
-cp ../../../ROM.mif .
 
 
-echo "Compiling Core Verilog UNISIM/Behavioral model"
-vlogcomp -work work ../../../ROM.v 
-vhpcomp -work work ../../example_design/ROM_exdes.vhd
+echo "Compiling Core VHDL UNISIM/Behavioral model"
+vhpcomp  -work work ../../../ROM.vhd 
+vhpcomp  -work work ../../example_design/ROM_exdes.vhd
 
 echo "Compiling Test Bench Files"
 
@@ -61,8 +60,7 @@ vhpcomp -work work    ../bmg_stim_gen.vhd
 vhpcomp -work work    ../ROM_synth.vhd 
 vhpcomp -work work    ../ROM_tb.vhd
 
+fuse work.ROM_tb -L unisims -L xilinxcorelib -o ROM_tb.exe
 
-vlogcomp -work work $XILINX/verilog/src/glbl.v
-fuse work.ROM_tb work.glbl -L unisims_ver -L xilinxcorelib_ver -o ROM_tb.exe
 
 ./ROM_tb.exe -gui -tclbatch simcmds.tcl
