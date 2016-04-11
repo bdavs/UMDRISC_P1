@@ -83,7 +83,7 @@ port map(
 			  clk => clk
 );
   
-ROM: entity work.ROMv2
+ROM: entity work.ROM
 port map(
 			ADDRA => count,
 			CLKA => clk,
