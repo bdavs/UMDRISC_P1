@@ -88,6 +88,7 @@ port map ( 	clk => clk,
 with pop select
    writeEnable <=
 			'1' when '1',
+			'1' when writeEnable => '1',
 			'0' when others;
 			
 

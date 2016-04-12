@@ -55,12 +55,15 @@ process(clk)
 begin
 	if (tmp2 = tmp3)then
 		tmp <= Rb;
+		br_en <= '1';
+	else
+		br_en <= '0';
 	end if;
 end process;
 	
 	with OP select
         RESULT <=
-            Rb when "1101", -- jump
+            Rb + x"1000"  when "1101", -- jump
             x"0000" when "1110", -- return
             Rb + x"1000"  when "1111", -- branch
             x"0000" when OTHERS;-- ANDI REG A, IMMED
