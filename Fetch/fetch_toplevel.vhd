@@ -78,7 +78,7 @@ port map ( 	clk => clk,
 			int_stack_pop => tpop,
 			--int_stack_output => toutp,
 			--pc_count => count,
-			inst => inst,
+			inst => inst
 			--writeEnable => writeEnable
 			);
 			
