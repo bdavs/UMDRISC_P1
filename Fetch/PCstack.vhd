@@ -31,10 +31,10 @@ use IEEE.STD_LOGIC_unsigned.ALL;
 --use UNISIM.VComponents.all;
 
 entity PCstack is
-	generic(	width:	integer:=16;
+	generic(	width:	integer:=12;
 			depth:	integer:=4);
-    Port ( input : in  STD_LOGIC_VECTOR (15 downto 0);
-           output : out  STD_LOGIC_VECTOR (15 downto 0);
+    Port ( input : in  STD_LOGIC_VECTOR (width-1  downto 0);
+           output : out  STD_LOGIC_VECTOR (width-1  downto 0);
            push : in  STD_LOGIC;
            pop : in  STD_LOGIC;
 			  clk : in std_logic);

@@ -33,17 +33,25 @@ entity fetch_toplevel is
 port( clk: in std_logic;
 		en_fetch: in std_logic := '1';
 		int: in std_logic_vector (3 downto 0);
-		output: out std_logic_vector(11 downto 0)
+		output: out std_logic_vector(15 downto 0)
 		);
 end fetch_toplevel;
 
 architecture Behavioral of fetch_toplevel is
-signal count: std_logic_vector(15 downto 0);
+signal count: std_logic_vector(11 downto 0);
 signal inst: std_logic_vector(15 downto 0);
+
 signal inp: std_logic_vector(11 downto 0);
 signal outp: std_logic_vector(11 downto 0);
+
+signal int_addr: std_logic_vector(11 downto 0);
+
 signal push: std_logic := '0';
 signal pop: std_logic := '0';
+
+signal tpush: std_logic := '0';
+signal tpop: std_logic := '0';
+
 signal addr: std_logic_vector(11 downto 0);
 signal writeEnable : std_logic;
 
@@ -57,7 +65,7 @@ begin
 ProgramCounter: entity work.ProgramCounter
 port map(
 			clk => clk,
-			addr => addr,
+			addr => outp,
 			writeEnable => writeEnable,
 			count => count
 );
@@ -65,16 +73,28 @@ port map(
 InterruptController: entity work.InterruptController_fetch 
 port map ( 	clk => clk,
 			int => int,
-			addr => addr,
-			pc_count => count,
-			inst => inst,
-			writeEnable => writeEnable
+			addr => int_addr,
+			int_stack_push => tpush,
+			int_stack_pop => tpop,
+			--int_stack_output => toutp,
+			--pc_count => count,
+			inst => inst
+			--writeEnable => writeEnable
 			);
 			
 --addr <= outp;
 --writeEnable <= pop;
 
+with pop select
+   writeEnable <=
+			'1' when '1',
+			'0' when others;
+			
+
+
+
 PCstack: entity work.PCstack
+generic map( width => 12)
 port map(
 			  input => inp,
            output => outp,

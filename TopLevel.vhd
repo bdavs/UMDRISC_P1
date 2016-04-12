@@ -89,8 +89,7 @@ begin
 fetch: entity work.fetch_toplevel
 port map(
 			clk => clk,
-			addr => addr,
-			writeEnable => writeEnable,
+			int => int,
 			en_fetch => en_fetch,
 			output => inst
 			);
