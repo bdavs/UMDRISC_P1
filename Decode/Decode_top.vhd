@@ -35,8 +35,8 @@ port(	clk : in std_logic;
 		op_latch : out std_logic_vector(3 downto 0); 
 		Imm_latch : out std_logic_vector(3 downto 0);
 		RA_addr_latch : out std_logic_vector(3 downto 0);
-		RB_addr_latch : out std_logic_vector(3 downto 0)
-		
+		RB_addr_latch : out std_logic_vector(3 downto 0);
+		en_decode : in std_logic := '1'
 );	
 end Decode_top;
 
@@ -58,7 +58,7 @@ signal RB_addr : std_logic_vector(3 downto 0);
 signal Imm : std_logic_vector(3 downto 0);
 
 signal en_fetch : std_logic := '1';
-signal en_decode : std_logic := '1';
+
 signal en_pipeline : std_logic := '1';
 signal en_operand : std_logic := '1';
 

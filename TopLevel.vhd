@@ -74,6 +74,8 @@ signal en_fetch : std_logic := '1';
 signal en_decode : std_logic := '1';
 signal en_pipeline : std_logic := '1';
 signal en_operand : std_logic := '1';
+signal en_Writeback: std_logic := '1';
+signal en_Execute:  std_logic;
 
 signal operand_read : std_logic := '1';
 signal operand_write : std_logic := '0';
