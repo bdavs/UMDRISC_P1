@@ -55,6 +55,7 @@ signal int_latch: std_logic_vector(3 downto 0);
 signal return_found: std_logic := '0';
 signal int_addr: std_logic_vector(11 downto 0);
 signal stall_number: std_logic:='0';--used to figure out which stall we are on 0 or 1
+signal stall_ready_internal: std_logic:='0';
 
 --int stack signals
 
@@ -74,14 +75,16 @@ begin
 				--int_stack_input <= pc_count + 1;
 				int_stack_push <= '1';
 				stall_ready <= '1';
+				stall_ready_internal <= '1';
 				stall_number <= '0';
 				--Now we flush
 			end if;
 		else	
 		--things to do during the interrupt
 			--first stall finshed. Load interrupt vector
-			if(stall_ready = '1' and stall_finished = '1' and stall_number = '0')then
+			if(stall_ready_internal = '1' and stall_finished = '1' and stall_number = '0')then
 				stall_ready <= '0';
+				stall_ready_internal <= '0';
 				addr <= int_addr;
 				writeEnable <= '1';
 				writeEnable_flag <= '1';
@@ -91,10 +94,13 @@ begin
 			--return is found. signal second stall
 			if(return_found = '1' and stall_number = '1')then
 				stall_ready <= '1';
+				stall_ready_internal <= '1';
 			end if;
 			
 			--second stall finished. Pop interrupt stack
-			if(stall_ready = '1' and stall_finished = '1' and stall_number = '1')then
+			if(stall_ready_internal = '1' and stall_finished = '1' and stall_number = '1')then
+				stall_ready <= '0';
+				stall_ready_internal <= '0';
 				int_stack_pop <= '1';
 			end if;
 			
