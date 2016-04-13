@@ -70,11 +70,7 @@ begin
  RE <= '1';
  WE <= '0' when OP="1010" else '1';
  wea<="1" when OP="1010" else "0";
-
-
- en_Writeback<='1' when OP="1001" else '0';
- 
- 
+en_Writeback<='1' when OP="1001" else '0';
  RA_addr <= t4(11 downto 8);
  
  
