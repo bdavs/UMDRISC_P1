@@ -54,9 +54,10 @@ tmp3<= Ra(3 downto 0);
 process(clk)
 begin
 	if (tmp2 = tmp3)then
-		tmp <= Rb;
+		tmp <= Rb +x"1000";
 		ccr_move <= x"1";
 	else
+		tmp <= Rb;
 		ccr_move <= x"0";
 	end if;
 end process;
@@ -65,7 +66,7 @@ end process;
         RESULT <=
             Rb + x"1000"  when "1101", -- jump
             x"0000" when "1110", -- return
-            Rb + ccr_move & x"000"  when "1111", -- branch
+            tmp  when "1111", -- branch
             x"0000" when OTHERS;-- ANDI REG A, IMMED
 
 	

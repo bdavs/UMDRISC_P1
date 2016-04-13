@@ -22,7 +22,7 @@ entity ALU is
            RB       : in  STD_LOGIC_VECTOR (15 downto 0);
            OPCODE   : in  STD_LOGIC_VECTOR (3 downto 0);
            CCR      : out STD_LOGIC_VECTOR (3 downto 0);
-           ALU_OUT  : out STD_LOGIC_VECTOR (19 downto 0);
+           ALU_OUT  : out STD_LOGIC_VECTOR (15 downto 0);
            LDST_OUT : out STD_LOGIC_VECTOR (15 downto 0));
 end ALU;
 
@@ -90,6 +90,7 @@ begin
               LOGIC     => logic,
               SHIFT     => shift,
               MEMORY    => memory,
+				  Vector=>vector,
 				  MOVE	   => move,
 				  CCR_MOVE  => ccr_move,
               CCR_ARITH => ccr_arith,
