@@ -65,13 +65,14 @@ signal S_out : std_logic_vector(15 downto 0);
 signal S_addr : std_logic_vector(1 downto 0);
 begin
 	
-operand: entity work.RegRAM
+operand: entity work.Operand_Registers
 port map(
 			Clock => clk,
 			Enable => en_operand,
 			Read => RE,
 			Write => WE,
 			Read_AddrA => RA_addr,
+			int_mode => int_mode,
 			Read_AddrB => RB_addr,
 			Write_AddrA => Writeback_Addr,
 			Data_inA => execute_alu_out,
