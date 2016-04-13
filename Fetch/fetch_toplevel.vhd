@@ -44,6 +44,7 @@ signal inst: std_logic_vector(15 downto 0);
 
 signal inp: std_logic_vector(11 downto 0);
 signal outp: std_logic_vector(11 downto 0);
+signal toutp: std_logic_vector(11 downto 0);
 
 signal int_addr: std_logic_vector(11 downto 0);
 
@@ -62,6 +63,9 @@ signal reset: std_logic_vector(11 downto 0) := (others => '0');
 signal int_writeEnable: std_logic;
 
 signal move: std_logic_vector(11 downto 0);
+signal stall_ready : std_logic;
+signal stall_finished : std_logic;
+
 
 begin
 
@@ -100,17 +104,20 @@ port map(
 			count => count
 );
 
---InterruptController: entity work.InterruptController_fetch 
---port map ( 	clk => clk,
---			int => int,
---			addr => int_addr,
---			int_stack_push => tpush,
---			int_stack_pop => tpop,
---			int_stack_output => move,--temp
---			--pc_count => count,
---			inst => inst,
---			writeEnable => int_writeEnable
---			);
+InterruptController: entity work.InterruptController_fetch 
+port map ( 	clk => clk,
+			int => int,
+			addr => int_addr,
+			int_stack_push => tpush,
+			int_stack_pop => tpop,
+			--int_stack_output => toutp,--temp
+			stall_ready => stall_ready,
+			stall_finished => stall_finished,
+			inst => inst,
+			writeEnable => int_writeEnable
+			);
+			
+			
 			
 move <= move_and_en(11 downto 0);
 PCMux: entity work.mux_4to1
