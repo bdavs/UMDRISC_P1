@@ -29,7 +29,7 @@ end ALU;
 architecture Structural of ALU is
 
     signal arith     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
-	 signal vector     : STD_LOGIC_VECTOR (19 downto 0) := (OTHERS => '0');
+	 signal vector     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
     signal logic     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
     signal shift     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
 	 signal move      : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
