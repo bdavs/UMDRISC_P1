@@ -34,6 +34,9 @@ entity Operand_top is
 port(clk : in std_logic;
 		RE : in std_logic;
 		WE : in std_logic;
+		S_en : in std_logic;
+		S_write : in std_logic;
+		S_Read : in std_logic;
 		RA_addr : in std_logic_vector(3 downto 0);
 		RB_addr : in std_logic_vector(3 downto 0);
 		Write_Back : in std_logic_vector(15 downto 0);
@@ -44,6 +47,7 @@ port(clk : in std_logic;
 		operand_op_latch : out std_logic_vector(3 downto 0);
 		op : in std_logic_vector(3 downto 0);
 		Imm : in std_logic_vector(3 downto 0);
+		
 
 		en_operand  : in std_logic	
 );
@@ -53,20 +57,20 @@ architecture Behavioral of Operand_top is
 
 signal operand_mux_sel: std_logic;
 signal ALU_RB : std_logic_vector(15 downto 0);
+signal ALU_RA: std_logic_vector(15 downto 0);
 signal RA_data : std_logic_vector(15 downto 0);
 signal RB_data : std_logic_vector(15 downto 0);
 signal full_imm : std_logic_vector(15 downto 0);
-signal int_mode: std_logic;
-
+signal S_out : std_logic_vector(15 downto 0);
+signal S_addr : std_logic_vector(1 downto 0);
 begin
 	
-operand: entity work.Operand_Registers
+operand: entity work.RegRAM
 port map(
 			Clock => clk,
 			Enable => en_operand,
 			Read => RE,
 			Write => WE,
-			int_mode => int_mode,
 			Read_AddrA => RA_addr,
 			Read_AddrB => RB_addr,
 			Write_AddrA => Writeback_Addr,
@@ -74,6 +78,16 @@ port map(
 			Data_outA => RA_data,
 			Data_outB => RB_data
 );
+Shadow: entity work.Shadow_Register
+port map(
+				clock => clk,
+          -- Data_in =>RA_data,
+           addrA=>S_addr,
+			  S_en => S_en,
+			  S_write=>S_write,
+			    S_read=>S_read,
+			  S_out =>S_out
+); 
 
 -- turn 8 bit imm into 16 bits
 full_imm <= "00000000" & RB_addr & Imm;
@@ -86,12 +100,20 @@ port map(
 			IN_2 => full_imm,
 			MOUT => ALU_RB
 );
+operand_RA_mux: entity work.mux_2to1
+generic map(width => 16)
+port map(
+			SEL => S_en,
+			IN_1 => RA_data,
+			IN_2 => S_out,
+			MOUT => ALU_RA
+);
 
 operand_latch_RA_data: entity work.reg
 generic map (n => 16)
 port map(
 			clk => clk,
-			input => RA_data,
+			input => ALU_RA,
 			en => en_operand,
 			output => RA_data_latch);
 			
@@ -110,6 +132,8 @@ port map(
 			input => op,
 			en => en_operand,
 			output => operand_op_latch);
+			
+
 			
 end Behavioral;
 
