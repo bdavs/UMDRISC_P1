@@ -90,7 +90,7 @@ begin
 
 
 -- move signal 
-move <= t4(15 downto 12) & alu_out(11 downto 0);
+move <= t4(15 downto 12) & execute_alu_out(11 downto 0);
 fetch: entity work.fetch_toplevel
 port map(
 			clk => clk,

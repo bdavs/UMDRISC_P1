@@ -85,10 +85,10 @@ if (clk'event and clk = '0')then
 	end if;
 end if;
 
-
-if (clk'event and clk = '1')then
-	writeEnable <= '0';
-end if;
+--
+--if (clk'event and clk = '1')then
+--	writeEnable <= '0';
+--end if;
 end process;
 
 
@@ -112,7 +112,7 @@ port map(
 --			writeEnable => int_writeEnable
 --			);
 			
-move <= move_and_en and x"0FFF";
+move <= move_and_en(11 downto 0);
 PCMux: entity work.mux_4to1
 generic map( width => 12)
 port map(
