@@ -1,7 +1,7 @@
 run
 -ifmt VHDL
 -ent blk_mem_gen_v7_3_exdes
--p xc7a100t-csg324-3
+-p xc3s500e-fg320-4
 -ifn xst.prj
 -write_timing_constraints No
 -iobuf YES

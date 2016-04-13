@@ -46,22 +46,20 @@
 # PART OF THIS FILE AT ALL TIMES.
 #--------------------------------------------------------------------------------
 
-cp ../../../blk_mem_gen_v7_3.mif .
 
 
-vlogcomp -work work ../../implement/results/routed.v
+echo "Compiling Core VHDL UNISIM/Behavioral model"
+vhpcomp  -work work ../../implement/results/routed.vhd
 
 echo "Compiling Test Bench Files"
 
 vhpcomp -work work    ../bmg_tb_pkg.vhd
-vhpcomp -work work    ../random.vhd
-vhpcomp -work work    ../data_gen.vhd
 vhpcomp -work work    ../addr_gen.vhd
-vhpcomp -work work    ../checker.vhd
 vhpcomp -work work    ../bmg_stim_gen.vhd
 vhpcomp -work work    ../blk_mem_gen_v7_3_synth.vhd 
 vhpcomp -work work    ../blk_mem_gen_v7_3_tb.vhd
 
-    fuse -L simprims_ver work.blk_mem_gen_v7_3_tb work.glbl -o blk_mem_gen_v7_3_tb.exe
+
+    fuse -L simprim work.blk_mem_gen_v7_3_tb -o blk_mem_gen_v7_3_tb.exe
 
 ./blk_mem_gen_v7_3_tb.exe -sdftyp /blk_mem_gen_v7_3_tb/blk_mem_gen_v7_3_synth_inst/bmg_port=../../implement/results/routed.sdf -gui -tclbatch simcmds.tcl

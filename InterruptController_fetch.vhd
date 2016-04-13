@@ -34,8 +34,12 @@ use work.all;
 entity InterruptController_fetch is
 port( 	clk: in std_logic;
 			int: in std_logic_vector(3 downto 0);
-			addr: out std_logic_vector(15 downto 0);
-			pc_count: in std_logic_vector(15 downto 0);
+			int_stack_output: in std_logic_vector(11 downto 0);
+			int_stack_input: out std_logic_vector(11 downto 0);
+			int_stack_push: buffer std_logic := '0';
+			int_stack_pop: buffer std_logic := '0';
+			addr: out std_logic_vector(11 downto 0);
+			pc_count: in std_logic_vector(11 downto 0);
 			inst: in std_logic_vector(15 downto 0);
 			writeEnable: out std_logic
 			);
@@ -50,14 +54,11 @@ signal clock_wait : std_logic_vector(2 downto 0):= "100";
 signal int_latch_en: std_logic := '1';
 signal int_latch: std_logic_vector(3 downto 0);
 signal return_found: std_logic := '0';
-signal int_addr: std_logic_vector(4 downto 0);
+signal int_addr: std_logic_vector(11 downto 0);
 
 
 --int stack signals
-signal int_stack_input: std_logic_vector(15 downto 0);
-signal int_stack_output: std_logic_vector(15 downto 0);
-signal int_stack_push: std_logic := '0';
-signal int_stack_pop: std_logic := '0';
+
 
 signal writeEnable_flag: std_logic:='0';
 begin
@@ -85,7 +86,7 @@ begin
 				writeEnable_flag <= '1';
 			else
 				clock_wait <= clock_wait - 1;
-				addr <= "ZZZZZZZZZZZZZZZZ"; --dont do this
+				addr <= "ZZZZZZZZZZZZ"; --dont do this
 				writeEnable <= '1';
 			end if;
 		end if;
@@ -99,11 +100,11 @@ begin
 			int_stack_pop <= '0';
 		end if;
 		
-		if(inst = x"000E") then
+		if(inst = x"E000") then
 			return_found <= '1';
 		end if;
 		
-		if(interrupts_enabled = '0' and wait_complete = '1' and (return_found = '1' or inst = x"000E")) then
+		if(interrupts_enabled = '0' and wait_complete = '1' and (return_found = '1' or inst = x"E000")) then
 			-- time to load addr
 			if(clock_wait = "000")then
 				clock_wait <= "100";
@@ -120,7 +121,7 @@ begin
 				clock_wait <= clock_wait - 1;
 			else
 				clock_wait <= clock_wait - 1;
-				addr <= "ZZZZZZZZZZZZZZZZ"; --dont do this
+				addr <= "ZZZZZZZZZZZZ"; --dont do this
 				writeEnable <= '1';
 			end if;
 		end if;
@@ -142,31 +143,24 @@ port map(clk => clk,
 			
 with int_latch select
         int_addr <=
-            "ZZZZZ"   when "0000",     -- We should not let this signal go through
-            "00100"   when "0001",     -- INT 4 Vector location
-            "00011"   when "0010",     -- INT 3 Vector location
-            "00011"   when "0011",     -- INT 3 Vector location
-            "00010"   when "0100",     -- INT 2 Vector location
-            "00010"   when "0101",     -- INT 2 Vector location
-            "00010"   when "0110",     -- INT 2 Vector location
-            "00010"   when "0111",     -- INT 2 Vector location
-            "00001"   when "1000",     -- INT 1 Vector location
-            "00001"   when "1001",     -- INT 1 Vector location
-				"00001"   when "1010",     -- INT 1 Vector location
-				"00001"   when "1011",     -- INT 1 Vector location
-				"00001"   when "1100",     -- INT 1 Vector location
-				"00001"   when "1101",     -- INT 1 Vector location
-				"00001"   when "1110",     -- INT 1 Vector location
-				"00001"   when "1111",     -- INT 1 Vector location
-            "ZZZZZ"   when OTHERS;     -- This will not happen unless I can't count
+            "ZZZZZZZZZZZZ"   when "0000",     -- We should not let this signal go through
+            "000000000100"   when "0001",     -- INT 4 Vector location
+            "000000000011"   when "0010",     -- INT 3 Vector location
+            "000000000011"   when "0011",     -- INT 3 Vector location
+            "000000000010"   when "0100",     -- INT 2 Vector location
+            "000000000010"   when "0101",     -- INT 2 Vector location
+            "000000000010"   when "0110",     -- INT 2 Vector location
+            "000000000010"   when "0111",     -- INT 2 Vector location
+            "000000000001"   when "1000",     -- INT 1 Vector location
+            "000000000001"   when "1001",     -- INT 1 Vector location
+				"000000000001"   when "1010",     -- INT 1 Vector location
+				"000000000001"   when "1011",     -- INT 1 Vector location
+				"000000000001"   when "1100",     -- INT 1 Vector location
+				"000000000001"   when "1101",     -- INT 1 Vector location
+				"000000000001"   when "1110",     -- INT 1 Vector location
+				"000000000001"   when "1111",     -- INT 1 Vector location
+            "ZZZZZZZZZZZZ"   when OTHERS;     -- This will not happen unless I can't count
 
-int_statck: entity work.PCstack
-port map(
-			  input => int_stack_input,
-           output => int_stack_output,
-           push => int_stack_push,
-           pop => int_stack_pop,
-			  clk => clk
-);
+
 end Behavioral;
 

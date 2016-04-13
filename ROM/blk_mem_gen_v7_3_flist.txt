@@ -19,8 +19,6 @@ blk_mem_gen_v7_3/simulation/blk_mem_gen_v7_3_synth.vhd
 blk_mem_gen_v7_3/simulation/blk_mem_gen_v7_3_tb.vhd
 blk_mem_gen_v7_3/simulation/bmg_stim_gen.vhd
 blk_mem_gen_v7_3/simulation/bmg_tb_pkg.vhd
-blk_mem_gen_v7_3/simulation/checker.vhd
-blk_mem_gen_v7_3/simulation/data_gen.vhd
 blk_mem_gen_v7_3/simulation/functional/simcmds.tcl
 blk_mem_gen_v7_3/simulation/functional/simulate_isim.sh
 blk_mem_gen_v7_3/simulation/functional/simulate_mti.bat
@@ -46,11 +44,10 @@ blk_mem_gen_v7_3/simulation/timing/wave_mti.do
 blk_mem_gen_v7_3/simulation/timing/wave_ncsim.sv
 blk_mem_gen_v7_3.asy
 blk_mem_gen_v7_3.gise
-blk_mem_gen_v7_3.mif
 blk_mem_gen_v7_3.ngc
 blk_mem_gen_v7_3.sym
-blk_mem_gen_v7_3.v
-blk_mem_gen_v7_3.veo
+blk_mem_gen_v7_3.vhd
+blk_mem_gen_v7_3.vho
 blk_mem_gen_v7_3.xco
 blk_mem_gen_v7_3.xise
 blk_mem_gen_v7_3_flist.txt

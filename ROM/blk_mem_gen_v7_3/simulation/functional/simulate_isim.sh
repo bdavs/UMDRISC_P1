@@ -46,26 +46,21 @@
 # PART OF THIS FILE AT ALL TIMES.
 #--------------------------------------------------------------------------------
 
-cp ../../../blk_mem_gen_v7_3.mif .
 
 
-echo "Compiling Core Verilog UNISIM/Behavioral model"
-vlogcomp -work work ../../../blk_mem_gen_v7_3.v 
-vhpcomp -work work ../../example_design/blk_mem_gen_v7_3_exdes.vhd
+echo "Compiling Core VHDL UNISIM/Behavioral model"
+vhpcomp  -work work ../../../blk_mem_gen_v7_3.vhd 
+vhpcomp  -work work ../../example_design/blk_mem_gen_v7_3_exdes.vhd
 
 echo "Compiling Test Bench Files"
 
 vhpcomp -work work    ../bmg_tb_pkg.vhd
-vhpcomp -work work    ../random.vhd
-vhpcomp -work work    ../data_gen.vhd
 vhpcomp -work work    ../addr_gen.vhd
-vhpcomp -work work    ../checker.vhd
 vhpcomp -work work    ../bmg_stim_gen.vhd
 vhpcomp -work work    ../blk_mem_gen_v7_3_synth.vhd 
 vhpcomp -work work    ../blk_mem_gen_v7_3_tb.vhd
 
+fuse work.blk_mem_gen_v7_3_tb -L unisims -L xilinxcorelib -o blk_mem_gen_v7_3_tb.exe
 
-vlogcomp -work work $XILINX/verilog/src/glbl.v
-fuse work.blk_mem_gen_v7_3_tb work.glbl -L unisims_ver -L xilinxcorelib_ver -o blk_mem_gen_v7_3_tb.exe
 
 ./blk_mem_gen_v7_3_tb.exe -gui -tclbatch simcmds.tcl

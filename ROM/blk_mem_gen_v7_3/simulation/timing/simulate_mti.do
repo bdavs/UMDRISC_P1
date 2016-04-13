@@ -45,26 +45,22 @@
 # PART OF THIS FILE AT ALL TIMES.
 set work work
 #--------------------------------------------------------------------------------
-cp ../../../blk_mem_gen_v7_3.mif .
 
 vlib work
 vmap work work
 
-echo "Compiling Core Verilog UNISIM/Behavioral model"
-vlog -work work ../../implement/results/routed.v
+echo "Compiling Core VHDL UNISIM/Behavioral model"
+vcom  -work work ../../implement/results/routed.vhd
 
 echo "Compiling Test Bench Files"
 
 vcom -work work    ../bmg_tb_pkg.vhd
-vcom -work work    ../random.vhd
-vcom -work work    ../data_gen.vhd
 vcom -work work    ../addr_gen.vhd
-vcom -work work    ../checker.vhd
 vcom -work work    ../bmg_stim_gen.vhd
 vcom -work work    ../blk_mem_gen_v7_3_synth.vhd 
 vcom -work work    ../blk_mem_gen_v7_3_tb.vhd
 
-    vsim -novopt -t ps  -L simprims_ver +transport_int_delays -sdftyp /blk_mem_gen_v7_3_tb/blk_mem_gen_v7_3_synth_inst/bmg_port=../../implement/results/routed.sdf $work.blk_mem_gen_v7_3_tb $work.glbl -novopt
+    vsim -novopt -t ps -L simprim   +transport_int_delays -sdftyp /blk_mem_gen_v7_3_tb/blk_mem_gen_v7_3_synth_inst/bmg_port=../../implement/results/routed.sdf $work.blk_mem_gen_v7_3_tb -novopt
 
 #Disabled waveform to save the disk space
 add log -r /*

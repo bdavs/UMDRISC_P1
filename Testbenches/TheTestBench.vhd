@@ -42,7 +42,8 @@ ARCHITECTURE behavior OF TheTestBench IS
     COMPONENT TopLevel
     PORT(
          clk : IN  std_logic;
-         rst : IN  std_logic
+         rst : IN  std_logic;
+			int : IN std_logic_vector(3 downto 0)
         );
     END COMPONENT;
     
@@ -50,6 +51,7 @@ ARCHITECTURE behavior OF TheTestBench IS
    --Inputs
    signal clk : std_logic := '0';
    signal rst : std_logic := '0';
+	signal int : std_logic_vector(3 downto 0);
 
    -- Clock period definitions
    constant period : time := 10 ns;
@@ -59,7 +61,8 @@ BEGIN
 	-- Instantiate the Unit Under Test (UUT)
    uut: TopLevel PORT MAP (
           clk => clk,
-          rst => rst
+          rst => rst,
+			 int => int
         );
 
    -- Clock process definitions
@@ -75,8 +78,9 @@ BEGIN
    begin		
       -- hold reset state for 100 ns.
       wait for 100 ns;	
-
+		int(0) <= '0';
       wait for period*10;
+		
 
       -- insert stimulus here 
 

@@ -45,28 +45,23 @@
 # THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS
 # PART OF THIS FILE AT ALL TIMES.
 #--------------------------------------------------------------------------------
-cp ../../../blk_mem_gen_v7_3.mif .
 
 
 mkdir work
-echo "Compiling Core Verilog UNISIM/Behavioral model"
-ncvlog -work work ../../../blk_mem_gen_v7_3.v 
-ncvhdl -v93 -work work ../../example_design/blk_mem_gen_v7_3_exdes.vhd
+echo "Compiling Core VHDL UNISIM/Behavioral model"
+ncvhdl -v93  -work work ../../../blk_mem_gen_v7_3.vhd \
+    ../../example_design/blk_mem_gen_v7_3_exdes.vhd
 
 echo "Compiling Test Bench Files"
 
 ncvhdl -v93 -work work    ../bmg_tb_pkg.vhd
-ncvhdl -v93 -work work    ../random.vhd
-ncvhdl -v93 -work work    ../data_gen.vhd
 ncvhdl -v93 -work work    ../addr_gen.vhd
-ncvhdl -v93 -work work    ../checker.vhd
 ncvhdl -v93 -work work    ../bmg_stim_gen.vhd
 ncvhdl -v93 -work work    ../blk_mem_gen_v7_3_synth.vhd 
 ncvhdl -v93 -work work    ../blk_mem_gen_v7_3_tb.vhd
 
 echo "Elaborating Design"
-ncvlog -work work $XILINX/verilog/src/glbl.v
-ncelab -access +rwc glbl work.blk_mem_gen_v7_3_tb
+ncelab -access +rwc work.blk_mem_gen_v7_3_tb
 
 echo "Simulating Design"
 ncsim -gui -input @"simvision -input wave_ncsim.sv" work.blk_mem_gen_v7_3_tb

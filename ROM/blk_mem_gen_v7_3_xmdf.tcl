@@ -111,14 +111,6 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path blk_mem_gen_
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path blk_mem_gen_v7_3/simulation/checker.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path blk_mem_gen_v7_3/simulation/data_gen.vhd
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
-incr fcount
-
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path blk_mem_gen_v7_3/simulation/functional/simcmds.tcl
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type Ignore
 incr fcount
@@ -215,10 +207,6 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path blk_mem_gen_
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type asy
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path blk_mem_gen_v7_3.mif
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type AnyView
-incr fcount
-
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path blk_mem_gen_v7_3.ngc
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type ngc
 incr fcount
@@ -227,12 +215,12 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path blk_mem_gen_
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type symbol
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path blk_mem_gen_v7_3.v
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type verilog
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path blk_mem_gen_v7_3.vhd
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type vhdl
 incr fcount
 
-utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path blk_mem_gen_v7_3.veo
-utilities_xmdf::xmdfSetData $instance FileSet $fcount type verilog_template
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path blk_mem_gen_v7_3.vho
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type vhdl_template
 incr fcount
 
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path blk_mem_gen_v7_3.xco
