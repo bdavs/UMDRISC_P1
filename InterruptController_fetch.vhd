@@ -180,13 +180,15 @@ port map(clk => clk,
 			
 with int_latch select
         int_addr <=
-            "ZZZZZZZZZZZZ"   when x"0",     -- We should not let this signal go through
-            x"F00"   when x"1",     -- INT 4 Vector location
-            x"F20"   when x"2" to x"3",     -- INT 3 Vector location
+--            "ZZZZZZZZZZZZ"   when x"0",     -- We should not let this signal go through
+
+            x"F00"   when x"1",     			  -- INT 4 Vector location
+				
+            x"F20"   when x"2",-- to x"3",     -- INT 3 Vector location
            
-            x"F40"   when x"4" to x"7",     -- INT 2 Vector location
+            x"F40"   when x"4",-- to x"7",     -- INT 2 Vector location
             
-            x"F60"   when x"8" to x"F",     -- INT 1 Vector location
+            x"F60"   when x"8",-- to x"F",     -- INT 1 Vector location
             
             "ZZZZZZZZZZZZ"   when OTHERS;     -- This will not happen unless I can't count
 

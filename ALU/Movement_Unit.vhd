@@ -65,7 +65,7 @@ end process;
         RESULT <=
             Rb + x"1000"  when "1101", -- jump
             x"0000" when "1110", -- return
-            Rb + x"1000"  when "1111", -- branch
+            Rb + ccr_move & x"000"  when "1111", -- branch
             x"0000" when OTHERS;-- ANDI REG A, IMMED
 
 	
