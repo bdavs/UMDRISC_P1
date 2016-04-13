@@ -2,15 +2,15 @@
 -- Company: 
 -- Engineer:
 --
--- Create Date:   15:14:51 04/08/2016
+-- Create Date:   20:37:23 04/12/2016
 -- Design Name:   
--- Module Name:   /home/bobby/UMDRISC_P1/Testbenches/PCstack_tb.vhd
+-- Module Name:   /home/bobby/UMDRISC_P1/Testbenches/PC_tb.vhd
 -- Project Name:  r2
 -- Target Device:  
 -- Tool versions:  
 -- Description:   
 -- 
--- VHDL Test Bench Created by ISE for module: PCstack
+-- VHDL Test Bench Created by ISE for module: ProgramCounter
 -- 
 -- Dependencies:
 -- 
@@ -27,37 +27,37 @@
 --------------------------------------------------------------------------------
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
+USE ieee.std_logic_unsigned.ALL;
+USE ieee.std_logic_arith.ALL;
  
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
 --USE ieee.numeric_std.ALL;
  
-ENTITY PCstack_tb IS
-END PCstack_tb;
+ENTITY PC_tb IS
+END PC_tb;
  
-ARCHITECTURE behavior OF PCstack_tb IS 
+ARCHITECTURE behavior OF PC_tb IS 
  
     -- Component Declaration for the Unit Under Test (UUT)
  
-    COMPONENT PCstack
+    COMPONENT ProgramCounter
     PORT(
-         input : IN  std_logic_vector(11 downto 0);
-         output : OUT  std_logic_vector(11 downto 0);
-         push : IN  std_logic;
-         pop : IN  std_logic;
-         clk : IN  std_logic
+         clk : IN  std_logic;
+         addr : IN  std_logic_vector(11 downto 0);
+         writeEnable : IN  std_logic;
+         count : buffer  std_logic_vector(11 downto 0)
         );
     END COMPONENT;
     
 
    --Inputs
-   signal input : std_logic_vector(11 downto 0) := (others => '0');
-   signal push : std_logic := '0';
-   signal pop : std_logic := '0';
    signal clk : std_logic := '0';
+   signal addr : std_logic_vector(11 downto 0) := (others => '0');
+   signal writeEnable : std_logic := '0';
 
  	--Outputs
-   signal output : std_logic_vector(11 downto 0);
+   signal count : std_logic_vector(11 downto 0);
 
    -- Clock period definitions
    constant clk_period : time := 10 ns;
@@ -65,12 +65,11 @@ ARCHITECTURE behavior OF PCstack_tb IS
 BEGIN
  
 	-- Instantiate the Unit Under Test (UUT)
-   uut: PCstack PORT MAP (
-          input => input,
-          output => output,
-          push => push,
-          pop => pop,
-          clk => clk
+   uut: ProgramCounter PORT MAP (
+          clk => clk,
+          addr => addr,
+          writeEnable => writeEnable,
+          count => count
         );
 
    -- Clock process definitions
@@ -89,24 +88,26 @@ BEGIN
       -- hold reset state for 100 ns.
       wait for 100 ns;	
 
-      wait for clk_period;
-		input <= x"123";
-		push <= '1';
-		wait for clk_period;
-		input <= x"210";
-		push <= '1';
-		wait for clk_period;
-		input <= x"F10";
-		push <= '1';
-		
-		wait for clk_period;		
-		input <= x"111";
-		push <= '0';
-		wait for clk_period;		
-		input <= x"111";
-		pop <= '1';
+      wait for clk_period*10;
+		writeEnable <= '0';
+		addr <= x"F00";
+      wait for clk_period*10;
+		writeEnable <= '0';
+		addr <= x"E00";
 		wait for clk_period*10;
-      -- insert stimulus here 
+		writeEnable <= '1';
+		addr <= x"D00";
+		wait for clk_period/2;
+		writeEnable <= '0';
+		wait for clk_period*10;
+		writeEnable <= '1';
+		addr <= x"C00";
+		wait for clk_period*10;
+		writeEnable <= '0';
+		addr <= x"B00";
+		
+		
+		-- insert stimulus here 
 
       wait;
    end process;
