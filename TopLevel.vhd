@@ -89,12 +89,18 @@ signal execute_ldst_out: std_logic_vector(15 downto 0):= (others => '0');
 signal RE: std_logic:='0'; 
 signal WE: std_logic:='0'; 
 
+signal move: std_logic_vector(15 downto 0);
+
 begin
 
+
+-- move signal 
+move <= t4(15 downto 12) & execute_alu_out(11 downto 0);
 fetch: entity work.fetch_toplevel
 port map(
 			clk => clk,
 			int => int,
+			move_and_en => move,
 			en_fetch => en_fetch,
 			output => inst
 			);

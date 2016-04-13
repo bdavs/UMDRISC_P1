@@ -23,6 +23,7 @@ entity ALU_Mux is
            SHIFT     : in  STD_LOGIC_VECTOR (15 downto 0);
            MEMORY    : in  STD_LOGIC_VECTOR (15 downto 0);
 			  MOVE      : in  STD_LOGIC_VECTOR (15 downto 0);
+			  CCR_MOVE : in  STD_LOGIC_VECTOR (3 downto 0);
            CCR_ARITH : in  STD_LOGIC_VECTOR (3 downto 0);
            CCR_LOGIC : in  STD_LOGIC_VECTOR (3 downto 0);
            ALU_OUT   : out STD_LOGIC_VECTOR (15 downto 0);
@@ -58,7 +59,10 @@ begin
             CCR_LOGIC when "0011",     -- OR
             CCR_LOGIC when "0100",     -- CMP
             CCR_ARITH when "0101",     -- ADDI
-            CCR_LOGIC when "0110",     -- ANDI
+            CCR_LOGIC when "0110",     -- branch
+				CCR_LOGIC when "1101",     -- return
+				CCR_LOGIC when "1110",     -- jump
+				CCR_LOGIC when "1111",     -- ANDI
             "0000"     when OTHERS;     -- All flags cleared for other LOGIC operations
 
 end Combinational;

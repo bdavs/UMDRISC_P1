@@ -31,17 +31,19 @@ architecture Structural of ALU is
     signal arith     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
     signal logic     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
     signal shift     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
-	 signal move     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
+	 signal move      : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
     signal memory    : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
+	 signal ccr_move : STD_LOGIC_VECTOR (3 downto 0) := (OTHERS => '0');
     signal ccr_arith : STD_LOGIC_VECTOR (3 downto 0) := (OTHERS => '0');
     signal ccr_logic : STD_LOGIC_VECTOR (3 downto 0) := (OTHERS => '0');
 	 signal ALU_OUT_tmp     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
-
+	
+	 signal br_en     : STD_LOGIC := '0';
 
 begin
 
     --LDST_OUT <= memory;
-
+	 
     Arith_Unit: entity work.Arith_Unit
     port map( A      => RA,
               B      => RB,
@@ -68,12 +70,13 @@ begin
               IMMED  => RB,
               OP     => opcode,
               RESULT => memory);
---	 Movement_Unit: entity work.Movement_Unit
---    port map( CLK    => CLK,
---              Ra      => RA,
---              Rb  => RB,
---              OP     => opcode,
---              RESULT => move);
+	 Movement_Unit: entity work.Movement_Unit
+    port map( CLK    => CLK,
+              Ra      => RA,
+              Rb  => RB,
+              OP     => opcode,
+				  ccr_move => ccr_move,
+              RESULT => move);
 
     ALU_Mux: entity work.ALU_Mux
     port map( OP        => opcode,
@@ -82,6 +85,7 @@ begin
               SHIFT     => shift,
               MEMORY    => memory,
 				  MOVE	   => move,
+				  CCR_MOVE  => ccr_move,
               CCR_ARITH => ccr_arith,
               CCR_LOGIC => ccr_logic,
               ALU_OUT   => ALU_OUT_tmp,
@@ -102,6 +106,8 @@ begin
 			input => memory,
 			en => '1',
 			output => LDST_OUT);
+			
+			
 
 	end Structural;
 

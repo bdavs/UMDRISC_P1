@@ -36,7 +36,7 @@ entity Movement_Unit is
 			  OP : in  STD_LOGIC_VECTOR (3 downto 0);
            Ra : in  STD_LOGIC_VECTOR (15 downto 0);
            Rb : in  STD_LOGIC_VECTOR (15 downto 0);
-			  br_en : out std_logic;
+			  ccr_move : out std_logic_vector(3 downto 0);
            result : out  STD_LOGIC_VECTOR (15 downto 0));
 end Movement_Unit;
 
@@ -55,9 +55,9 @@ process(clk)
 begin
 	if (tmp2 = tmp3)then
 		tmp <= Rb;
-		br_en <= '1';
+		ccr_move <= x"1";
 	else
-		br_en <= '0';
+		ccr_move <= x"0";
 	end if;
 end process;
 	

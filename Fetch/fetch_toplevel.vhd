@@ -32,6 +32,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity fetch_toplevel is
 port( clk: in std_logic;
 		en_fetch: in std_logic := '1';
+		move_and_en: in std_logic_vector(15 downto 0);
 		int: in std_logic_vector (3 downto 0);
 		output: out std_logic_vector(15 downto 0)
 		);
@@ -56,16 +57,45 @@ signal addr: std_logic_vector(11 downto 0);
 signal writeEnable : std_logic;
 
 
+signal reset: std_logic_vector(11 downto 0) := (others => '0');
 
+signal int_writeEnable: std_logic;
 
-
+signal move: std_logic_vector(11 downto 0);
 
 begin
+
+
+--int_on <= int(0) or int(1) or int(2) or int(3);
+			
+			
+			
+--we only want to write once
+--then continue counting
+process(clk)
+begin
+if (clk'event and clk = '0')then
+	if(int_writeEnable ='1')then 
+		writeEnable <= '1';
+	elsif(move_and_en(15 downto 13) = "11")then
+		writeEnable <= '1';
+	elsif(pop='1')then
+		writeEnable <= '1';
+	else writeEnable <= '0';
+	end if;
+end if;
+
+--
+--if (clk'event and clk = '1')then
+--	writeEnable <= '0';
+--end if;
+end process;
+
 
 ProgramCounter: entity work.ProgramCounter
 port map(
 			clk => clk,
-			addr => outp,
+			addr => addr,
 			writeEnable => writeEnable,
 			count => count
 );
@@ -76,23 +106,25 @@ port map(
 --			addr => int_addr,
 --			int_stack_push => tpush,
 --			int_stack_pop => tpop,
---			--int_stack_output => toutp,
+--			int_stack_output => move,--temp
 --			--pc_count => count,
---			inst => inst
---			--writeEnable => writeEnable
+--			inst => inst,
+--			writeEnable => int_writeEnable
 --			);
---			
---addr <= outp;
---writeEnable <= pop;
-
-with pop select
-   writeEnable <=
-			'1' when '1',
-			'1' when '0',
-			'0' when others;
 			
-
-
+move <= move_and_en(11 downto 0);
+PCMux: entity work.mux_4to1
+generic map( width => 12)
+port map(
+	SEL  => "00",
+	IN_1 => outp,
+	IN_2 => int_addr,
+	IN_3 => move,
+	IN_4 => reset,
+	MOUT => addr
+	);
+	
+	
 
 PCstack: entity work.PCstack
 generic map( width => 12)
