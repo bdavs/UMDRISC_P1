@@ -44,10 +44,10 @@ ENTITY Ext_Mem IS
   PORT (
     clka : IN STD_LOGIC;
     wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
-    addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+    addra : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
     dina : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
     clkb : IN STD_LOGIC;
-    addrb : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+    addrb : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
     doutb : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
   );
 END Ext_Mem;
@@ -58,10 +58,10 @@ COMPONENT wrapped_Ext_Mem
   PORT (
     clka : IN STD_LOGIC;
     wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
-    addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+    addra : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
     dina : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
     clkb : IN STD_LOGIC;
-    addrb : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+    addrb : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
     doutb : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
   );
 END COMPONENT;
@@ -69,8 +69,8 @@ END COMPONENT;
 -- Configuration specification
   FOR ALL : wrapped_Ext_Mem USE ENTITY XilinxCoreLib.blk_mem_gen_v7_3(behavioral)
     GENERIC MAP (
-      c_addra_width => 10,
-      c_addrb_width => 10,
+      c_addra_width => 8,
+      c_addrb_width => 8,
       c_algorithm => 1,
       c_axi_id_width => 4,
       c_axi_slave_type => 0,
@@ -105,8 +105,8 @@ END COMPONENT;
       c_mem_type => 1,
       c_mux_pipeline_stages => 0,
       c_prim_type => 1,
-      c_read_depth_a => 1024,
-      c_read_depth_b => 1024,
+      c_read_depth_a => 256,
+      c_read_depth_b => 256,
       c_read_width_a => 16,
       c_read_width_b => 16,
       c_rst_priority_a => "CE",
@@ -123,8 +123,8 @@ END COMPONENT;
       c_use_softecc => 0,
       c_wea_width => 1,
       c_web_width => 1,
-      c_write_depth_a => 1024,
-      c_write_depth_b => 1024,
+      c_write_depth_a => 256,
+      c_write_depth_b => 256,
       c_write_mode_a => "WRITE_FIRST",
       c_write_mode_b => "WRITE_FIRST",
       c_write_width_a => 16,

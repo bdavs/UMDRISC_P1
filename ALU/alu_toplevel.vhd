@@ -22,13 +22,14 @@ entity ALU is
            RB       : in  STD_LOGIC_VECTOR (15 downto 0);
            OPCODE   : in  STD_LOGIC_VECTOR (3 downto 0);
            CCR      : out STD_LOGIC_VECTOR (3 downto 0);
-           ALU_OUT  : out STD_LOGIC_VECTOR (15 downto 0);
+           ALU_OUT  : out STD_LOGIC_VECTOR (19 downto 0);
            LDST_OUT : out STD_LOGIC_VECTOR (15 downto 0));
 end ALU;
 
 architecture Structural of ALU is
 
     signal arith     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
+	 signal vector     : STD_LOGIC_VECTOR (19 downto 0) := (OTHERS => '0');
     signal logic     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
     signal shift     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
 	 signal move      : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
@@ -43,7 +44,12 @@ architecture Structural of ALU is
 begin
 
     --LDST_OUT <= memory;
-	 
+	   Vector_Unit: entity work.Vector_Unit
+    port map( A      => RA,
+              B      => RB,
+              OP     => OPCODE,
+            
+              RESULT => vector);
     Arith_Unit: entity work.Arith_Unit
     port map( A      => RA,
               B      => RB,

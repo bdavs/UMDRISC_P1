@@ -36,7 +36,7 @@ begin
 
     with OP select
         arith <=
-            a1 + b1 when "000", -- ADD
+            a1 + b1 when "000" , -- ADD
             a1 - b1 when "001", -- SUB
             a1 + b1 when "101", -- ADDI
             a1 + b1 when OTHERS;

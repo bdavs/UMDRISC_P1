@@ -22,6 +22,7 @@ entity ALU_Mux is
            LOGIC     : in  STD_LOGIC_VECTOR (15 downto 0);
            SHIFT     : in  STD_LOGIC_VECTOR (15 downto 0);
            MEMORY    : in  STD_LOGIC_VECTOR (15 downto 0);
+			  Vector    : in  STD_LOGIC_VECTOR (15 downto 0);
 			  MOVE      : in  STD_LOGIC_VECTOR (15 downto 0);
 			  CCR_MOVE : in  STD_LOGIC_VECTOR (3 downto 0);
            CCR_ARITH : in  STD_LOGIC_VECTOR (3 downto 0);
@@ -49,7 +50,10 @@ begin
 				MOVE		 when "1101",
 				MOVE		 when "1110",
 				MOVE		 when "1111",
+				Vector    when "1011",
             MEMORY    when OTHERS;     -- SW
+				
+				
 
     with OP select
         CCR_OUT <=

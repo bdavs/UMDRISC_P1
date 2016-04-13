@@ -43,7 +43,8 @@ entity controlModules is
 			en_Writeback : out STD_LOGIC;
 			S_en : buffer STD_LOGIC;
 			S_write : out STD_LOGIC;
-			S_Read : out STD_LOGIC
+			S_Read : out STD_LOGIC;
+			ext_wea : out STD_LOGIC_vector(0 downto 0)
 			--latch1 : out  STD_LOGIC;
 			--regBank : out  STD_LOGIC;
 			--PCcnt : out  STD_LOGIC;
@@ -82,6 +83,7 @@ en_Writeback<='1' when OP="1001" else '0';
 			'0' when others;
  S_write <= '1' when S_en='1' else '0' ;
   S_Read <= '1' when S_en='1' else '0' ;
+  ext_wea<='1' when OP="1100" else '0';
  
 
  

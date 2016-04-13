@@ -8,11 +8,5 @@
 <!-- Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.    -->
 
 <messages>
-<<<<<<< HEAD
-=======
-<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;/home/dan/UMDRISC_P1/ROM/tmp/_cg/blk_mem_gen_v7_3.vhd&quot; into library work</arg>
-</msg>
-
->>>>>>> a3ea30891abfe06c623423b7374d41dc6e51f162
 </messages>
 

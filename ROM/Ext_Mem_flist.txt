@@ -2,6 +2,7 @@
 Ext_Mem.asy
 Ext_Mem.gise
 Ext_Mem.ngc
+Ext_Mem.sym
 Ext_Mem.vhd
 Ext_Mem.vho
 Ext_Mem.xco
