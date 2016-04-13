@@ -63,6 +63,7 @@ signal RB_data : std_logic_vector(15 downto 0);
 signal full_imm : std_logic_vector(15 downto 0);
 signal S_out : std_logic_vector(15 downto 0);
 signal S_addr : std_logic_vector(1 downto 0);
+signal int_mode : std_logic;
 begin
 	
 operand: entity work.Operand_Registers
