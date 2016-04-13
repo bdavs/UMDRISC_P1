@@ -40,7 +40,10 @@ entity controlModules is
 			RA_addr : out STD_LOGIC_vector(3 downto 0);
 			WE, RE : out STD_LOGIC;
 					wea : out STD_LOGIC_vector(0 downto 0);
-			en_Writeback : out STD_LOGIC
+			en_Writeback : out STD_LOGIC;
+			S_en : buffer STD_LOGIC;
+			S_write : out STD_LOGIC;
+			S_Read : out STD_LOGIC
 			--latch1 : out  STD_LOGIC;
 			--regBank : out  STD_LOGIC;
 			--PCcnt : out  STD_LOGIC;
@@ -72,7 +75,15 @@ begin
  wea<="1" when OP="1010" else "0";
 en_Writeback<='1' when OP="1001" else '0';
  RA_addr <= t4(11 downto 8);
+ with OP select
+   S_en <=
+			'1' when "1011",
+			'1' when "1100",
+			'0' when others;
+ S_write <= '1' when S_en='1' else '0' ;
+  S_Read <= '1' when S_en='1' else '0' ;
  
+
  
  --RegBankCMD: entity work.RegBankCMD
   --  port map(       

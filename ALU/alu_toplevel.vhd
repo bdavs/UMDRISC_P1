@@ -68,12 +68,12 @@ begin
               IMMED  => RB,
               OP     => opcode,
               RESULT => memory);
-	 Movement_Unit: entity work.Movement_Unit
-    port map( CLK    => CLK,
-              Ra      => RA,
-              Rb  => RB,
-              OP     => opcode,
-              RESULT => move);
+--	 Movement_Unit: entity work.Movement_Unit
+--    port map( CLK    => CLK,
+--              Ra      => RA,
+--              Rb  => RB,
+--              OP     => opcode,
+--              RESULT => move);
 
     ALU_Mux: entity work.ALU_Mux
     port map( OP        => opcode,

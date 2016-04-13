@@ -35,13 +35,18 @@ entity Decoder is
            op : out  STD_LOGIC_VECTOR (3 downto 0);
            RA : out  STD_LOGIC_VECTOR (3 downto 0);
            RB : out  STD_LOGIC_VECTOR (3 downto 0);
-           Imm : out  STD_LOGIC_VECTOR (3 downto 0)
+           Imm : out  STD_LOGIC_VECTOR (3 downto 0);
+			  S_addr : out STD_LOGIC_VECTOR (1 downto 0);
+			  S_id : out STD_LOGIC_VECTOR (5 downto 4)
 			  );
 end Decoder;
 
 architecture Behavioral of Decoder is
 
 begin
+
+			
+			
 process (clk)
 	begin
 		if (clk'event and clk='0') then
@@ -49,7 +54,8 @@ process (clk)
 			RA <= inst(11 downto 8);
 			Imm <= inst(3 downto 0);
 			RB <= inst(7 downto 4);
-		
+			S_addr<=inst(6 downto 5);
+			S_id<=inst(5 downto 4);
 		end if;
 	end process;
 

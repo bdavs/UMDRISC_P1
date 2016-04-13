@@ -70,25 +70,25 @@ port map(
 			count => count
 );
 
-InterruptController: entity work.InterruptController_fetch 
-port map ( 	clk => clk,
-			int => int,
-			addr => int_addr,
-			int_stack_push => tpush,
-			int_stack_pop => tpop,
-			--int_stack_output => toutp,
-			--pc_count => count,
-			inst => inst
-			--writeEnable => writeEnable
-			);
-			
+--InterruptController: entity work.InterruptController_fetch 
+--port map ( 	clk => clk,
+--			int => int,
+--			addr => int_addr,
+--			int_stack_push => tpush,
+--			int_stack_pop => tpop,
+--			--int_stack_output => toutp,
+--			--pc_count => count,
+--			inst => inst
+--			--writeEnable => writeEnable
+--			);
+--			
 --addr <= outp;
 --writeEnable <= pop;
 
 with pop select
    writeEnable <=
 			'1' when '1',
-			'1' when writeEnable => '1',
+			'1' when '0',
 			'0' when others;
 			
 
