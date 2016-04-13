@@ -56,15 +56,17 @@ signal ALU_RB : std_logic_vector(15 downto 0);
 signal RA_data : std_logic_vector(15 downto 0);
 signal RB_data : std_logic_vector(15 downto 0);
 signal full_imm : std_logic_vector(15 downto 0);
+signal int_mode: std_logic;
 
 begin
 	
-operand: entity work.RegRAM
+operand: entity work.Operand_Registers
 port map(
 			Clock => clk,
 			Enable => en_operand,
 			Read => RE,
 			Write => WE,
+			int_mode => int_mode,
 			Read_AddrA => RA_addr,
 			Read_AddrB => RB_addr,
 			Write_AddrA => Writeback_Addr,
