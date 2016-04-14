@@ -97,8 +97,8 @@ signal move: std_logic_vector(15 downto 0);
 begin
 
 
--- move signal 
-move <= t4(15 downto 12) & execute_alu_out(11 downto 0);
+-- move signal ...super gross, right?
+move <= (t4(15 downto 12) and execute_alu_out(15)&"111") & execute_alu_out(11 downto 0);
 fetch: entity work.fetch_toplevel
 port map(
 			clk => clk,
@@ -150,12 +150,14 @@ port map(  CLK => clk,
 	
 WriteBack: entity work.WriteBack
 Port map(		clk =>clk,
+				RE => RE,
+				WE => WE,
            execute_alu_out_latch => execute_alu_out,
            execute_ldst_out_latch =>execute_ldst_out,
 			  en_Writeback =>en_Writeback,
-			  Write_back =>Write_back,
-				wea=>wea,
-				ext_wea=>ext_wea
+			  Write_back =>Write_back
+				--wea=>wea,
+				--ext_wea=>ext_wea
 
 			  );
 			
