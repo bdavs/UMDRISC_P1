@@ -57,8 +57,9 @@ signal RA_data : std_logic_vector(15 downto 0):= (others => '0');
 
 signal Writeback_Addr : std_logic_vector(3 downto 0):= (others => '0');
 signal Write_back : std_logic_vector(15 downto 0):= (others => '0');
-signal en_Writeback : std_logic := '0';
+
 signal wea: std_logic_vector( 0 downto 0):=(others => '0'); 
+signal ext_wea: std_logic_vector( 0 downto 0):=(others => '0'); 
 
 signal S_en : std_logic := '1';
 signal S_write : std_logic := '1';
@@ -153,7 +154,9 @@ Port map(		clk =>clk,
            execute_ldst_out_latch =>execute_ldst_out,
 			  en_Writeback =>en_Writeback,
 			  Write_back =>Write_back,
-				wea=>wea
+				wea=>wea,
+				ext_wea=>ext_wea
+
 			  );
 			
 	

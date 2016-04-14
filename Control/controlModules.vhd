@@ -83,7 +83,7 @@ en_Writeback<='1' when OP="1001" else '0';
 			'0' when others;
  S_write <= '1' when S_en='1' else '0' ;
   S_Read <= '1' when S_en='1' else '0' ;
-  ext_wea<='1' when OP="1100" else '0';
+  ext_wea<="1" when OP="1100" else "0";
  
 
  
