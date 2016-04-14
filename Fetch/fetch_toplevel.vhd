@@ -32,6 +32,7 @@ use work.all;
 
 entity fetch_toplevel is
 port( clk: in std_logic;
+		rst: in std_logic;
 		en_fetch: in std_logic := '1';
 		move_and_en: in std_logic_vector(15 downto 0);
 		int: in std_logic_vector (3 downto 0);
@@ -42,6 +43,9 @@ end fetch_toplevel;
 architecture Behavioral of fetch_toplevel is
 signal count: std_logic_vector(11 downto 0);
 signal inst: std_logic_vector(15 downto 0);
+signal nop_inst: std_logic_vector(15 downto 0) := x"A000";
+signal latch_input: std_logic_vector(15 downto 0);
+
 
 signal inp: std_logic_vector(11 downto 0);
 signal outp: std_logic_vector(11 downto 0);
@@ -66,6 +70,7 @@ signal int_writeEnable: std_logic;
 signal move: std_logic_vector(11 downto 0);
 signal stall_ready : std_logic;
 signal stall_finished : std_logic;
+signal SEL : std_logic_vector(1 downto 0) := "00";
 
 
 begin
@@ -80,20 +85,30 @@ begin
 process(clk)
 begin
 if (clk'event and clk = '0')then
+	--writeEnable and select for PC
 	if(int_writeEnable ='1')then 
+		SEL <= "01";
 		writeEnable <= '1';
-	elsif(move_and_en(15 downto 13) = "11")then
+	elsif(move_and_en(15 downto 14) & (move_and_en(13) or move_and_en(12))= "111")then
 		writeEnable <= '1';
+		SEL <= "10";
 	elsif(pop='1')then
+		SEL <= "00";
 		writeEnable <= '1';
-	else writeEnable <= '0';
+	elsif(reset = '1')then
+		SEL <= "11";
+		writeEnable <= '1';
+	else 
+		writeEnable <= '0';
+	end if;
+	
+	--stall
+	if (stall_ready = '1')then
+		latch_input <= nop_inst;
+	else 
+		latch_input <= inst;
 	end if;
 end if;
-
---
---if (clk'event and clk = '1')then
---	writeEnable <= '0';
---end if;
 end process;
 
 
@@ -124,7 +139,7 @@ move <= move_and_en(11 downto 0);
 PCMux: entity work.mux_4to1
 generic map( width => 12)
 port map(
-	SEL  => "00",
+	SEL  => SEL,
 	IN_1 => outp,
 	IN_2 => int_addr,
 	IN_3 => move,
@@ -150,11 +165,19 @@ port map(
 			CLKA => clk,
 			DOUTA => inst
 );
-
+stalling: entity work.reg
+port map(
+			clk => clk,
+			input => latch_input,
+			en => en_fetch,
+			output => output
+			);
+			
+			
 fetch_latch: entity work.reg
 port map(
 			clk => clk,
-			input => inst,
+			input => latch_input,
 			en => en_fetch,
 			output => output
 			);

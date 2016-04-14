@@ -45,7 +45,7 @@ architecture Structural of ALU is
 begin
 
     --LDST_OUT <= memory;
-	   Vector_Unit: entity work.Vector_Unit
+	 Vector_Unit: entity work.Vector_Unit
     port map( A      => RA,
               B      => RB,
               OP     => OPCODE,
