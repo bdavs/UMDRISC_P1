@@ -19,6 +19,8 @@
 ----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_arith.ALL;
+use IEEE.STD_LOGIC_unsigned.ALL;
 use work.all;
 
 -- Uncomment the following library declaration if using
@@ -35,6 +37,7 @@ port( clk: in std_logic;
 		rst: in std_logic;
 		en_fetch: in std_logic := '1';
 		move_and_en: in std_logic_vector(15 downto 0);
+		br_stall: in std_logic;
 		int: in std_logic_vector (3 downto 0);
 		output: out std_logic_vector(15 downto 0)
 		);
@@ -56,6 +59,8 @@ signal int_addr: std_logic_vector(11 downto 0);
 signal push: std_logic := '0';
 signal pop: std_logic := '0';
 
+--signal br_stall: std_logic := '0';
+
 signal tpush: std_logic := '0';
 signal tpop: std_logic := '0';
 
@@ -68,20 +73,21 @@ signal reset: std_logic_vector(11 downto 0) := (others => '0');
 signal int_writeEnable: std_logic;
 
 signal move: std_logic_vector(11 downto 0);
+
 signal stall_ready : std_logic;
 signal stall_finished : std_logic;
+signal stall_cnt_in: std_logic_vector(1 downto 0) := (others => '0');
+signal stall_cnt_out: std_logic_vector(1 downto 0) := (others => '0');
+signal stall_temp: std_logic_vector(15 downto 0) := (others => '0');
+
 signal SEL : std_logic_vector(1 downto 0) := "00";
 
 
 begin
 
 
---int_on <= int(0) or int(1) or int(2) or int(3);
-			
-			
-			
---we only want to write once
---then continue counting
+--stall_temp <= output;
+
 process(clk)
 begin
 if (clk'event and clk = '0')then
@@ -89,13 +95,13 @@ if (clk'event and clk = '0')then
 	if(int_writeEnable ='1')then 
 		SEL <= "01";
 		writeEnable <= '1';
-	elsif(move_and_en(15 downto 14) & (move_and_en(13) or move_and_en(12))= "111")then
+	elsif(move_and_en(15 downto 12) & (move_and_en(13) or move_and_en(12))= "111")then
 		writeEnable <= '1';
 		SEL <= "10";
 	elsif(pop='1')then
 		SEL <= "00";
 		writeEnable <= '1';
-	elsif(reset = '1')then
+	elsif(rst = '1')then
 		SEL <= "11";
 		writeEnable <= '1';
 	else 
@@ -103,12 +109,19 @@ if (clk'event and clk = '0')then
 	end if;
 	
 	--stall
-	if (stall_ready = '1')then
-		latch_input <= nop_inst;
-	else 
+	if (stall_ready = '0' and br_stall = '0' and stall_cnt_in = "00")then
 		latch_input <= inst;
+		stall_cnt_in <= "00";
+	elsif(stall_cnt_in = "01" or stall_cnt_in = "10" or stall_cnt_in = "00")then
+		stall_cnt_in <= stall_cnt_in + 1; 
+		latch_input <= nop_inst;
+	else --stall_ready = 1 and stall_cnt_in = 11
+		stall_cnt_in <= "00";
+		stall_finished <= '1';
 	end if;
+	
 end if;
+
 end process;
 
 
@@ -126,7 +139,6 @@ port map ( 	clk => clk,
 			addr => int_addr,
 			int_stack_push => tpush,
 			int_stack_pop => tpop,
-			--int_stack_output => toutp,--temp
 			stall_ready => stall_ready,
 			stall_finished => stall_finished,
 			inst => inst,
@@ -165,14 +177,16 @@ port map(
 			CLKA => clk,
 			DOUTA => inst
 );
-stalling: entity work.reg
-port map(
-			clk => clk,
-			input => latch_input,
-			en => en_fetch,
-			output => output
-			);
-			
+
+--
+--stall_latch: entity work.reg
+--port map(
+--			clk => clk,
+--			input => latch_input,
+--			en => en_fetch,
+--			output => output
+--			);
+--			
 			
 fetch_latch: entity work.reg
 port map(

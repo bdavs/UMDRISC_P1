@@ -95,15 +95,27 @@ signal WE: std_logic:='0';
 
 signal move: std_logic_vector(15 downto 0);
 
+signal br_stall: std_logic:='0';
+
 begin
-
-
+process(clk)
+begin
+if (clk'event and clk = '1')then
+	if (inst(15 downto 12) = "1111")then
+		br_stall <= '1';
+	else
+		br_stall <= '0';
+	end if;
+end if;
+end process;
 -- move signal ...super gross, right?
 move <= (t4(15 downto 12) and execute_alu_out(15)&"111") & execute_alu_out(11 downto 0);
 fetch: entity work.fetch_toplevel
 port map(
 			clk => clk,
 			int => int,
+			rst => rst,
+			br_stall => br_stall,
 			move_and_en => move,
 			en_fetch => en_fetch,
 			output => inst
