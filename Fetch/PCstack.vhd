@@ -42,7 +42,7 @@ end PCstack;
 
 architecture Behavioral of PCstack is
 signal stack_pointer : std_logic_vector(4 downto 0) := (others => '0');
-signal write_en : std_logic_vector(0 downto 0);
+--signal write_en : std_logic_vector(0 downto 0);
 
 type ram_type is array (0 to depth-1) of
 	std_logic_vector(width-1 downto 0);
