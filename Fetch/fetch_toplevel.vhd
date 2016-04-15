@@ -117,6 +117,7 @@ if (clk'event and clk = '0')then
 	elsif((stall_ready = '1' and stall_cnt_in = "00") or br_stall = '1')then
 		stall_cnt_in <= stall_cnt_in + 1; 
 		latch_input <= nop_inst;
+		--if 
 		push <= '1';
 		--pop = '0';
 	elsif(stall_cnt_in = "01" or stall_cnt_in = "10" or stall_cnt_in = "00")then

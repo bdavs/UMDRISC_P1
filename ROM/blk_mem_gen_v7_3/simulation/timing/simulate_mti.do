@@ -45,6 +45,7 @@
 # PART OF THIS FILE AT ALL TIMES.
 set work work
 #--------------------------------------------------------------------------------
+cp ../../../blk_mem_gen_v7_3.mif .
 
 vlib work
 vmap work work

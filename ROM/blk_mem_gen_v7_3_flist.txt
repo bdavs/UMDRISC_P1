@@ -44,6 +44,7 @@ blk_mem_gen_v7_3/simulation/timing/wave_mti.do
 blk_mem_gen_v7_3/simulation/timing/wave_ncsim.sv
 blk_mem_gen_v7_3.asy
 blk_mem_gen_v7_3.gise
+blk_mem_gen_v7_3.mif
 blk_mem_gen_v7_3.ngc
 blk_mem_gen_v7_3.sym
 blk_mem_gen_v7_3.vhd

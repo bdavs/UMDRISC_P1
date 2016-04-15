@@ -207,6 +207,10 @@ utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path blk_mem_gen_
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type asy
 incr fcount
 
+utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path blk_mem_gen_v7_3.mif
+utilities_xmdf::xmdfSetData $instance FileSet $fcount type AnyView
+incr fcount
+
 utilities_xmdf::xmdfSetData $instance FileSet $fcount relative_path blk_mem_gen_v7_3.ngc
 utilities_xmdf::xmdfSetData $instance FileSet $fcount type ngc
 incr fcount

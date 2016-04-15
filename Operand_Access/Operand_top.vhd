@@ -86,7 +86,7 @@ port map(
 Shadow: entity work.Shadow_Register
 port map(
 				clock => clk,
-          -- Data_in =>RA_data,
+           Data_in =>RA_data,
            addrA=>S_addr,
 			  S_en => S_en,
 			  S_write=>S_write,

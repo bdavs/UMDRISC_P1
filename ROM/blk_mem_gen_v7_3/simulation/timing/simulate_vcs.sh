@@ -45,6 +45,7 @@
 # PART OF THIS FILE AT ALL TIMES.
 #--------------------------------------------------------------------------------
 #!/bin/sh
+cp ../../../blk_mem_gen_v7_3.mif .
 
 rm -rf simv* csrc DVEfiles AN.DB
 

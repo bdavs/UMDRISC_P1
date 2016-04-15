@@ -45,6 +45,7 @@
 # THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS
 # PART OF THIS FILE AT ALL TIMES.
 #--------------------------------------------------------------------------------
+cp ../../../blk_mem_gen_v7_3.mif .
 
 
 mkdir work
