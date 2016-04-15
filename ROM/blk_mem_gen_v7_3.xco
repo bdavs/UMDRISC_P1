@@ -1,11 +1,7 @@
 ##############################################################
 #
 # Xilinx Core Generator version 14.7
-<<<<<<< HEAD
-# Date: Fri Apr 15 20:08:05 2016
-=======
-# Date: Fri Apr 15 20:15:04 2016
->>>>>>> 1292d45b4624598cc7d544f73964a935009f8edf
+# Date: Fri Apr 15 20:25:36 2016
 #
 ##############################################################
 #
@@ -50,11 +46,7 @@ CSET axi_id_width=4
 CSET axi_slave_type=Memory_Slave
 CSET axi_type=AXI4_Full
 CSET byte_size=9
-<<<<<<< HEAD
-CSET coe_file=.\output.coe
-=======
 CSET coe_file=./output.coe
->>>>>>> 1292d45b4624598cc7d544f73964a935009f8edf
 CSET collision_warnings=ALL
 CSET component_name=blk_mem_gen_v7_3
 CSET disable_collision_warnings=false
@@ -69,7 +61,7 @@ CSET fill_remaining_memory_locations=false
 CSET interface_type=Native
 CSET load_init_file=true
 CSET mem_file=no_Mem_file_loaded
-CSET memory_type=Single_Port_RAM
+CSET memory_type=Single_Port_ROM
 CSET operating_mode_a=WRITE_FIRST
 CSET operating_mode_b=WRITE_FIRST
 CSET output_reset_value_a=0
@@ -77,10 +69,10 @@ CSET output_reset_value_b=0
 CSET pipeline_stages=0
 CSET port_a_clock=100
 CSET port_a_enable_rate=100
-CSET port_a_write_rate=50
-CSET port_b_clock=100
-CSET port_b_enable_rate=100
-CSET port_b_write_rate=50
+CSET port_a_write_rate=0
+CSET port_b_clock=0
+CSET port_b_enable_rate=0
+CSET port_b_write_rate=0
 CSET primitive=8kx2
 CSET read_width_a=16
 CSET read_width_b=16
@@ -105,7 +97,7 @@ CSET use_regcea_pin=false
 CSET use_regceb_pin=false
 CSET use_rsta_pin=false
 CSET use_rstb_pin=false
-CSET write_depth_a=16
+CSET write_depth_a=4096
 CSET write_width_a=16
 CSET write_width_b=16
 # END Parameters
@@ -113,8 +105,4 @@ CSET write_width_b=16
 MISC pkg_timestamp=2012-11-19T16:22:25Z
 # END Extra information
 GENERATE
-<<<<<<< HEAD
-# CRC: d77603be
-=======
 # CRC: e0dce968
->>>>>>> 1292d45b4624598cc7d544f73964a935009f8edf
