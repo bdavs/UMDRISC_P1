@@ -77,7 +77,7 @@ port map(
 			int_mode => int_mode,
 			Read_AddrB => RB_addr,
 			Write_AddrA => Writeback_Addr,
-			Data_inA => execute_alu_out,
+			Data_inA => Write_back,
 			Data_outA => RA_data,
 			Data_outB => RB_data
 );

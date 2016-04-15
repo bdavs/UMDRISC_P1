@@ -50,6 +50,8 @@ signal LD_latch  : STD_LOGIC_VECTOR (15 downto 0);
 signal execute_alu_out  : STD_LOGIC_VECTOR (15 downto 0);
 signal temp  : STD_LOGIC_VECTOR (15 downto 0);
 signal f_write_back  : STD_LOGIC_VECTOR (15 downto 0);
+signal write_back_m  : STD_LOGIC_VECTOR (15 downto 0);
+
 signal ext_out  : STD_LOGIC_VECTOR (15 downto 0);
 signal addr :std_logic_vector(7 downto 0);
 --signal wea : STD_LOGIC_VECTOR (0 downto 0);
@@ -61,10 +63,10 @@ ext_mem : entity work.Ext_mem
  PORT MAP (
     clka => clk,
     wea => ext_wea,
-    addra => execute_alu_out(15 downto 8),
-   dina => temp,
+    addra => execute_ldst_out_latch(15 downto 8),
+   dina => execute_alu_out_latch,
     clkb => clk,
-    addrb => execute_alu_out(7 downto 0),
+    addrb => execute_ldst_out_latch(7 downto 0),
     doutb => ext_out  );
 	
 
@@ -74,42 +76,40 @@ port map(
 			clka =>clk,
     wea =>wea,
     addra =>addr,
-    dina =>execute_alu_out,
-    douta =>LD_latch
+    dina =>execute_alu_out_latch,
+    douta =>LD_latch);
+	 
+	 
+
 			
-);
-ex_alu_out_latch: entity work.reg
-generic map (n => 16)
-port map(
-			clk => clk,
-			input => execute_alu_out_latch,
-			en => en_Writeback,
-			output => execute_alu_out);
-			
-Writeback_latch: entity work.reg
-generic map (n => 16)
-port map(
-			clk => clk,
-			input => LD_latch,
-			en => en_Writeback,
-			output => LD_execute_latch);
-			
+
 writeback_mux: entity work.mux_2to1
 generic map(width => 16)
 port map(
 			SEL => en_Writeback,
 			IN_1 => execute_alu_out_latch,
-			IN_2 => LD_execute_latch,
-			MOUT => f_Write_back
-			);
+			IN_2 => LD_latch,
+			MOUT => f_Write_back);
+
+
+
 
 ext_mux: entity work.mux_2to1
 generic map(width => 16)
 port map(
 			SEL => S_en,
-			IN_1 => f_Write_back,
+			IN_1 =>f_Write_back ,
 			IN_2 => ext_out,
-			MOUT => Write_back
-);
+			MOUT => Write_back_m);
+			
+
+Writeback_out_latch: entity work.reg
+	generic map (n => 16)
+	port map(
+			clk => clk,
+			input => Write_back_m,
+			en => '1',
+			output => Write_back);
 
 end Behavioral;
+
