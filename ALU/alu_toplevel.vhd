@@ -20,6 +20,7 @@ entity ALU is
     Port ( CLK      : in  STD_LOGIC;
            RA       : in  STD_LOGIC_VECTOR (15 downto 0);
            RB       : in  STD_LOGIC_VECTOR (15 downto 0);
+			  S_out_latch       : in  STD_LOGIC_VECTOR (15 downto 0);
            OPCODE   : in  STD_LOGIC_VECTOR (3 downto 0);
            CCR      : out STD_LOGIC_VECTOR (3 downto 0);
            ALU_OUT  : out STD_LOGIC_VECTOR (15 downto 0);
@@ -30,6 +31,7 @@ architecture Structural of ALU is
 
     signal arith     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
 	 signal vector     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
+	 signal Shadow     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
     signal logic     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
     signal shift     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
 	 signal move      : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
@@ -37,8 +39,11 @@ architecture Structural of ALU is
 	 signal ccr_move : STD_LOGIC_VECTOR (3 downto 0) := (OTHERS => '0');
     signal ccr_arith : STD_LOGIC_VECTOR (3 downto 0) := (OTHERS => '0');
     signal ccr_logic : STD_LOGIC_VECTOR (3 downto 0) := (OTHERS => '0');
+		 signal LDST_OUT_M     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0'); 
 	 signal ALU_OUT_tmp     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
+	  signal LDST_OUT_tmp     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
 	 signal ccr_tmp     : STD_LOGIC_VECTOR (3 downto 0) := (OTHERS => '0');
+
 	 
 	 signal br_en     : STD_LOGIC := '0';
 
@@ -48,9 +53,11 @@ begin
 	 Vector_Unit: entity work.Vector_Unit
     port map( A      => RA,
               B      => RB,
+				  Shadow_data=>S_out_latch,
               OP     => OPCODE,
             
-              RESULT => vector);
+              RESULT => vector,
+				  Result2 =>Shadow);
     Arith_Unit: entity work.Arith_Unit
     port map( A      => RA,
               B      => RB,
@@ -92,11 +99,13 @@ begin
               SHIFT     => shift,
               MEMORY    => memory,
 				  Vector=>vector,
+				  Shadow=>Shadow,
 				  MOVE	   => move,
 				  CCR_MOVE  => ccr_move,
               CCR_ARITH => ccr_arith,
               CCR_LOGIC => ccr_logic,
               ALU_OUT   => ALU_OUT_tmp,
+				  LDST_OUT   => LDST_OUT_tmp,
               CCR_OUT   => CCR_tmp);
 				  
 	alu_out_latch: entity work.reg
@@ -117,11 +126,22 @@ begin
 			output => CCR);
 	
 	
+			
+ldst_out_mux: entity work.mux_2to1
+generic map(width => 16)
+port map(
+			SEL => '1',
+			IN_1 => memory,
+			IN_2 => LDST_OUT_tmp,
+			MOUT => LDST_OUT_M
+);
+			
+			
 	ldst_out_latch: entity work.reg
 	generic map (n => 16)
 	port map(
 			clk => clk,
-			input => memory,
+			input => LDST_OUT_M,
 			en => '1',
 			output => LDST_OUT);
 			

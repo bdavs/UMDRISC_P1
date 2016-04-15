@@ -65,6 +65,8 @@ signal ext_wea: std_logic_vector( 0 downto 0):=(others => '0');
 signal S_en : std_logic := '1';
 signal S_write : std_logic := '1';
 signal S_read : std_logic := '1';
+signal S_out_latch : std_logic_vector(15 downto 0):= (others => '0');
+signal S_out : std_logic_vector(15 downto 0):= (others => '0');
 
 
 signal RB_addr : std_logic_vector(3 downto 0):= (others => '0');
@@ -146,6 +148,7 @@ port map(	clk => clk,
 		S_en =>S_en, 
 		S_write => S_write,
 		S_Read=>S_read,
+		S_out_latch=>S_out_latch,
 		Writeback_Addr =>Writeback_Addr,
 		execute_alu_out  =>execute_alu_out,
 		RA_data_latch =>RA_data,
@@ -162,6 +165,7 @@ execute: entity work.ALU
 port map(  CLK => clk,
            RA  => A,
            RB  => B,
+			  S_out_latch=>S_out_latch,
            OPCODE  => operand_op_latch,
            CCR => ccr,
            ALU_OUT  => execute_alu_out,
@@ -169,17 +173,15 @@ port map(  CLK => clk,
 );
 	
 Write_Back_Stage: entity work.WriteBack
-Port map(		clk =>clk,
---				RE => RE,
---				WE => WE,
+Port map(clk =>clk,
            execute_alu_out_latch => execute_alu_out,
            execute_ldst_out_latch =>execute_ldst_out,
 			  en_Writeback =>en_Writeback,
 			  Write_back =>Write_back,
 				wea=>wea,
-				ext_wea=>ext_wea,
-				S_en => S_en
-
+				s_en=>S_en,
+				ext_wea=>ext_wea
+				
 			  );
 			
 	

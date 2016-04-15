@@ -23,11 +23,13 @@ entity ALU_Mux is
            SHIFT     : in  STD_LOGIC_VECTOR (15 downto 0);
            MEMORY    : in  STD_LOGIC_VECTOR (15 downto 0);
 			  Vector    : in  STD_LOGIC_VECTOR (15 downto 0);
+			  Shadow    : in  STD_LOGIC_VECTOR (15 downto 0);
 			  MOVE      : in  STD_LOGIC_VECTOR (15 downto 0);
 			  CCR_MOVE : in  STD_LOGIC_VECTOR (3 downto 0);
            CCR_ARITH : in  STD_LOGIC_VECTOR (3 downto 0);
            CCR_LOGIC : in  STD_LOGIC_VECTOR (3 downto 0);
            ALU_OUT   : out STD_LOGIC_VECTOR (15 downto 0);
+			   LDST_OUT   : out STD_LOGIC_VECTOR (15 downto 0);
            CCR_OUT   : out STD_LOGIC_VECTOR (3 downto 0));
 end ALU_Mux;
 
@@ -52,9 +54,10 @@ begin
 				MOVE		 when "1111",
 				Vector    when "1011",
             MEMORY    when OTHERS;     -- SW
-				
-				
-
+	 with OP select
+			LDST_OUT <=
+				Shadow when "1100",
+				 shadow    when OTHERS; 
     with OP select
         CCR_OUT <=
             CCR_ARITH when "0000",     -- ADD

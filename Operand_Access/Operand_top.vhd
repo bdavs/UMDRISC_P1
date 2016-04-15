@@ -44,6 +44,7 @@ port(clk : in std_logic;
 		execute_alu_out  : in std_logic_vector(15 downto 0);
 		RA_data_latch : out std_logic_vector(15 downto 0);
 		RB_data_latch : out std_logic_vector(15 downto 0);
+		S_out_latch : out std_logic_vector(15 downto 0);
 		operand_op_latch : out std_logic_vector(3 downto 0);
 		op : in std_logic_vector(3 downto 0);
 		Imm : in std_logic_vector(3 downto 0);
@@ -118,6 +119,17 @@ port map(
 			input => ALU_RA,
 			en => en_operand,
 			output => RA_data_latch);
+
+S_out_latch_data: entity work.reg
+generic map (n => 16)
+port map(
+			clk => clk,
+			input => S_out,
+			en => en_operand,
+			output => S_out_latch);
+						
+			
+
 			
 operand_latch_RB_data: entity work.reg
 generic map (n => 16)
