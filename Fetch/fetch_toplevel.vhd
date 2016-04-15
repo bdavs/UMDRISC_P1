@@ -113,19 +113,25 @@ if (clk'event and clk = '0')then
 		latch_input <= inst;
 		stall_cnt_in <= "00";
 		push <= '0';
+		stall_finished <= '0';
 		--pop = '0';
-	elsif((stall_ready = '1' and stall_cnt_in = "00") or br_stall = '1')then
+	elsif((stall_ready = '1' and stall_cnt_in = "00") or br_stall = '1')then --first instance
 		stall_cnt_in <= stall_cnt_in + 1; 
 		latch_input <= nop_inst;
-		--if 
-		push <= '1';
+		stall_finished <= '0';
+		if (move_and_en(15 downto 12) = "1111")then
+			push <= '0';
+		else
+			push <= '1';
+		end if;
 		--pop = '0';
-	elsif(stall_cnt_in = "01" or stall_cnt_in = "10" or stall_cnt_in = "00")then
+	elsif(stall_cnt_in = "01" or stall_cnt_in = "10" or stall_cnt_in = "00")then --stalling
 		stall_cnt_in <= stall_cnt_in + 1; 
 		latch_input <= nop_inst;
 		push <= '0';
+		stall_finished <= '0';
 		--pop = '0';
-	else --stall_ready = 1 and stall_cnt_in = 11
+	else --stall_ready = 1 and stall_cnt_in = 11 (stall done)
 		stall_cnt_in <= "00";
 		stall_finished <= '1';
 		push <= '0';
@@ -183,11 +189,11 @@ port map(
 PCstack: entity work.PCstack
 generic map( width => 12)
 port map(
-			  input => count,
-           output => outp,
-           push => push,
-           pop => pop,
-			  clk => clk
+		  input => count,
+		  output => outp,
+		  push => push,
+		  pop => pop,
+		  clk => clk
 );
   
 ROM: entity work.ROM
