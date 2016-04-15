@@ -62,6 +62,10 @@ begin
 		end if; 
 	end if;
 	
+	end process;
+	
+	process(clk)
+	begin
 	if(clk'event and clk = '0')then
 		if(push = '1')then
 			tmp_ram(conv_integer(stack_pointer)) <= input;

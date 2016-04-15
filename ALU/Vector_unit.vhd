@@ -50,6 +50,9 @@ architecture Combinational of Vector_Unit is
 begin
     -- Give extra bit to accound for carry,overflow,negative
 
+    --a1 <= '0' & A;
+    --b1 <= '0' & B;
+
     a1 <= A;
     b1 <= B;
 
