@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer:
 --
--- Create Date:   22:21:06 04/14/2016
+-- Create Date:   22:19:21 04/14/2016
 -- Design Name:   
--- Module Name:   /home/bobby/UMDRISC_P1/Testbenches/fetch_tb.vhd
+-- Module Name:   /home/bobby/UMDRISC_P1/fetch_tb.vhd
 -- Project Name:  r3
 -- Target Device:  
 -- Tool versions:  
@@ -55,7 +55,7 @@ ARCHITECTURE behavior OF fetch_tb IS
    --Inputs
    signal clk : std_logic := '0';
    signal rst : std_logic := '0';
-   signal en_fetch : std_logic := '1';
+   signal en_fetch : std_logic := '0';
    signal move_and_en : std_logic_vector(15 downto 0) := (others => '0');
    signal br_stall : std_logic := '0';
    signal int : std_logic_vector(3 downto 0) := (others => '0');
@@ -96,15 +96,8 @@ BEGIN
       wait for 100 ns;	
 
       wait for clk_period*10;
-		br_stall <= '1';
-		wait for clk_period;
-		br_stall <= '0';
-		wait for clk_period*3;
-		
-move_and_en <= "1101000000000001";
 
       -- insert stimulus here 
-		
 
       wait;
    end process;
