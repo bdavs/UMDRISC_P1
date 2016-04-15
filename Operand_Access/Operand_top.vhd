@@ -62,6 +62,7 @@ signal RA_data : std_logic_vector(15 downto 0);
 signal RB_data : std_logic_vector(15 downto 0);
 signal full_imm : std_logic_vector(15 downto 0);
 signal S_out : std_logic_vector(15 downto 0);
+signal S_out_latch : std_logic_vector(15 downto 0);
 signal S_addr : std_logic_vector(1 downto 0);
 signal int_mode : std_logic;
 begin
@@ -118,6 +119,17 @@ port map(
 			input => ALU_RA,
 			en => en_operand,
 			output => RA_data_latch);
+
+S_out_latch_data: entity work.reg
+generic map (n => 16)
+port map(
+			clk => clk,
+			input => S_out,
+			en => en_operand,
+			output => S_out_latch);
+						
+			
+
 			
 operand_latch_RB_data: entity work.reg
 generic map (n => 16)
