@@ -99,7 +99,7 @@ signal br_stall: std_logic:='0';
 
 begin
 
-stuff: entity work.stuff
+junk_stuff: entity work.stuff
 port map(
 			clk => clk,
 			move => move,
