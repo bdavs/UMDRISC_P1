@@ -44,6 +44,7 @@ port(clk : in std_logic;
 		execute_alu_out  : in std_logic_vector(15 downto 0);
 		RA_data_latch : out std_logic_vector(15 downto 0);
 		RB_data_latch : out std_logic_vector(15 downto 0);
+		S_out_latch : out std_logic_vector(15 downto 0);
 		operand_op_latch : out std_logic_vector(3 downto 0);
 		op : in std_logic_vector(3 downto 0);
 		Imm : in std_logic_vector(3 downto 0);
@@ -62,7 +63,6 @@ signal RA_data : std_logic_vector(15 downto 0);
 signal RB_data : std_logic_vector(15 downto 0);
 signal full_imm : std_logic_vector(15 downto 0);
 signal S_out : std_logic_vector(15 downto 0);
-signal S_out_latch : std_logic_vector(15 downto 0);
 signal S_addr : std_logic_vector(1 downto 0);
 signal int_mode : std_logic;
 begin

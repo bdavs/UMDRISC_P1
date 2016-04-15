@@ -66,6 +66,7 @@ signal S_en : std_logic := '1';
 signal S_write : std_logic := '1';
 signal S_read : std_logic := '1';
 signal S_out_latch : std_logic_vector(15 downto 0):= (others => '0');
+signal S_out : std_logic_vector(15 downto 0):= (others => '0');
 
 
 signal RB_addr : std_logic_vector(3 downto 0):= (others => '0');
@@ -147,6 +148,7 @@ port map(	clk => clk,
 		S_en =>S_en, 
 		S_write => S_write,
 		S_Read=>S_read,
+		S_out_latch=>S_out_latch,
 		Writeback_Addr =>Writeback_Addr,
 		execute_alu_out  =>execute_alu_out,
 		RA_data_latch =>RA_data,
@@ -179,8 +181,7 @@ Port map(clk =>clk,
 				wea=>wea,
 				s_en=>S_en,
 				ext_wea=>ext_wea
-				ext_wea=>ext_wea,
-				S_en => S_en
+				
 			  );
 			
 	
