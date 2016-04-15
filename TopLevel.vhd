@@ -100,7 +100,7 @@ signal br_stall: std_logic:='0';
 
 begin
 
-stuff: entity work.stuff
+junk_stuff: entity work.stuff
 port map(
 			clk => clk,
 			move => move,
@@ -171,26 +171,16 @@ port map(  CLK => clk,
 );
 	
 Write_Back_Stage: entity work.WriteBack
-Port map(		clk =>clk,
-<<<<<<< HEAD
-			
-=======
---				RE => RE,
---				WE => WE,
->>>>>>> a6b56e0fd101e6fd4131343b273b2be6ec0f9009
+Port map(clk =>clk,
            execute_alu_out_latch => execute_alu_out,
            execute_ldst_out_latch =>execute_ldst_out,
 			  en_Writeback =>en_Writeback,
 			  Write_back =>Write_back,
 				wea=>wea,
-<<<<<<< HEAD
 				s_en=>S_en,
 				ext_wea=>ext_wea
-=======
 				ext_wea=>ext_wea,
 				S_en => S_en
->>>>>>> a6b56e0fd101e6fd4131343b273b2be6ec0f9009
-
 			  );
 			
 	
