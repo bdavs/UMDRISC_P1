@@ -95,7 +95,7 @@ if (clk'event and clk = '0')then
 	if(int_writeEnable ='1')then 
 		SEL <= "01";
 		writeEnable <= '1';
-	elsif(move_and_en(15 downto 12)="1101" or move_and_en(15 downto 12)="1110" or move_and_en(15 downto 12)="1111")then
+	elsif(move_and_en(15 downto 12)="1101" or move_and_en(15 downto 12)="1111")then
 		writeEnable <= '1';
 		SEL <= "10";
 	elsif(pop='1')then
@@ -196,16 +196,7 @@ port map(
 			DOUTA => inst
 );
 
---
---stall_latch: entity work.reg
---port map(
---			clk => clk,
---			input => latch_input,
---			en => en_fetch,
---			output => output
---			);
---			
-			
+		
 fetch_latch: entity work.reg
 port map(
 			clk => clk,

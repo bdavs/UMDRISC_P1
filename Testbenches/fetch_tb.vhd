@@ -102,7 +102,10 @@ BEGIN
 		wait for clk_period*3;
 		
 move_and_en <= "1101000000000001";
-
+		wait for clk_period;
+move_and_en <= "0000000000000001";
+		wait for clk_period*3;
+		move_and_en <= "1110000000000001";
       -- insert stimulus here 
 		
 
