@@ -64,21 +64,21 @@ signal pop: std_logic := '0';
 signal tpush: std_logic := '0';
 signal tpop: std_logic := '0';
 
-signal addr: std_logic_vector(11 downto 0);
-signal writeEnable : std_logic;
+signal addr: std_logic_vector(11 downto 0):= (others => '0');
+signal writeEnable : std_logic:='0';
 
 
 signal reset: std_logic_vector(11 downto 0) := (others => '0');
 
-signal int_writeEnable: std_logic;
+signal int_writeEnable: std_logic:='0';
 
-signal move: std_logic_vector(11 downto 0);
+signal move: std_logic_vector(11 downto 0):= (others => '0');
 
-signal stall_ready : std_logic;
-signal stall_finished : std_logic;
+signal stall_ready : std_logic:='0';
+signal stall_finished : std_logic := '0';
 signal stall_cnt_in: std_logic_vector(1 downto 0) := (others => '0');
-signal stall_cnt_out: std_logic_vector(1 downto 0) := (others => '0');
-signal stall_temp: std_logic_vector(15 downto 0) := (others => '0');
+--signal stall_cnt_out: std_logic_vector(1 downto 0) := (others => '0');
+--signal stall_temp: std_logic_vector(15 downto 0) := (others => '0');
 
 signal SEL : std_logic_vector(1 downto 0) := "00";
 
@@ -95,7 +95,7 @@ if (clk'event and clk = '0')then
 	if(int_writeEnable ='1')then 
 		SEL <= "01";
 		writeEnable <= '1';
-	elsif(move_and_en(15 downto 12) & (move_and_en(13) or move_and_en(12))= "111")then
+	elsif(move_and_en(15 downto 12)="1101" or move_and_en(15 downto 12)="1111")then
 		writeEnable <= '1';
 		SEL <= "10";
 	elsif(pop='1')then
@@ -182,7 +182,7 @@ port map(
 PCstack: entity work.PCstack
 generic map( width => 12)
 port map(
-			  input => inp,
+			  input => count,
            output => outp,
            push => push,
            pop => pop,
@@ -196,16 +196,7 @@ port map(
 			DOUTA => inst
 );
 
---
---stall_latch: entity work.reg
---port map(
---			clk => clk,
---			input => latch_input,
---			en => en_fetch,
---			output => output
---			);
---			
-			
+		
 fetch_latch: entity work.reg
 port map(
 			clk => clk,
