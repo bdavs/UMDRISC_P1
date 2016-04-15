@@ -53,21 +53,25 @@ tmp3<= Ra(3 downto 0);
 
 process(clk)
 begin
-	if (tmp2 = tmp3)then
-		tmp <= Rb +x"1000";
-		ccr_move <= x"1";
+	if (op = "1111")then
+		if (tmp2 = tmp3 )then
+			tmp <= Rb +x"8000";
+			ccr_move <= x"1";
+		else
+			tmp <= Rb;
+			ccr_move <= x"0";
+		end if;
 	else
-		tmp <= Rb;
-		ccr_move <= x"0";
+		ccr_move <= x"1";
 	end if;
 end process;
 	
 	with OP select
         RESULT <=
-            Rb + x"1000"  when "1101", -- jump
-            x"0000" when "1110", -- return
+            Rb + x"8000"  when "1101", -- jump
+            x"8000" when "1110", -- return
             tmp  when "1111", -- branch
-            x"0000" when OTHERS;-- ANDI REG A, IMMED
+            x"8000" when OTHERS;-- ANDI REG A, IMMED
 
 	
 end Behavioral;

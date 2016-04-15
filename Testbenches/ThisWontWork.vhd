@@ -2,10 +2,10 @@
 -- Company: 
 -- Engineer:
 --
--- Create Date:   19:07:22 04/13/2016
+-- Create Date:   20:49:59 04/13/2016
 -- Design Name:   
--- Module Name:   /home/bobby/UMDRISC_P1/Testbenches/fetch_tb.vhd
--- Project Name:  r2
+-- Module Name:   /home/dan/otherDanUMDRISC/ThisWontWork.vhd
+-- Project Name:  otherDanUMDRISC
 -- Target Device:  
 -- Tool versions:  
 -- Description:   
@@ -27,16 +27,15 @@
 --------------------------------------------------------------------------------
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
-use work.all;
  
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
 --USE ieee.numeric_std.ALL;
  
-ENTITY fetch_tb IS
-END fetch_tb;
+ENTITY ThisWontWork IS
+END ThisWontWork;
  
-ARCHITECTURE behavior OF fetch_tb IS 
+ARCHITECTURE behavior OF ThisWontWork IS 
  
     -- Component Declaration for the Unit Under Test (UUT)
  
@@ -53,7 +52,7 @@ ARCHITECTURE behavior OF fetch_tb IS
 
    --Inputs
    signal clk : std_logic := '0';
-   signal en_fetch : std_logic := '1';
+   signal en_fetch : std_logic := '0';
    signal move_and_en : std_logic_vector(15 downto 0) := (others => '0');
    signal int : std_logic_vector(3 downto 0) := (others => '0');
 

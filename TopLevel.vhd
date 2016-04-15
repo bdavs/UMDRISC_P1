@@ -54,6 +54,7 @@ signal operand_op_latch : std_logic_vector(3 downto 0):= (others => '0');
 
 signal RA_addr : std_logic_vector(3 downto 0):= (others => '0');
 signal RA_data : std_logic_vector(15 downto 0):= (others => '0');
+signal A : std_logic_vector(15 downto 0):= (others => '0');
 
 signal Writeback_Addr : std_logic_vector(3 downto 0):= (others => '0');
 signal Write_back : std_logic_vector(15 downto 0):= (others => '0');
@@ -68,7 +69,7 @@ signal S_read : std_logic := '1';
 
 signal RB_addr : std_logic_vector(3 downto 0):= (others => '0');
 signal RB_data : std_logic_vector(15 downto 0):= (others => '0');
-
+signal B : std_logic_vector(15 downto 0):= (others => '0');
 signal Imm : std_logic_vector(3 downto 0):= (others => '0');
 
 signal en_fetch : std_logic := '1';
@@ -94,15 +95,27 @@ signal WE: std_logic:='0';
 
 signal move: std_logic_vector(15 downto 0);
 
+signal br_stall: std_logic:='0';
+
 begin
-
-
--- move signal 
-move <= t4(15 downto 12) & execute_alu_out(11 downto 0);
+process(clk)
+begin
+if (clk'event and clk = '1')then
+	if (inst(15 downto 12) = "1111")then
+		br_stall <= '1';
+	else
+		br_stall <= '0';
+	end if;
+end if;
+end process;
+-- move signal ...super gross, right?
+move <= (t4(15 downto 12) and execute_alu_out(15)&"111") & execute_alu_out(11 downto 0);
 fetch: entity work.fetch_toplevel
 port map(
 			clk => clk,
 			int => int,
+			rst => rst,
+			br_stall => br_stall,
 			move_and_en => move,
 			en_fetch => en_fetch,
 			output => inst
@@ -138,10 +151,22 @@ port map(	clk => clk,
 		en_operand  =>	en_operand
 		);
 	
+	
+	
+	with op select
+		A <=
+			RA_data when "0000" | "0001" |"0010" |"0011" |"0100" |"0101" |"0110" |"0111" |"1000" |"1001" |"1010" |"1011" | "1100",
+			t2(11 downto 8) & ccr & x"00" when "1101" | "1110" |"1111",
+			RA_data when others;
+	with op select
+		B <=
+			RB_data when "0000" | "0001" |"0010" |"0011" |"0100" |"0101" |"0110" |"0111" |"1000" |"1001" |"1010" |"1011" | "1100",
+			t2(11 downto 0)  & x"0" when "1101" | "1110" |"1111",
+			RB_data when others;
 execute: entity work.ALU
 port map(  CLK => clk,
-           RA  => RA_data,
-           RB  => RB_data,
+           RA  => A,
+           RB  => B,
            OPCODE  => operand_op_latch,
            CCR => ccr,
            ALU_OUT  => execute_alu_out,
@@ -150,12 +175,14 @@ port map(  CLK => clk,
 	
 WriteBack: entity work.WriteBack
 Port map(		clk =>clk,
+				RE => RE,
+				WE => WE,
            execute_alu_out_latch => execute_alu_out,
            execute_ldst_out_latch =>execute_ldst_out,
 			  en_Writeback =>en_Writeback,
-			  Write_back =>Write_back,
-				wea=>wea,
-				ext_wea=>ext_wea
+			  Write_back =>Write_back
+				--wea=>wea,
+				--ext_wea=>ext_wea
 
 			  );
 			
