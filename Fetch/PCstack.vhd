@@ -41,7 +41,7 @@ entity PCstack is
 end PCstack;
 
 architecture Behavioral of PCstack is
-signal stack_pointer : std_logic_vector(4 downto 0) := (others => '0');
+signal stack_pointer : std_logic_vector(1 downto 0) := (others => '1');
 --signal write_en : std_logic_vector(0 downto 0);
 
 type ram_type is array (0 to depth-1) of
@@ -55,18 +55,20 @@ begin
 	if(clk'event and clk = '1')then
 		if(push = '1')then
 			stack_pointer <= stack_pointer + '1';
-		elsif(pop = '1')then
-			stack_pointer <= stack_pointer - '1';
-		else
-			stack_pointer <= stack_pointer;
+--		elsif(pop = '1')then
+--			stack_pointer <= stack_pointer - '1';
+--		else
+--			stack_pointer <= stack_pointer;
 		end if; 
 	end if;
 	
 	if(clk'event and clk = '0')then
 		if(push = '1')then
 			tmp_ram(conv_integer(stack_pointer)) <= input;
+			--stack_pointer <= stack_pointer + '1';
 		elsif(pop = '1')then
 			output <= tmp_ram(conv_integer(stack_pointer));
+			stack_pointer <= stack_pointer - '1';
 		else
 			output <= (others => 'Z');
 		end if;
