@@ -48,7 +48,9 @@
 COMPONENT blk_mem_gen_v7_3
   PORT (
     clka : IN STD_LOGIC;
-    addra : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+    wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+    addra : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+    dina : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
     douta : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
   );
 END COMPONENT;
@@ -61,7 +63,9 @@ END COMPONENT;
 your_instance_name : blk_mem_gen_v7_3
   PORT MAP (
     clka => clka,
+    wea => wea,
     addra => addra,
+    dina => dina,
     douta => douta
   );
 -- INST_TAG_END ------ End INSTANTIATION Template ------------

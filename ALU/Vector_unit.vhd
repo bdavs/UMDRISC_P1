@@ -43,14 +43,14 @@ end Vector_Unit;
 
 architecture Combinational of Vector_Unit is
 
-    signal a1, b1  : STD_LOGIC_VECTOR (16 downto 0) := (OTHERS => '0');
-  signal vector : STD_LOGIC_VECTOR (16 downto 0) := (OTHERS => '0');
+    signal a1, b1  : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
+  signal vector : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
    signal Shadow : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
 
 begin
     -- Give extra bit to accound for carry,overflow,negative
-    a1 <= '0' & A;
-    b1 <= '0' & B;
+    --a1 <= '0' & A;
+    --b1 <= '0' & B;
 
     with OP select
         vector<=
@@ -65,6 +65,6 @@ shadow<=b1 + Shadow_data;
 --    CCR(0) <= arith(16); --Carry
 
     RESULT <= shadow;
-	 REsult2 <=vector(15 downto 0);
+	 REsult2 <=vector;
 end Combinational;
 

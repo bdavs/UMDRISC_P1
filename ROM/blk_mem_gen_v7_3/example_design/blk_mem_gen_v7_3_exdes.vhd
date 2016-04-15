@@ -88,7 +88,11 @@ USE UNISIM.VCOMPONENTS.ALL;
 ENTITY blk_mem_gen_v7_3_exdes IS
   PORT (
       --Inputs - Port A
-    ADDRA          : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+  
+    WEA            : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+    ADDRA          : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+  
+    DINA           : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
   
     DOUTA          : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
     CLKA       : IN STD_LOGIC
@@ -111,7 +115,11 @@ ARCHITECTURE xilinx OF blk_mem_gen_v7_3_exdes IS
   COMPONENT blk_mem_gen_v7_3 IS
   PORT (
       --Port A
-    ADDRA      : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+  
+    WEA        : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+    ADDRA      : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+  
+    DINA       : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
   
     DOUTA      : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
 
@@ -139,7 +147,11 @@ BEGIN
   bmg0 : blk_mem_gen_v7_3
     PORT MAP (
       --Port A
+  
+      WEA        => WEA,
       ADDRA      => ADDRA,
+  
+      DINA       => DINA,
   
       DOUTA      => DOUTA,
 

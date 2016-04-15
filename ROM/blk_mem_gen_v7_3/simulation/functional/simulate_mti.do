@@ -44,6 +44,7 @@
 # THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS
 # PART OF THIS FILE AT ALL TIMES.
 #--------------------------------------------------------------------------------
+cp ../../../blk_mem_gen_v7_3.mif .
  vlib work 
 vmap work work
 
@@ -54,7 +55,10 @@ vcom  -work work ../../../blk_mem_gen_v7_3.vhd \
 echo "Compiling Test Bench Files"
 
 vcom -work work    ../bmg_tb_pkg.vhd
+vcom -work work    ../random.vhd
+vcom -work work    ../data_gen.vhd
 vcom -work work    ../addr_gen.vhd
+vcom -work work    ../checker.vhd
 vcom -work work    ../bmg_stim_gen.vhd
 vcom -work work    ../blk_mem_gen_v7_3_synth.vhd 
 vcom -work work    ../blk_mem_gen_v7_3_tb.vhd

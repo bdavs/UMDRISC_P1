@@ -45,6 +45,7 @@
 # PART OF THIS FILE AT ALL TIMES.
 #--------------------------------------------------------------------------------
 #!/bin/sh
+cp ../../../blk_mem_gen_v7_3.mif .
 rm -rf simv* csrc DVEfiles AN.DB
 
 echo "Compiling Core VHDL UNISIM/Behavioral model"
@@ -53,7 +54,10 @@ vhdlan  ../../example_design/blk_mem_gen_v7_3_exdes.vhd
 
 echo "Compiling Test Bench Files"
 vhdlan    ../bmg_tb_pkg.vhd
+vhdlan    ../random.vhd
+vhdlan    ../data_gen.vhd
 vhdlan    ../addr_gen.vhd
+vhdlan    ../checker.vhd
 vhdlan    ../bmg_stim_gen.vhd
 vhdlan    ../blk_mem_gen_v7_3_synth.vhd 
 vhdlan    ../blk_mem_gen_v7_3_tb.vhd

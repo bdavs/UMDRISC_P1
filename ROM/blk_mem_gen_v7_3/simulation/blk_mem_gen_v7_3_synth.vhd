@@ -92,9 +92,6 @@ USE work.ALL;
 USE work.BMG_TB_PKG.ALL;
 
 ENTITY blk_mem_gen_v7_3_synth IS
-GENERIC ( 
-   C_ROM_SYNTH : INTEGER := 1
-   );
 PORT(
 	CLK_IN     : IN  STD_LOGIC;
     RESET_IN   : IN  STD_LOGIC;
@@ -108,7 +105,9 @@ ARCHITECTURE blk_mem_gen_v7_3_synth_ARCH OF blk_mem_gen_v7_3_synth IS
 COMPONENT blk_mem_gen_v7_3_exdes 
   PORT (
       --Inputs - Port A
-    ADDRA          : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+    WEA            : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+    ADDRA          : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+    DINA           : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
     DOUTA          : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
     CLKA       : IN STD_LOGIC
 
@@ -120,8 +119,12 @@ END COMPONENT;
 
   SIGNAL CLKA: STD_LOGIC := '0';
   SIGNAL RSTA: STD_LOGIC := '0';
-  SIGNAL ADDRA: STD_LOGIC_VECTOR(11 DOWNTO 0) := (OTHERS => '0');
-  SIGNAL ADDRA_R: STD_LOGIC_VECTOR(11 DOWNTO 0) := (OTHERS => '0');
+  SIGNAL WEA: STD_LOGIC_VECTOR(0 DOWNTO 0) := (OTHERS => '0');
+  SIGNAL WEA_R: STD_LOGIC_VECTOR(0 DOWNTO 0) := (OTHERS => '0');
+  SIGNAL ADDRA: STD_LOGIC_VECTOR(3 DOWNTO 0) := (OTHERS => '0');
+  SIGNAL ADDRA_R: STD_LOGIC_VECTOR(3 DOWNTO 0) := (OTHERS => '0');
+  SIGNAL DINA: STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
+  SIGNAL DINA_R: STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
   SIGNAL DOUTA: STD_LOGIC_VECTOR(15 DOWNTO 0);
   SIGNAL CHECKER_EN : STD_LOGIC:='0';
   SIGNAL CHECKER_EN_R : STD_LOGIC:='0';
@@ -177,18 +180,38 @@ STATUS(7 DOWNTO 0) <= ISSUE_FLAG_STATUS;
 
 
 
+   BMG_DATA_CHECKER_INST: ENTITY work.CHECKER
+      GENERIC MAP ( 
+         WRITE_WIDTH => 16,
+		 READ_WIDTH  => 16      )
+      PORT MAP (
+         CLK     => CLKA,
+         RST     => RSTA, 
+         EN      => CHECKER_EN_R,
+         DATA_IN => DOUTA,
+         STATUS  => ISSUE_FLAG(0)
+	   );
+
+   PROCESS(CLKA)
+   BEGIN
+      IF(RISING_EDGE(CLKA)) THEN
+         IF(RSTA='1') THEN
+		    CHECKER_EN_R <= '0';
+	     ELSE
+		    CHECKER_EN_R <= CHECKER_EN AFTER 50 ns;
+         END IF;
+      END IF;
+   END PROCESS;
 
 
- BMG_STIM_GEN_INST:ENTITY work.BMG_STIM_GEN
-    GENERIC MAP(  C_ROM_SYNTH => C_ROM_SYNTH
-              )
-
+    BMG_STIM_GEN_INST:ENTITY work.BMG_STIM_GEN
      PORT MAP(
                 CLK => clk_in_i,
-            	RST => RSTA,
+             	RST => RSTA,
                 ADDRA  => ADDRA,
-				DATA_IN => DOUTA,
-				STATUS => ISSUE_FLAG(0)
+                DINA => DINA,
+                WEA => WEA,
+	            CHECK_DATA => CHECKER_EN
              );
 
       PROCESS(CLKA)
@@ -208,25 +231,32 @@ STATUS(7 DOWNTO 0) <= ISSUE_FLAG_STATUS;
 	    END IF;
       END PROCESS;
 
+
       PROCESS(CLKA)
       BEGIN
         IF(RISING_EDGE(CLKA)) THEN
 		  IF(RESET_SYNC_R3='1') THEN
 		      STIMULUS_FLOW <= (OTHERS => '0'); 
-           ELSIF(ADDRA(0)='1') THEN
+           ELSIF(WEA(0)='1') THEN
 		      STIMULUS_FLOW <= STIMULUS_FLOW+1;
          END IF;
 	    END IF;
       END PROCESS;
 
 
+
+
       PROCESS(CLKA)
       BEGIN
         IF(RISING_EDGE(CLKA)) THEN
 		  IF(RESET_SYNC_R3='1') THEN
+            WEA_R  <= (OTHERS=>'0') AFTER 50 ns;
+            DINA_R <= (OTHERS=>'0') AFTER 50 ns;
           
 
            ELSE
+            WEA_R  <= WEA AFTER 50 ns;
+            DINA_R <= DINA AFTER 50 ns;
 
          END IF;
 	    END IF;
@@ -247,7 +277,9 @@ STATUS(7 DOWNTO 0) <= ISSUE_FLAG_STATUS;
 
     BMG_PORT: blk_mem_gen_v7_3_exdes PORT MAP ( 
       --Port A
+      WEA        => WEA_R,
       ADDRA      => ADDRA_R,
+      DINA       => DINA_R,
       DOUTA      => DOUTA,
       CLKA       => CLKA
 
