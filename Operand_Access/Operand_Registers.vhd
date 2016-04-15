@@ -59,9 +59,10 @@ signal Data_outB_jmp: std_logic_vector(width-1 downto 0);
 signal reg_reg_en: std_logic:= '0';
 signal int_reg_en:std_logic:= '0';
 signal jmp_reg_en:std_logic:= '0';
+signal sel: std_logic_vector(1 downto 0):= "00";
 begin
 
-int_mode_not <= not int_mode;
+
 regular_register: entity work.RegRAM
 port map(
 			Clock => Clock,
@@ -79,7 +80,7 @@ port map(
 interrupt_register: entity work.RegRAM
 port map(
 			Clock => Clock,
-			Enable => int_reg_enable,
+			Enable => int_reg_en,
 			Read => Read,
 			Write => Read,
 			Read_AddrA => Read_AddrA,
@@ -103,18 +104,18 @@ port map(
 			Data_outA => Data_outA_int,
 			Data_outB => Data_outB_int
 );
-
-with int_mode & jmp_mode select 
+sel <= int_mode & jmp_mode;
+with sel select 
 	reg_reg_en <=
 		'1' when "00", --neither ints nor jump
 		'0' when others;
 		
-with int_mode & jmp_mode select
-	int_mode_en <=
+with sel select
+	int_reg_en <=
 		'1' when "10" | "11", --if ints are enabled
 		'0' when others;
 		
-with int_mode & jmp_mode select
+with sel select
 	jmp_reg_en <=
 		'1' when "01", --only if ints are disabled and jumps are enabled
 		'0' when others;		
