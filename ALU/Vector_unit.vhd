@@ -49,13 +49,13 @@ architecture Combinational of Vector_Unit is
 
 begin
     -- Give extra bit to accound for carry,overflow,negative
-<<<<<<< HEAD
+
     --a1 <= '0' & A;
     --b1 <= '0' & B;
-=======
+
     a1 <= A;
     b1 <= B;
->>>>>>> 1292d45b4624598cc7d544f73964a935009f8edf
+
 
     with OP select
         vector<=
