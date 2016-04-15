@@ -98,7 +98,11 @@ END COMPONENT;
       c_initb_val => "0",
       c_interface_type => 0,
       c_load_init_file => 1,
+<<<<<<< HEAD
       c_mem_type => 0,
+=======
+      c_mem_type => 3,
+>>>>>>> 1292d45b4624598cc7d544f73964a935009f8edf
       c_mux_pipeline_stages => 0,
       c_prim_type => 1,
       c_read_depth_a => 16,

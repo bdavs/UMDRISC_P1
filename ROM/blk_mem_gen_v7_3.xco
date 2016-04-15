@@ -1,7 +1,11 @@
 ##############################################################
 #
 # Xilinx Core Generator version 14.7
+<<<<<<< HEAD
 # Date: Fri Apr 15 20:08:05 2016
+=======
+# Date: Fri Apr 15 20:15:04 2016
+>>>>>>> 1292d45b4624598cc7d544f73964a935009f8edf
 #
 ##############################################################
 #
@@ -46,7 +50,11 @@ CSET axi_id_width=4
 CSET axi_slave_type=Memory_Slave
 CSET axi_type=AXI4_Full
 CSET byte_size=9
+<<<<<<< HEAD
 CSET coe_file=.\output.coe
+=======
+CSET coe_file=./output.coe
+>>>>>>> 1292d45b4624598cc7d544f73964a935009f8edf
 CSET collision_warnings=ALL
 CSET component_name=blk_mem_gen_v7_3
 CSET disable_collision_warnings=false
@@ -105,4 +113,8 @@ CSET write_width_b=16
 MISC pkg_timestamp=2012-11-19T16:22:25Z
 # END Extra information
 GENERATE
+<<<<<<< HEAD
 # CRC: d77603be
+=======
+# CRC: e0dce968
+>>>>>>> 1292d45b4624598cc7d544f73964a935009f8edf

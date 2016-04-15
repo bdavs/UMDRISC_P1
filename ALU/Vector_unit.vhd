@@ -49,8 +49,13 @@ architecture Combinational of Vector_Unit is
 
 begin
     -- Give extra bit to accound for carry,overflow,negative
+<<<<<<< HEAD
     --a1 <= '0' & A;
     --b1 <= '0' & B;
+=======
+    a1 <= A;
+    b1 <= B;
+>>>>>>> 1292d45b4624598cc7d544f73964a935009f8edf
 
     with OP select
         vector<=
@@ -58,7 +63,7 @@ begin
 				a1 when "1100",
 				a1 + b1 when OTHERS;
             
-shadow<=b1 + Shadow_data;
+shadow<=B + Shadow_data;
 --    CCR(3) <= arith(7); -- Negative
 --    CCR(2) <= '1' when arith(15 downto 0) = x"000000000000" else '0'; -- Zero
 --    CCR(1) <= a1(15) xor arith(15); -- Overflow

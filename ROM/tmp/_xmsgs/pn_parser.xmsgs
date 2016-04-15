@@ -8,7 +8,11 @@
 <!-- Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.    -->
 
 <messages>
+<<<<<<< HEAD
 <msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;Z:/UMDRISC_P1/ROM/Ext_Mem.vhd&quot; into library work</arg>
+=======
+<msg type="info" file="ProjectMgmt" num="1061" ><arg fmt="%s" index="1">Parsing VHDL file &quot;/home/bobby/UMDRISC_P1/ROM/Ext_Mem.vhd&quot; into library work</arg>
+>>>>>>> 1292d45b4624598cc7d544f73964a935009f8edf
 </msg>
 
 </messages>

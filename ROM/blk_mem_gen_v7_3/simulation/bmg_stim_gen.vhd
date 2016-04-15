@@ -152,6 +152,7 @@ BEGIN
 
    CHECK_DATA <= DO_READ;
 
+<<<<<<< HEAD
 RD_ADDR_GEN_INST:ENTITY work.ADDR_GEN
   GENERIC MAP( 
     C_MAX_DEPTH => 16 
@@ -192,6 +193,120 @@ WR_DATA_GEN_INST:ENTITY work.DATA_GEN
    );
 
 WR_RD_PROCESS: PROCESS (CLK)
+=======
+SYNTH_COE:  IF(C_ROM_SYNTH =0 ) GENERATE
+
+type mem_type is array (4095 downto 0) of std_logic_vector(15 downto 0);
+
+  FUNCTION bit_to_sl(input: BIT) RETURN STD_LOGIC IS
+    VARIABLE temp_return : STD_LOGIC;
+  BEGIN
+    IF (input = '0') THEN
+      temp_return := '0';
+    ELSE
+      temp_return := '1';
+    END IF;
+    RETURN temp_return;
+  END bit_to_sl;
+
+     function char_to_std_logic (
+      char : in character)
+      return std_logic is
+
+      variable data : std_logic;
+
+   begin
+      if char = '0' then
+         data := '0';
+
+      elsif char = '1' then
+         data := '1';
+
+      elsif char = 'X' then
+         data := 'X';
+
+      else
+         assert false
+            report "character which is not '0', '1' or 'X'."
+            severity warning;
+
+         data := 'U';
+      end if;
+
+      return data;
+
+   end char_to_std_logic;
+
+impure FUNCTION init_memory( C_USE_DEFAULT_DATA : INTEGER;
+                       C_LOAD_INIT_FILE : INTEGER ;
+					   C_INIT_FILE_NAME : STRING ;
+                       DEFAULT_DATA   :  STD_LOGIC_VECTOR(15 DOWNTO 0);
+                       width : INTEGER;
+                       depth         : INTEGER)
+  RETURN mem_type IS
+  VARIABLE init_return   : mem_type := (OTHERS => (OTHERS => '0'));
+  FILE     init_file     : TEXT;
+  VARIABLE mem_vector    : BIT_VECTOR(width-1 DOWNTO 0);
+  VARIABLE bitline     : LINE;
+  variable bitsgood    : boolean := true;
+  variable bitchar     : character;
+  VARIABLE i             : INTEGER;
+  VARIABLE j             : INTEGER;
+  BEGIN
+
+    --Display output message indicating that the behavioral model is being
+    --initialized
+    ASSERT (NOT (C_USE_DEFAULT_DATA=1 OR C_LOAD_INIT_FILE=1)) REPORT " Block Memory Generator CORE Generator module loading initial data..." SEVERITY NOTE;
+
+    -- Setup the default data
+    -- Default data is with respect to write_port_A and may be wider
+    -- or narrower than init_return width.  The following loops map
+    -- default data into the memory
+    IF (C_USE_DEFAULT_DATA=1) THEN
+      FOR i IN 0 TO depth-1 LOOP
+          init_return(i) := DEFAULT_DATA;
+        END LOOP;
+    END IF;
+
+    -- Read in the .mif file
+    -- The init data is formatted with respect to write port A dimensions.
+    -- The init_return vector is formatted with respect to minimum width and
+    -- maximum depth; the following loops map the .mif file into the memory
+    IF (C_LOAD_INIT_FILE=1) THEN
+      file_open(init_file, C_INIT_FILE_NAME, read_mode);
+      i := 0;
+      WHILE (i < depth AND NOT endfile(init_file)) LOOP
+        mem_vector := (OTHERS => '0');
+        readline(init_file, bitline);
+--        read(file_buffer, mem_vector(file_buffer'LENGTH-1 DOWNTO 0));
+
+        FOR j IN 0 TO width-1 LOOP
+		  read(bitline,bitchar,bitsgood);
+          init_return(i)(width-1-j) := char_to_std_logic(bitchar);
+        END LOOP;
+        i := i + 1;
+    END LOOP;
+      file_close(init_file);
+    END IF;
+    RETURN init_return;
+
+  END FUNCTION;
+
+
+  --***************************************************************
+  -- convert bit to STD_LOGIC
+  --***************************************************************
+
+constant c_init : mem_type := init_memory(0,
+                                          1,
+										  "blk_mem_gen_v7_3.mif",
+                                           DEFAULT_DATA,
+                                          16,
+                                          4096);
+
+
+constant rom : mem_type := c_init;
+>>>>>>> 1292d45b4624598cc7d544f73964a935009f8edf
 BEGIN
   IF(RISING_EDGE(CLK)) THEN
      IF(RST='1') THEN
