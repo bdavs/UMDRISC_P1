@@ -50,9 +50,9 @@ signal nop_inst: std_logic_vector(15 downto 0) := x"A000";
 signal latch_input: std_logic_vector(15 downto 0);
 
 
-signal inp: std_logic_vector(11 downto 0);
+--signal inp: std_logic_vector(11 downto 0);
 signal outp: std_logic_vector(11 downto 0);
-signal toutp: std_logic_vector(11 downto 0);
+--signal toutp: std_logic_vector(11 downto 0);
 
 signal int_addr: std_logic_vector(11 downto 0);
 
