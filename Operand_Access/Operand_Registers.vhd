@@ -38,6 +38,7 @@ port(	Clock:		in std_logic;
 		Read:			in std_logic;
 		Write:		in std_logic;
 		int_mode:	in std_logic;
+		jmp_mode: 	in std_logic;
 		Read_AddrA:	in std_logic_vector(addr-1 downto 0);
 		Read_AddrB:	in std_logic_vector(addr-1 downto 0);
 		Write_AddrA:in std_logic_vector(addr-1 downto 0); 
@@ -52,15 +53,19 @@ signal Data_outA_regular: std_logic_vector(width-1 downto 0);
 signal Data_outB_regular: std_logic_vector(width-1 downto 0);
 signal Data_outA_int: std_logic_vector(width-1 downto 0);
 signal Data_outB_int: std_logic_vector(width-1 downto 0);
+signal Data_outA_jmp: std_logic_vector(width-1 downto 0);
+signal Data_outB_jmp: std_logic_vector(width-1 downto 0);
 
-signal int_mode_not: std_logic;
+signal reg_reg_en: std_logic:= '0';
+signal int_reg_en:std_logic:= '0';
+signal jmp_reg_en:std_logic:= '0';
 begin
 
 int_mode_not <= not int_mode;
 regular_register: entity work.RegRAM
 port map(
 			Clock => Clock,
-			Enable => int_mode_not,
+			Enable => reg_reg_en,
 			Read => Read,
 			Write => Read,
 			Read_AddrA => Read_AddrA,
@@ -74,7 +79,7 @@ port map(
 interrupt_register: entity work.RegRAM
 port map(
 			Clock => Clock,
-			Enable => int_mode,
+			Enable => int_reg_enable,
 			Read => Read,
 			Write => Read,
 			Read_AddrA => Read_AddrA,
@@ -85,23 +90,40 @@ port map(
 			Data_outB => Data_outB_int
 );
 
-operand_Data_outA_mux: entity work.mux_2to1
-generic map(width => 16)
+jump_register: entity work.RegRAM
 port map(
-			SEL => int_mode,
-			IN_1 => Data_outA_regular,
-			IN_2 => Data_outA_int,
-			MOUT => Data_outA
+			Clock => Clock,
+			Enable => jmp_reg_en,
+			Read => Read,
+			Write => Read,
+			Read_AddrA => Read_AddrA,
+			Read_AddrB => Read_AddrB,
+			Write_AddrA => Write_AddrA,
+			Data_inA => Data_inA,
+			Data_outA => Data_outA_int,
+			Data_outB => Data_outB_int
 );
 
-operand_Data_outB_mux: entity work.mux_2to1
-generic map(width => 16)
-port map(
-			SEL => int_mode,
-			IN_1 => Data_outB_regular,
-			IN_2 => Data_outB_int,
-			MOUT => Data_outB
-);
+with int_mode & jmp_mode select 
+	reg_reg_en <=
+		'1' when "00", --neither ints nor jump
+		'0' when others;
+		
+with int_mode & jmp_mode select
+	int_mode_en <=
+		'1' when "10" | "11", --if ints are enabled
+		'0' when others;
+		
+with int_mode & jmp_mode select
+	jmp_reg_en <=
+		'1' when "01", --only if ints are disabled and jumps are enabled
+		'0' when others;		
+
+	
+--with OP select
+--			LDST_OUT <=
+--				Shadow when "1100",
+--				 shadow    when OTHERS; 	
 
 end Behavioral;
 
