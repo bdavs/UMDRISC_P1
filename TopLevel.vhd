@@ -173,16 +173,17 @@ port map(  CLK => clk,
            LDST_OUT => execute_ldst_out
 );
 	
-WriteBack: entity work.WriteBack
+Write_Back_Stage: entity work.WriteBack
 Port map(		clk =>clk,
-				RE => RE,
-				WE => WE,
+--				RE => RE,
+--				WE => WE,
            execute_alu_out_latch => execute_alu_out,
            execute_ldst_out_latch =>execute_ldst_out,
 			  en_Writeback =>en_Writeback,
-			  Write_back =>Write_back
-				--wea=>wea,
-				--ext_wea=>ext_wea
+			  Write_back =>Write_back,
+				wea=>wea,
+				ext_wea=>ext_wea,
+				S_en => S_en
 
 			  );
 			
