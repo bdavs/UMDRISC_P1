@@ -11,45 +11,32 @@
 <msg type="error" file="sim" num="0" delta="new" ><arg fmt="%s" index="1">Unable to find /home/bobby/UMDRISC_P1/output.coe</arg>
 </msg>
 
-<<<<<<< HEAD
 <msg type="error" file="sim" num="0" delta="new" ><arg fmt="%s" index="1">   Coregen is looking for Z:\home\bobby\UMDRISC_P1\output.coe</arg>
-=======
-<msg type="error" file="sim" num="0" delta="new" ><arg fmt="%s" index="1">   Coregen is looking for /home/bobby/UMDRISC_P1/output.coe</arg>
->>>>>>> 1292d45b4624598cc7d544f73964a935009f8edf
 </msg>
 
 <msg type="error" file="sim" num="0" delta="new" ><arg fmt="%s" index="1">Unable to find /home/bobby/UMDRISC_P1/output.coe</arg>
 </msg>
 
-<<<<<<< HEAD
 <msg type="error" file="sim" num="0" delta="new" ><arg fmt="%s" index="1">   Coregen is looking for Z:\home\bobby\UMDRISC_P1\output.coe</arg>
-=======
-<msg type="error" file="sim" num="0" delta="new" ><arg fmt="%s" index="1">   Coregen is looking for /home/bobby/UMDRISC_P1/output.coe</arg>
 </msg>
 
-<msg type="error" file="sim" num="0" delta="new" ><arg fmt="%s" index="1">An invalid core configuration has been detected during</arg>
+<msg type="error" file="sim" num="0" delta="new" ><arg fmt="%s" index="1">IP initializer could not set IP core parameters on IP model</arg>
 </msg>
 
-<msg type="error" file="sim" num="0" delta="new" ><arg fmt="%s" index="1">   Customization. Core parameters will be reset to their default values.</arg>
+<msg type="error" file="sim" num="0" delta="new" ><arg fmt="%s" index="1">Unable to find /home/bobby/UMDRISC_P1/output.coe</arg>
 </msg>
 
-<msg type="warning" file="sim" num="0" delta="new" ><arg fmt="%s" index="1">A core named &apos;blk_mem_gen_v7_3&apos; already exists in the project. Output products for this core may be overwritten.</arg>
+<msg type="error" file="sim" num="0" delta="new" ><arg fmt="%s" index="1">   Coregen is looking for Z:\home\bobby\UMDRISC_P1\output.coe</arg>
 </msg>
 
-<msg type="warning" file="sim" num="0" delta="new" ><arg fmt="%s" index="1">A core named &apos;blk_mem_gen_v7_3&apos; already exists in the project. Output products for this core may be overwritten.</arg>
+<msg type="error" file="sim" num="0" delta="new" ><arg fmt="%s" index="1">Failed to initialize IP model.</arg>
 </msg>
 
-<msg type="info" file="sim" num="0" delta="new" ><arg fmt="%s" index="1">Pre-processing HDL files for &apos;blk_mem_gen_v7_3&apos;...</arg>
+<msg type="error" file="sim" num="0" delta="new" >Failed executing Tcl generator.
 </msg>
 
-<msg type="warning" file="sim" num="0" delta="new" ><arg fmt="%s" index="1">Overwriting existing file /home/bobby/UMDRISC_P1/ROM/tmp/_cg/blk_mem_gen_v7_3/doc/blk_mem_gen_v7_3_vinfo.html with file from view xilinx_documentation</arg>
->>>>>>> 1292d45b4624598cc7d544f73964a935009f8edf
-</msg>
+<msg type="error" file="sim" num="0" delta="new" >Failed to generate &apos;ROM&apos;.  Failed executing Tcl generator.
 
-<msg type="error" file="sim" num="0" delta="new" ><arg fmt="%s" index="1">An invalid core configuration has been detected during</arg>
-</msg>
-
-<msg type="error" file="sim" num="0" delta="new" ><arg fmt="%s" index="1">   Customization. Core parameters will be reset to their default values.</arg>
 </msg>
 
 </messages>
