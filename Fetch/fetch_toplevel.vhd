@@ -112,13 +112,31 @@ if (clk'event and clk = '0')then
 	if (stall_ready = '0' and br_stall = '0' and stall_cnt_in = "00")then
 		latch_input <= inst;
 		stall_cnt_in <= "00";
+		push <= '0';
+		--pop = '0';
+	elsif((stall_ready = '1' and stall_cnt_in = "00") or br_stall = '1')then
+		stall_cnt_in <= stall_cnt_in + 1; 
+		latch_input <= nop_inst;
+		push <= '1';
+		--pop = '0';
 	elsif(stall_cnt_in = "01" or stall_cnt_in = "10" or stall_cnt_in = "00")then
 		stall_cnt_in <= stall_cnt_in + 1; 
 		latch_input <= nop_inst;
+		push <= '0';
+		--pop = '0';
 	else --stall_ready = 1 and stall_cnt_in = 11
 		stall_cnt_in <= "00";
 		stall_finished <= '1';
+		push <= '0';
+		--pop = '0';
 	end if;
+		
+	if(move_and_en(15 downto 12) = "1110")then
+		pop <= '1';
+	else
+		pop <= '0';
+	end if;
+		
 	
 end if;
 
