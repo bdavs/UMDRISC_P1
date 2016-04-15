@@ -19,6 +19,7 @@
 ----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use work.all;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -30,13 +31,15 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity WriteBack is
-Port (		clk : in std_logic;
-				RE : in std_logic;
-				WE : in std_logic;
+Port(clk : in std_logic;
            execute_alu_out_latch  : in STD_LOGIC_VECTOR (15 downto 0);
            execute_ldst_out_latch : in STD_LOGIC_VECTOR (15 downto 0);
 			  en_Writeback  : in std_logic;
-			  Write_back :out STD_LOGIC_VECTOR (15 downto 0)); 
+			   wea  : in std_logic_vector(0 downto 0);
+				ext_wea  : in std_logic_vector(0 downto 0);
+				 S_en  : in std_logic;
+			  Write_back :out STD_LOGIC_VECTOR (15 downto 0) 
+			  ); 
  end WriteBack;
 
 architecture Behavioral of WriteBack is
@@ -45,17 +48,34 @@ signal LD_ALU_mux : std_logic;
 signal LD_execute_latch  :  STD_LOGIC_VECTOR (15 downto 0);
 signal LD_latch  : STD_LOGIC_VECTOR (15 downto 0);
 signal execute_alu_out  : STD_LOGIC_VECTOR (15 downto 0);
-
+signal temp  : STD_LOGIC_VECTOR (15 downto 0);
+signal f_write_back  : STD_LOGIC_VECTOR (15 downto 0);
+signal ext_out  : STD_LOGIC_VECTOR (15 downto 0);
+signal addr :std_logic_vector(7 downto 0);
+--signal wea : STD_LOGIC_VECTOR (0 downto 0);
 begin
-Writeblack: entity work.ExternalMem
+addr<=execute_ldst_out_latch(7 downto 0);
+
+
+ext_mem : entity work.Ext_mem
+ PORT MAP (
+    clka => clk,
+    wea => ext_wea,
+    addra => execute_alu_out(15 downto 8),
+   dina => temp,
+    clkb => clk,
+    addrb => execute_alu_out(7 downto 0),
+    doutb => ext_out  );
+	
+
+
+Writeback: entity work.Data_Mem
 port map(
-			Clock => clk,
-			Enable => en_writeback,
-			Read => RE,
-			Write => WE,
-			AddrA =>execute_ldst_out_latch,
-			Data_inA => execute_alu_out_latch,
-			Data_outA => LD_latch
+			clka =>clk,
+    wea =>wea,
+    addra =>addr,
+    dina =>execute_alu_out,
+    douta =>LD_latch
 			
 );
 ex_alu_out_latch: entity work.reg
@@ -77,9 +97,18 @@ port map(
 writeback_mux: entity work.mux_2to1
 generic map(width => 16)
 port map(
-			SEL => LD_ALU_mux,
+			SEL => en_Writeback,
 			IN_1 => execute_alu_out_latch,
-			IN_2 => LD_latch,
+			IN_2 => LD_execute_latch,
+			MOUT => f_Write_back
+			);
+
+ext_mux: entity work.mux_2to1
+generic map(width => 16)
+port map(
+			SEL => S_en,
+			IN_1 => f_Write_back,
+			IN_2 => ext_out,
 			MOUT => Write_back
 );
 
