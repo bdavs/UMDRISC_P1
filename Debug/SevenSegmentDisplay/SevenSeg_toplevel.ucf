@@ -26,7 +26,10 @@ NET "SW<6>" LOC = N17;
 NET "SW<7>" LOC = R17;
 
 ##Button Assignment
-NET "BTN" LOC = B18;
+NET "BTN<0>" LOC = B18;
+NET "BTN<1>" LOC = D18;
+NET "BTN<2>" LOC = E18;
+NET "BTN<3>" LOC = H13;
 
 ##7 Segment Display
 Net "SEG<0>" LOC = L18;
