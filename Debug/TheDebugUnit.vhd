@@ -48,8 +48,8 @@ signal DataDMP:  std_logic;
 signal CoreDMP:  std_logic;
 signal Data: std_logic_vector (15 downto 0);
 signal Addr: std_logic_vector (11 downto 0);
-
-signal en1:std_logic := '1';
+signal dpc : std_logic_vector(3 downto 0);
+signal enl: std_logic := '1';
 signal buttons: STD_LOGIC_VECTOR (3 downto 0) := "0000";
 signal ascii : std_logic_vector(7 downto 0);
 signal ascii_ready: std_logic;
@@ -69,14 +69,14 @@ Port map ( CLK      => clk,
 			  
 SSeg: entity work.SSegDriver
 	port map(  CLK     => CLK,
-              RST     => cen,
+              RST     => '0',
               EN      => enl,
               SEG_0   => Debug_data(15 downto 12),
               SEG_1   => Debug_data(11 downto 8),
               SEG_2   => Debug_data(7 downto 4),
               SEG_3   => Debug_data(3 downto 0),
               DP_CTRL => dpc,
-              COL_EN  => cen,
+              COL_EN  => '1',
               SEG_OUT => SEG,
               DP_OUT  => DP,
               AN_OUT  => AN
@@ -84,9 +84,8 @@ SSeg: entity work.SSegDriver
 				  
 	button_control: entity work.buttoncontrol
 	port map ( CLK     => CLK,
-           SW      => enl,
-           BTN  	 => BTN,
-           LED 	 => buttons
+           INPUT  	 => BTN,
+           OUTPUT 	 => buttons
 			  );
 			  
 process(CLK, ascii_ready)
@@ -106,7 +105,8 @@ end process;
 with run select 
 	Debug_data <= 
 		x"00" & SW when '1',
-		x"0000" when '0';
+		x"0000" when '0',
+		x"0000" when others;
 
 --with OP select
 --        ALU_OUT <=

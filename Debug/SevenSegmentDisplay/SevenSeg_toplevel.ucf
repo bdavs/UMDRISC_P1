@@ -44,3 +44,19 @@ Net "AN<0>"  LOC = F17;
 Net "AN<1>"  LOC = H17;
 Net "AN<2>"  LOC = C18;
 Net "AN<3>"  LOC = F15;
+
+
+
+##Secondary LED ASCII Assignment incase you have the s3e500
+#NET "ASCII_OUT<4>" LOC = E17;
+#NET "ASCII_OUT<5>" LOC = P15;
+#NET "ASCII_OUT<6>" LOC = F4;
+#NET "ASCII_OUT<7>" LOC = R4;
+
+##Button Assignment
+#NET "RST" LOC = B18;
+
+##PS/2 Assignment
+NET "PS2_CLK"  LOC = R12;
+NET "PS2_DATA" LOC = P11;
+
