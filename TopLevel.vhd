@@ -40,7 +40,7 @@ port(	clk : in std_logic;
 		coreDMP: in std_logic;
 		instrDMP: in std_logic;
 		data: in std_logic_vector(15 downto 0);
-		addr: in std_logic_vector(11 downto 0);
+		address: in std_logic_vector(11 downto 0);
 		Debug_data : out std_logic_vector(15 downto 0)
 );	
 end TopLevel;
