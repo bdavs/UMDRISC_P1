@@ -45,7 +45,7 @@ signal stack_pointer : std_logic_vector(1 downto 0) := (others => '1');
 signal temp1 : std_logic_vector(1 downto 0):= (others => '1');
 signal temp2 : std_logic_vector(1 downto 0):= (others => '1');
 signal temp : std_logic_vector(1 downto 0):= (others => '1');
-signal SEL : std_logic_vector(1 downto 0);
+signal SEL : std_logic_vector(1 downto 0) := (others => '0');
 signal Idontknow : std_logic:='0';
 signal whatamidoing : std_logic_vector(1 downto 0);
 
@@ -55,49 +55,40 @@ signal tmp_ram: ram_type :=  (others => (others => '0'));
 
 begin
 
-whatamidoing <= push & pop;
-temp <= stack_pointer;
-PCstackMux: entity work.mux_4to1
-generic map( width => 2)
-port map(
-	SEL  => SEL,
-	IN_1 => temp1,
-	IN_2 => temp2,
-	IN_3 => temp,
-	IN_4 => "00",
-	MOUT => stack_pointer
-	);
-
-	process(clk,push,pop)
-	begin
-	if((push'event or pop'event) and push = '1' and pop = '0')then
-		SEL <= "00";
-	elsif(whatamidoing'event and whatamidoing = "01")then
-		SEL <= "01";
-	else
-		SEL <= "10";
-	end if;
-	end process;
+--whatamidoing <= push & pop;
+--
+--PCstackMux: entity work.mux_4to1
+--generic map( width => 2)
+--port map(
+--	SEL  => SEL,
+--	IN_1 => temp1,
+--	IN_2 => temp2,
+--	IN_3 => temp,
+--	IN_4 => "00",
+--	MOUT => stack_pointer
+--	);
+--
+--	SEL <= "00" when push = '1';
+--
+--	process(push,pop)
+--	begin
+--	
+--	if(push = '1' and pop = '0')then
+--		SEL <= "00";
+--	elsif(pop = '1' and push = '0')then
+--		SEL <= "01";
+--	else
+--		SEL <= "10";
+--	end if;
+--	end process;
 	
-	
-	process(clk)
-	begin
-	if(clk'event and clk = '1')then
-		if(push = '1')then
-			temp1<= stack_pointer + '1';
-			
---		elsif(pop = '1')then
---			stack_pointer <= stack_pointer - '1';
---		else
---			stack_pointer <= stack_pointer;
-		end if; 
-	end if;
-	end process;
 	
 	process(clk)
 	begin
 	if(clk'event and clk = '0')then
+	temp <= stack_pointer;
 		if(push = '1')then
+			temp1<= stack_pointer + '1';
 			tmp_ram(conv_integer(stack_pointer)) <= input;
 			--stack_pointer <= stack_pointer + '1';
 		elsif(pop = '1')then
