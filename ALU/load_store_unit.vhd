@@ -21,7 +21,8 @@ entity Load_Store_Unit is
            A      : in  STD_LOGIC_VECTOR (15 downto 0);
            IMMED  : in  STD_LOGIC_VECTOR (15 downto 0);
            OP     : in  STD_LOGIC_VECTOR (3 downto 0);
-           RESULT : out STD_LOGIC_VECTOR  (15 downto 0));
+           RESULT : out STD_LOGIC_VECTOR  (15 downto 0);
+			  result2:out STD_LOGIC_VECTOR  (15 downto 0));
 
 end Load_Store_Unit;
 
@@ -29,21 +30,30 @@ architecture Behavioral of Load_Store_Unit is
 
     signal reg : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
     signal w_en : std_logic := '0';-- '1' = write, '0' = read
+	 signal reg2 : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
 
 begin
-
-    w_en <= '1' when OP="1010" else '0';
+with OP select
+	w_en <= 
+			'1' when "1010" ,
+			'1' when "1001" ,
+			'0' when OTHERS;
+		
+    --w_en <= '1' when OP="1010" else '0';
 
     process(CLK)
     begin
         if (CLK'event and CLK='1') then
             if (w_en = '1') then
                 reg <= A;
+					 reg2<=IMMED;
+				
             end if;
         end if;
     end process;
 
     RESULT <= reg;
+	 result2<=reg2;
 
 end Behavioral;
 

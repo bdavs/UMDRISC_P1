@@ -19,6 +19,8 @@
 ----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
 use work.all;
 
 -- Uncomment the following library declaration if using
@@ -72,9 +74,13 @@ begin
 
 
  RE <= '1';
- WE <= '0' when OP="1010" else '1';
+ WE <= '0' ;
  wea<="1" when OP="1010" else "0";
-en_Writeback<='1' when OP="1001" else '0';
+ with OP select
+   en_Writeback <=
+			'1' when "1001",
+			'1' when "1011",
+			'0' when others;
  RA_addr <= t4(11 downto 8);
  with OP select
    S_en <=

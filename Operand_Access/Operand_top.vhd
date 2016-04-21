@@ -105,20 +105,13 @@ port map(
 			IN_2 => full_imm,
 			MOUT => ALU_RB
 );
-operand_RA_mux: entity work.mux_2to1
-generic map(width => 16)
-port map(
-			SEL => S_en,
-			IN_1 => RA_data,
-			IN_2 => S_out,
-			MOUT => ALU_RA
-);
+
 
 operand_latch_RA_data: entity work.reg
 generic map (n => 16)
 port map(
 			clk => clk,
-			input => ALU_RA,
+			input => RA_data,
 			en => en_operand,
 			output => RA_data_latch);
 

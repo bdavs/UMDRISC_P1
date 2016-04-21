@@ -59,16 +59,18 @@ begin
 
     with OP select
         vector<=
-            a1 + b1 when "1011" ,
 				a1 when "1100",
 				a1 + b1 when OTHERS;
-            
-shadow<=B + Shadow_data;
+     with OP select
+			Shadow<=
+			Shadow_data + b1 when "1011",
+			b1 + Shadow_data when OTHERS;
+
 --    CCR(3) <= arith(7); -- Negative
 --    CCR(2) <= '1' when arith(15 downto 0) = x"000000000000" else '0'; -- Zero
 --    CCR(1) <= a1(15) xor arith(15); -- Overflow
 --    CCR(0) <= arith(16); --Carry
-
+	
     RESULT <= shadow;
 	 REsult2 <=vector;
 end Combinational;

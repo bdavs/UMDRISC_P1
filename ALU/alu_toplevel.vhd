@@ -39,7 +39,8 @@ architecture Structural of ALU is
 	 signal ccr_move : STD_LOGIC_VECTOR (3 downto 0) := (OTHERS => '0');
     signal ccr_arith : STD_LOGIC_VECTOR (3 downto 0) := (OTHERS => '0');
     signal ccr_logic : STD_LOGIC_VECTOR (3 downto 0) := (OTHERS => '0');
-		 signal LDST_OUT_M     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0'); 
+	signal LDST_OUT_M     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0'); 
+	 signal LDST_address    : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0'); 
 	 signal ALU_OUT_tmp     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
 	  signal LDST_OUT_tmp     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
 	 signal ccr_tmp     : STD_LOGIC_VECTOR (3 downto 0) := (OTHERS => '0');
@@ -56,8 +57,8 @@ begin
 				  Shadow_data=>S_out_latch,
               OP     => OPCODE,
             
-              RESULT => vector,
-				  Result2 =>Shadow);
+              RESULT => shadow,
+				  Result2 =>vector);
     Arith_Unit: entity work.Arith_Unit
     port map( A      => RA,
               B      => RB,
@@ -83,7 +84,8 @@ begin
               A      => RA,
               IMMED  => RB,
               OP     => opcode,
-              RESULT => memory);
+              RESULT => memory,
+				  result2=>ldst_address);
 	 Movement_Unit: entity work.Movement_Unit
     port map( CLK    => CLK,
               Ra      => RA,
@@ -100,6 +102,7 @@ begin
               MEMORY    => memory,
 				  Vector=>vector,
 				  Shadow=>Shadow,
+				  ldst_address=>ldst_address,
 				  MOVE	   => move,
 				  CCR_MOVE  => ccr_move,
               CCR_ARITH => ccr_arith,
@@ -127,21 +130,21 @@ begin
 	
 	
 			
-ldst_out_mux: entity work.mux_2to1
-generic map(width => 16)
-port map(
-			SEL => '1',
-			IN_1 => memory,
-			IN_2 => LDST_OUT_tmp,
-			MOUT => LDST_OUT_M
-);
+--ldst_out_mux: entity work.mux_2to1
+--generic map(width => 16)
+--port map(
+--			SEL => '1',
+--			IN_1 => memory,
+--			IN_2 => LDST_OUT_tmp,
+--			MOUT => LDST_OUT_M
+
 			
 			
 	ldst_out_latch: entity work.reg
 	generic map (n => 16)
 	port map(
 			clk => clk,
-			input => LDST_OUT_M,
+			input => LDST_OUT_tmp,
 			en => '1',
 			output => LDST_OUT);
 			
