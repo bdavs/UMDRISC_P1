@@ -1,5 +1,5 @@
 # UMDRISC
-The offical repo of group 7's RISC machine for ECE 368 at Umass Dartmouth
+The offical repo of group 7's RISC machine for ECE 368 at Umass Dartmouth.
 
 ##The RISCiest machine you will ever use.
 Is that a good thing? That's up to you.
