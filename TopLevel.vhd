@@ -105,6 +105,9 @@ signal execute_ldst_out: std_logic_vector(15 downto 0):= (others => '0');
 signal RE: std_logic:='0'; 
 signal WE: std_logic:='0'; 
 
+signal int_mode: std_logic:='0'; 
+signal jmp_mode: std_logic:='0';
+
 signal move: std_logic_vector(15 downto 0);
 
 signal br_stall: std_logic:='0';
@@ -133,6 +136,8 @@ port map(
 			clk => clk,
 			int => int,
 			rst => rst,
+			int_mode => int_mode,
+			jmp_mode => jmp_mode,
 			br_stall => br_stall,
 			move_and_en => move,
 			en_fetch => en_fetch,
@@ -157,6 +162,8 @@ port map(	clk => clk,
 		WE => WE,
 		RA_addr => RA_addr,
 		RB_addr =>RB_addr,
+		int_mode => int_mode,
+		jmp_mode => jmp_mode,
 		S_en =>S_en, 
 		S_write => S_write,
 		S_Read=>S_read,
