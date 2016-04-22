@@ -34,6 +34,8 @@ entity Operand_top is
 port(clk : in std_logic;
 		RE : in std_logic;
 		WE : in std_logic;
+		int_mode : in std_logic;
+		jmp_mode : in std_logic;
 		S_en : in std_logic;
 		S_write : in std_logic;
 		S_Read : in std_logic;
@@ -64,8 +66,8 @@ signal RB_data : std_logic_vector(15 downto 0);
 signal full_imm : std_logic_vector(15 downto 0);
 signal S_out : std_logic_vector(15 downto 0);
 signal S_addr : std_logic_vector(1 downto 0);
-signal int_mode : std_logic;
-signal jmp_mode : std_logic; --CHANGE THIS TO AN INPUT ONCE YOU NEED IT BOBBY
+--signal int_mode : std_logic;
+--signal jmp_mode : std_logic; --CHANGE THIS TO AN INPUT ONCE YOU NEED IT BOBBY
 begin
 	
 operand: entity work.Operand_Registers
