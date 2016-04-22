@@ -88,12 +88,12 @@ begin
 	if(clk'event and clk = '0')then
 	temp <= stack_pointer;
 		if(push = '1')then
-			temp1<= stack_pointer + '1';
+			stack_pointer<= stack_pointer + '1';
 			tmp_ram(conv_integer(stack_pointer)) <= input;
 			--stack_pointer <= stack_pointer + '1';
 		elsif(pop = '1')then
 			output <= tmp_ram(conv_integer(stack_pointer));
-			temp2 <= stack_pointer - '1';
+			stack_pointer <= stack_pointer - '1';
 		else
 			output <= (others => 'Z');
 		end if;

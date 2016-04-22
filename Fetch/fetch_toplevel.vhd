@@ -39,6 +39,8 @@ port( clk: in std_logic;
 		move_and_en: in std_logic_vector(15 downto 0);
 		br_stall: in std_logic;
 		int: in std_logic_vector (3 downto 0);
+		int_mode : out std_logic;
+		jmp_mode : out std_logic;
 		output: out std_logic_vector(15 downto 0)
 		);
 end fetch_toplevel;
@@ -49,10 +51,7 @@ signal inst: std_logic_vector(15 downto 0);
 signal nop_inst: std_logic_vector(15 downto 0) := x"A000";
 signal latch_input: std_logic_vector(15 downto 0);
 
-
---signal inp: std_logic_vector(11 downto 0);
 signal outp: std_logic_vector(11 downto 0);
---signal toutp: std_logic_vector(11 downto 0);
 
 signal int_addr: std_logic_vector(11 downto 0);
 
@@ -131,17 +130,36 @@ if (clk'event and clk = '0')then
 		push <= '0';
 		stall_finished <= '0';
 		--pop = '0';
-	else --stall_ready = 1 and stall_cnt_in = 11 (stall done)
+	elsif(stall_ready = '1' and stall_cnt_in ="11")then --(stall done)
 		stall_cnt_in <= "00";
 		stall_finished <= '1';
 		push <= '0';
-		--pop = '0';
+	else 
+		latch_input <= inst;
+		stall_cnt_in <= "00";
+		push <= '0';
+		stall_finished <= '0';		--pop = '0';
 	end if;
-		
-	if(move_and_en(15 downto 12) = "1110")then
+
+	
+	
+	if(move_and_en(15 downto 12) = "1110")then --return
 		pop <= '1';
+		
+			int_mode <= '0';
+			jmp_mode <= '0';
+
 	else
 		pop <= '0';
+		if(stall_ready = '1' and stall_cnt_in ="11")then 
+			if (int /= "0000")then
+				int_mode <= '1';
+				jmp_mode <= '0';
+			else 
+				jmp_mode <= '1';
+				int_mode <= '0';
+			end if;
+		end if;
 	end if;
 		
 	
