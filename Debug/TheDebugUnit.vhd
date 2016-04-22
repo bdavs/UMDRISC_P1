@@ -44,8 +44,10 @@ end TheDebugUnit;
 
 architecture Behavioral of TheDebugUnit is
 signal Debug_data: std_logic_vector(15 downto 0);
+signal RISC_data: std_logic_vector(15 downto 0);
 signal DataDMP:  std_logic;
 signal CoreDMP:  std_logic;
+signal instrDMP: std_logic;
 signal Data: std_logic_vector (15 downto 0);
 signal Addr: std_logic_vector (11 downto 0);
 signal dpc : std_logic_vector(3 downto 0);
@@ -55,6 +57,10 @@ signal ascii : std_logic_vector(7 downto 0);
 signal ascii_ready: std_logic;
 signal ascii_writeEnable: std_logic;
 signal run: std_logic:= '0';
+signal address_en: std_logic;
+signal sw_latch: std_logic_vector(7 downto 0);
+signal enter_data: std_logic:= '0';
+signal selector: std_logic_vector(1 downto 0);
 begin
 
 Keyboard: entity work.Keyboard_controller
@@ -89,6 +95,14 @@ SSeg: entity work.SSegDriver
            LED		 	 => buttons
 			  );
 			  
+	switch: entity work.reg
+	generic map (n => 8)
+	port map(
+			clk => clk,
+			input => SW,
+			en => address_en,
+			output => sw_latch);
+			
 process(CLK, ascii_ready)
 begin
 	if(ascii_ready = '1') then
@@ -96,18 +110,61 @@ begin
 			--key r (run the processor)
 			run <= '1';
 		end if;
-		if(ascii = x"73" and run <= '1')then
-			--key s (stop the processor)
-			run <= '0';
+		
+		if(run <= '1') then --run operations
+			if(ascii = x"73")then
+				--key s (stop the processor)
+				run <= '0';
+			end if;
 		end if;
+		
+		if(run <= '0') then --stopped
+			if(ascii = x"0d") then
+				--key enter 
+				if(enter_data = '0') then
+					enter_data <= '1';
+					--save value on register
+					address_en <= '0';
+					
+				end if;
+				
+				if(enter_data = '1') then
+					enter_data <= '0';
+					--write data and release latch
+					address_en <= '1';
+				end if;
+				                 
+			end if;
+			if(ascii = x"63") then
+				--key c 
+				DataDMP <= '0'  ;
+				CoreDMP <= '1' ;
+				instrDMP <= '0';
+			end if;
+			if(ascii = x"64") then
+				--key d 
+				DataDMP <= '1'  ;
+				CoreDMP <= '0' ;
+				instrDMP <= '0';
+			end if;
+			if(ascii = x"69") then
+				--key i 
+				DataDMP <= '0'  ;
+				CoreDMP <= '0' ;
+				instrDMP <= '1';
+			end if;
+		end if;
+		
 	end if;
 end process;
 
-
-with run select 
+RISC_data <= x"1234";
+selector <= run & enter_data;
+with selector select 
 	Debug_data <= 
-		x"11" & SW when '1',
-		x"ab" & ascii when '0',
+		x"00" & SW when "01",
+		RISC_data when "00",
+		x"badd" when "10" | "11",
 		x"0000" when others;
 
 --with OP select
