@@ -84,28 +84,30 @@ SSeg: entity work.SSegDriver
 				  
 	button_control: entity work.buttoncontrol
 	port map ( CLK     => CLK,
-           INPUT  	 => BTN,
-           OUTPUT 	 => buttons
+           BTN 	 	 => BTN,
+			  SW			 => '1',
+           LED		 	 => buttons
 			  );
 			  
 process(CLK, ascii_ready)
 begin
 	if(ascii_ready = '1') then
-		if(ascii = x"52") then
+		if(ascii = x"74") then
 			--key r (run the processor)
 			run <= '1';
 		end if;
-		if(ascii = x"53" and run <= '1')then
+		if(ascii = x"73" and run <= '1')then
 			--key s (stop the processor)
 			run <= '0';
 		end if;
 	end if;
 end process;
 
+
 with run select 
 	Debug_data <= 
-		x"00" & SW when '1',
-		x"0000" when '0',
+		x"11" & SW when '1',
+		x"ab" & ascii when '0',
 		x"0000" when others;
 
 --with OP select
