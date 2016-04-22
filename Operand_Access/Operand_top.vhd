@@ -37,6 +37,8 @@ port(clk : in std_logic;
 		S_en : in std_logic;
 		S_write : in std_logic;
 		S_Read : in std_logic;
+		s_addr: in std_logic_vector(1 downto 0);
+		s_id: in std_logic_vector(1 downto 0);
 		RA_addr : in std_logic_vector(3 downto 0);
 		RB_addr : in std_logic_vector(3 downto 0);
 		Write_Back : in std_logic_vector(15 downto 0);
@@ -86,7 +88,7 @@ port map(
 Shadow: entity work.Shadow_Register
 port map(
 				clock => clk,
-           Data_in =>RA_data,
+           Data_in =>Write_Back,
            addrA=>S_addr,
 			  S_en => S_en,
 			  S_write=>S_write,
@@ -122,7 +124,8 @@ port map(
 			input => S_out,
 			en => en_operand,
 			output => S_out_latch);
-						
+			
+
 			
 
 			

@@ -38,7 +38,10 @@ Port(clk : in std_logic;
 			   wea  : in std_logic_vector(0 downto 0);
 				ext_wea  : in std_logic_vector(0 downto 0);
 				 S_en  : in std_logic;
-			  Write_back :out STD_LOGIC_VECTOR (15 downto 0) 
+				 S_id_latch :in std_logic_vector(1 downto 0);
+				 S_addr_latch :in std_logic_vector(1 downto 0);
+			  Write_back :out STD_LOGIC_VECTOR (15 downto 0);
+			  Writeback_address: out std_logic_vector(4 downto 0)
 			  ); 
  end WriteBack;
 

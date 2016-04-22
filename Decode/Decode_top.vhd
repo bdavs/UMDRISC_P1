@@ -36,6 +36,8 @@ port(	clk : in std_logic;
 		Imm_latch : out std_logic_vector(3 downto 0);
 		RA_addr_latch : out std_logic_vector(3 downto 0);
 		RB_addr_latch : out std_logic_vector(3 downto 0);
+		s_addr_latch:out std_logic_vector(1 downto 0);
+		s_id_latch:out std_logic_vector(1 downto 0);
 		en_decode : in std_logic := '1'
 );	
 end Decode_top;
@@ -51,6 +53,10 @@ signal op : std_logic_vector(3 downto 0);
  
 
 signal RA_addr : std_logic_vector(3 downto 0);
+
+signal S_addr : std_logic_vector(3 downto 0);
+
+signal S_id : std_logic_vector(3 downto 0);
 
 
 signal RB_addr : std_logic_vector(3 downto 0);
@@ -74,7 +80,9 @@ port map( 	inst => inst,
 				op => op,
 				RA => RA_addr,
 				RB => RB_addr,
-				Imm => Imm);
+				Imm => Imm,
+				S_addr=>S_addr,
+				S_id=>S_id);
 			  
 			 
 decode_latch_op: entity work.reg
@@ -109,6 +117,21 @@ port map(
 			en => en_decode,
 			output => Imm_latch);
 
+decode_latch_Saddress: entity work.reg
+generic map (n => 2)
+port map(
+			clk => clk,
+			input => S_addr,
+			en => en_decode,
+			output => S_addr_latch);
+
+decode_latch_Sid: entity work.reg
+generic map (n => 2)
+port map(
+			clk => clk,
+			input => S_id,
+			en => en_decode,
+			output => s_id_latch);
 
 
 
