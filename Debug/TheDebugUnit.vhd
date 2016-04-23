@@ -61,6 +61,8 @@ signal address_en: std_logic;
 signal sw_latch: std_logic_vector(7 downto 0);
 signal enter_data: std_logic:= '0';
 signal selector: std_logic_vector(1 downto 0);
+signal write_data: std_logic:= '0';
+signal write_data_flag: std_logic:= '0';
 begin
 
 Keyboard: entity work.Keyboard_controller
@@ -95,20 +97,39 @@ SSeg: entity work.SSegDriver
            LED		 	 => buttons
 			  );
 			  
-	switch: entity work.reg
+	address_latch: entity work.reg
 	generic map (n => 8)
 	port map(
-			clk => clk,
+			clk => CLK,
 			input => SW,
 			en => address_en,
 			output => sw_latch);
 			
-process(CLK, ascii_ready)
+	Data <= "00" & SW;
+	Addr <= "00" & sw_latch;
+	UMDRISC: entity work.TopLevel
+	port map(	clk => CLK,
+		rst => '0',
+		int => buttons,
+		wdata => write_data,
+		run => run,
+		dataDMP => dataDMP,
+		coreDMP => coreDMP,
+		instrDMP => instrDMP,
+		data => Data,
+		address => Addr,
+		Debug_data => RISC_data
+);	
+			
+process(ascii_ready)
 begin
 	if(ascii_ready = '1') then
 		if(ascii = x"74") then
 			--key r (run the processor)
 			run <= '1';
+			--reset the signals
+			enter_data <= '0';
+			address_en <= '1';
 		end if;
 		
 		if(run <= '1') then --run operations
@@ -132,9 +153,11 @@ begin
 					enter_data <= '0';
 					--write data and release latch
 					address_en <= '1';
-				end if;
-				                 
+					write_data <= '1';
+					write_data_flag <= '1';
+				end if;                 
 			end if;
+			
 			if(ascii = x"63") then
 				--key c 
 				DataDMP <= '0'  ;
@@ -158,7 +181,14 @@ begin
 	end if;
 end process;
 
-RISC_data <= x"1234";
+process(CLK)
+begin 
+	if(CLK'event and CLK = '1' and write_data_flag = '1') then
+		write_data <= '0';
+		write_data_flag <= '0';
+	end if;
+end process;
+
 selector <= run & enter_data;
 with selector select 
 	Debug_data <= 
