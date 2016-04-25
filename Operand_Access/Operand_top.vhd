@@ -67,7 +67,7 @@ signal RA_data : std_logic_vector(15 downto 0);
 signal RB_data : std_logic_vector(15 downto 0);
 signal full_imm : std_logic_vector(15 downto 0);
 signal S_out : std_logic_vector(15 downto 0);
-signal S_addr : std_logic_vector(1 downto 0);
+--signal S_addr : std_logic_vector(1 downto 0);
 --signal int_mode : std_logic;
 --signal jmp_mode : std_logic; --CHANGE THIS TO AN INPUT ONCE YOU NEED IT BOBBY
 begin
@@ -91,7 +91,8 @@ Shadow: entity work.Shadow_Register
 port map(
 				clock => clk,
            Data_in =>Write_Back,
-           addrA=>S_addr,
+           Read_addrA=>S_addr,
+			  Write_addrA=>Writeback_Addr(1 downto 0),
 			  S_en => S_en,
 			  S_write=>S_write,
 			    S_read=>S_read,

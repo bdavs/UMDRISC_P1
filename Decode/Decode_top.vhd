@@ -54,9 +54,9 @@ signal op : std_logic_vector(3 downto 0);
 
 signal RA_addr : std_logic_vector(3 downto 0);
 
-signal S_addr : std_logic_vector(3 downto 0);
+signal S_addr : std_logic_vector(1 downto 0);
 
-signal S_id : std_logic_vector(3 downto 0);
+signal S_id : std_logic_vector(1 downto 0);
 
 
 signal RB_addr : std_logic_vector(3 downto 0);

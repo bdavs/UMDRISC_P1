@@ -37,16 +37,18 @@ entity controlModules is
 	port( clk : in  STD_LOGIC;
 	
 			op : in STD_LOGIC_vector(3 downto 0);
+			ID:in std_logic_vector(1 downto 0);
 			ccr : in STD_LOGIC_vector(3 downto 0);
 			t1, t2, t3, t4, t5 : in STD_LOGIC_VECTOR(15 downto 0);
 			RA_addr : out STD_LOGIC_vector(3 downto 0);
-			WE, RE : out STD_LOGIC;
+			WE, RE,lwvd_en : out STD_LOGIC;
 					wea : out STD_LOGIC_vector(0 downto 0);
 			en_Writeback : out STD_LOGIC;
 			S_en : buffer STD_LOGIC;
 			S_write : out STD_LOGIC;
 			S_Read : out STD_LOGIC;
-			ext_wea : out STD_LOGIC_vector(0 downto 0)
+			ext_wea : out STD_LOGIC_vector(0 downto 0);
+			ext_addr_en:out STD_LOGIC);
 			--latch1 : out  STD_LOGIC;
 			--regBank : out  STD_LOGIC;
 			--PCcnt : out  STD_LOGIC;
@@ -57,39 +59,82 @@ entity controlModules is
 			--RBwrite : out  STD_LOGIC;
 			--RBread : out  STD_LOGIC;
 			--latch3 : out  STD_LOGIC
-			);
+		
 
 			
 
 end controlModules;
 
-architecture Behavioral of controlModules is
-
+architecture Combinational of controlModules is
+begin
 
 	--signal t1, t2, t3, t4, t5 : STD_LOGIC_VECTOR(15 downto 0);
 
-
-
+process(OP)
 begin
 
+case OP is
+		when "1001"=>
+			en_Writeback<='1';
+		when "1011"=>
+			en_Writeback<='1';
+		when others=>
+			en_Writeback<='0';
+		end case;
 
+case OP is
+		when "1011"=>
+			S_en<='1';
+		when "1100"=>
+			S_en<='1';
+		when others=>
+			S_en<='0';
+		end case;
+
+ext_addr_en<='0';
  RE <= '1';
  WE <= '0' ;
- wea<="1" when OP="1010" else "0";
- with OP select
-   en_Writeback <=
-			'1' when "1001",
-			'1' when "1011",
-			'0' when others;
- RA_addr <= t4(11 downto 8);
- with OP select
-   S_en <=
-			'1' when "1011",
-			'1' when "1100",
-			'0' when others;
- S_write <= '1' when S_en='1' else '0' ;
-  S_Read <= '1' when S_en='1' else '0' ;
-  ext_wea<="1" when OP="1100" else "0";
+ 
+ if(OP="1010")then
+ wea<="1";
+ else
+ wea<="0";
+ end if;
+ 
+ if(S_en='1')then
+ S_read<='1';
+ else
+ S_read<='0';
+ end if;
+ 
+ if(OP="1100")then
+ ext_wea<="1";
+ else
+ ext_wea<="0";
+ end if;
+ 
+if (OP/="1011" and ID="01")then --lwvd
+--RA_addr <= t4(11 downto 8);
+lwvd_en<='1';
+wea<="1";
+ext_wea<="0";
+end if;
+
+if (OP/="1011" and ID="11")then --lwvs 
+ S_write <= '1' ;
+ WE<='0';
+ else 
+ S_write<='0';
+ end if;
+ 
+if (OP/="1100" and ID="01")then
+wea<="0";
+ext_wea<="1";
+ext_addr_en<='1';
+end if;
+
+
+ end process;
  
 
  
@@ -104,5 +149,5 @@ begin
 	--port map( clk,en,input,t1,t2,t3,t4,t5);
 
 
-end Behavioral;
+end Combinational;
 

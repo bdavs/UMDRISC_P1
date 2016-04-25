@@ -74,8 +74,11 @@ signal S_en : std_logic := '1';
 signal S_write : std_logic := '1';
 signal S_read : std_logic := '1';
 signal S_out_latch : std_logic_vector(15 downto 0):= (others => '0');
+signal external_address : std_logic_vector(15 downto 0):= (others => '0');
 signal S_id : std_logic_vector(1 downto 0):= (others => '0');
+signal S_id_latch : std_logic_vector(1 downto 0):= (others => '0');
 signal S_addr : std_logic_vector(1 downto 0):= (others => '0');
+signal S_addr_latch : std_logic_vector(1 downto 0):= (others => '0');
 signal S_out : std_logic_vector(15 downto 0):= (others => '0');
 
 
@@ -90,6 +93,8 @@ signal en_pipeline : std_logic := '1';
 signal en_operand : std_logic := '1';
 signal en_Writeback: std_logic := '1';
 signal en_Execute:  std_logic;
+signal ext_addr_en:  std_logic;
+signal lwvd_en:  std_logic;
 
 signal operand_read : std_logic := '1';
 signal operand_write : std_logic := '0';
@@ -101,6 +106,7 @@ signal ccr: std_logic_vector(3 downto 0):= (others => '0');
 
 signal execute_alu_out: std_logic_vector(15 downto 0):= (others => '0');
 signal execute_ldst_out: std_logic_vector(15 downto 0):= (others => '0');
+signal EXT_OUT: std_logic_vector(15 downto 0):= (others => '0');
 
 signal RE: std_logic:='0'; 
 signal WE: std_logic:='0'; 
@@ -167,7 +173,7 @@ port map(	clk => clk,
 		S_en =>S_en, 
 		S_write => S_write,
 		S_Read=>S_read,
-		S_id=>S_id,
+		S_id=>S_id_latch,
 		S_addr=>S_addr,
 		S_out_latch=>S_out_latch,
 		Writeback_Addr =>Writeback_Addr,
@@ -189,7 +195,10 @@ port map(  CLK => clk,
 			  S_out_latch=>S_out_latch,
            OPCODE  => operand_op_latch,
            CCR => ccr,
+			  S_ID=>s_id,
+			  S_addr=>S_addr_latch,
            ALU_OUT  => execute_alu_out,
+			  EXT_OUT=>EXT_OUT,
            LDST_OUT => execute_ldst_out
 );
 	
@@ -198,11 +207,16 @@ Port map(clk =>clk,
            execute_alu_out_latch => execute_alu_out,
            execute_ldst_out_latch =>execute_ldst_out,
 			  en_Writeback =>en_Writeback,
+			  external_address=>EXT_OUT,
 			  Write_back =>Write_back,
 				wea=>wea,
+				lwvd_en=>lwvd_en,
 				s_en=>S_en,
+				S_id_latch=>S_id_latch,
+				S_addr_latch=>S_addr_latch,
 				writeback_address=>writeback_addr,
-				ext_wea=>ext_wea
+				ext_wea=>ext_wea,
+				ext_addr_en=>ext_addr_en
 				
 			  );
 			
@@ -225,7 +239,6 @@ ControlModules: entity work.ControlModules
 port map(clk => clk,
 			op => operand_op_latch,
 			ccr => ccr,
-			RA_addr => Writeback_Addr,
 			RE => RE,
 			WE => WE,
 			t1 => t1,
@@ -234,10 +247,14 @@ port map(clk => clk,
 			 t4 => t4,
 			 t5 => t5,
 			 wea=>wea,
+			 ext_wea=>ext_wea,
 			 en_writeback=>en_Writeback,
 			 S_en =>S_en ,
+			 ID=>S_id,
 			S_write =>S_write ,
-			S_Read =>S_read
+			ext_addr_en=>ext_addr_en,
+			S_Read =>S_read,
+			lwvd_en=>lwvd_en
 			);
 
 			
