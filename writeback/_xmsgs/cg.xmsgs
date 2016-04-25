@@ -5,7 +5,7 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
-<msg type="info" file="sim" num="172" delta="new" >Generating IP...
+<msg type="info" file="sim" num="172" delta="old" >Generating IP...
 </msg>
 
 <msg type="warning" file="sim" num="0" delta="new" ><arg fmt="%s" index="1">A core named &apos;Data_Mem&apos; already exists in the project. Output products for this core may be overwritten.</arg>

@@ -29,11 +29,16 @@ entity ALU is
            CCR      : out STD_LOGIC_VECTOR (3 downto 0);
            ALU_OUT  : out STD_LOGIC_VECTOR (15 downto 0);
 
+
            LDST_OUT : out STD_LOGIC_VECTOR (15 downto 0);
 			  EXT_OUT : out STD_LOGIC_VECTOR (15 downto 0);
 
           -- LDST_OUT : out STD_LOGIC_VECTOR (15 downto 0);
 			  en_execute: in std_logic
+--           LDST_OUT : out STD_LOGIC_VECTOR (15 downto 0);
+--			  EXT_OUT : out STD_LOGIC_VECTOR (15 downto 0);
+--			  en_execute: in std_logic 
+
 			  );
 
 end ALU;
@@ -133,7 +138,11 @@ begin
 			clk => clk,
 			input => ALU_OUT_tmp,
 
-			en => '1',
+
+		
+
+			en => en_execute,
+
 			output => ALU_OUT);
 			
 	ext_out_latch: entity work.reg
@@ -141,13 +150,10 @@ begin
 	port map(
 			clk => clk,
 			input => EXT_OUT_tmp,
-			
-			output => EXT_OUT,
 
 			en => en_execute,
-			output => ALU_OUT);
+			output => EXT_OUT);
 
-			
 	
 	ccr_latch: entity work.reg
 	generic map (n => 4)

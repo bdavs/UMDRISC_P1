@@ -49,6 +49,9 @@ entity controlModules is
 			S_Read : out STD_LOGIC;
 			ext_wea : out STD_LOGIC_vector(0 downto 0);
 
+
+			ext_addr_en:out STD_LOGIC;
+
 			ext_addr_en:out STD_LOGIC;
 
 			--latch1 : out  STD_LOGIC;
@@ -61,7 +64,6 @@ entity controlModules is
 			--RBwrite : out  STD_LOGIC;
 			--RBread : out  STD_LOGIC;
 			--latch3 : out  STD_LOGIC
-
 
 			en_fetch : out std_logic ;
 			en_decode :out std_logic;
