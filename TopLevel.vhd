@@ -92,13 +92,13 @@ signal en_decode : std_logic := '1';
 signal en_pipeline : std_logic := '1';
 signal en_operand : std_logic := '1';
 signal en_Writeback: std_logic := '1';
-<<<<<<< HEAD
+
 signal en_Execute:  std_logic;
 signal ext_addr_en:  std_logic;
 signal lwvd_en:  std_logic;
-=======
+
 signal en_execute:  std_logic;
->>>>>>> e7f88fb7fa98be6f6c2849cc9411cdeadc184d57
+
 
 signal operand_read : std_logic := '1';
 signal operand_write : std_logic := '0';
@@ -202,13 +202,13 @@ port map(  CLK => clk,
 			  S_ID=>s_id,
 			  S_addr=>S_addr_latch,
            ALU_OUT  => execute_alu_out,
-<<<<<<< HEAD
+
 			  EXT_OUT=>EXT_OUT,
-           LDST_OUT => execute_ldst_out
-=======
+           LDST_OUT => execute_ldst_out,
+
            LDST_OUT => execute_ldst_out,
 			  en_execute => en_execute
->>>>>>> e7f88fb7fa98be6f6c2849cc9411cdeadc184d57
+
 );
 	
 Write_Back_Stage: entity work.WriteBack
@@ -225,12 +225,12 @@ Port map(clk =>clk,
 				S_addr_latch=>S_addr_latch,
 				writeback_address=>writeback_addr,
 				ext_wea=>ext_wea,
-<<<<<<< HEAD
-				ext_addr_en=>ext_addr_en
+
+				ext_addr_en=>ext_addr_en,
 				
-=======
+
 				en_write_back => en_Writeback
->>>>>>> e7f88fb7fa98be6f6c2849cc9411cdeadc184d57
+
 			  );
 			
 	
@@ -261,19 +261,17 @@ port map(clk => clk,
 			 t4 => t4,
 			 t5 => t5,
 			 wea=>wea,
-<<<<<<< HEAD
+
 			 ext_wea=>ext_wea,
 			 en_writeback=>en_Writeback,
-=======
->>>>>>> e7f88fb7fa98be6f6c2849cc9411cdeadc184d57
 			 S_en =>S_en ,
 			 ID=>S_id,
 			S_write =>S_write ,
-<<<<<<< HEAD
+
 			ext_addr_en=>ext_addr_en,
 			S_Read =>S_read,
-			lwvd_en=>lwvd_en
-=======
+			lwvd_en=>lwvd_en,
+
 			S_Read =>S_read,
 			en_fetch => en_fetch,
 			en_decode => en_decode,
@@ -281,7 +279,7 @@ port map(clk => clk,
 			en_operand => en_operand,
 			en_Writeback => en_Writeback,
 			en_execute => en_execute
->>>>>>> e7f88fb7fa98be6f6c2849cc9411cdeadc184d57
+
 			);
 
 			
