@@ -37,7 +37,8 @@ generic(	width:	integer:=16;
 			addr:	integer:=2);
 Port(	clock : in std_logic;
            Data_in  : in STD_LOGIC_VECTOR (15 downto 0);
-           addrA : in STD_LOGIC_VECTOR (1 downto 0);
+           Read_addrA : in STD_LOGIC_VECTOR (1 downto 0);
+			  write_addrA : in STD_LOGIC_VECTOR (1 downto 0);
 			  S_en  : in std_logic;
 			  S_write:		in std_logic;
 			    S_Read:		in std_logic;
@@ -53,14 +54,14 @@ signal tmp_ram: ram_type;
 begin	
 
     -- Read Functional Section operates on rising edge
-    process(Clock, S_write)
+    process(Clock, S_Read)
     begin
 	if (Clock'event and Clock='1') then
 	   if (S_en='1') then
 		if (S_Read='1') then
 		    -- built in function conv_integer change the type
 		    -- from std_logic_vector to integer
-		    S_out <= tmp_ram(conv_integer(addrA)); 
+		    S_out <= tmp_ram(conv_integer(Read_addrA)); 
 		    
 		else
 		    S_out <= (S_out'range => 'Z');
@@ -76,7 +77,7 @@ begin
 	if (Clock'event and Clock='0') then
 	    if S_en='1' then
 		if S_write='1' then
-		    tmp_ram(conv_integer(addrA)) <= Data_in;
+		    tmp_ram(conv_integer(Write_addrA)) <= Data_in;
 		end if;
 	    end if;
 	end if;
