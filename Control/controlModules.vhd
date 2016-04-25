@@ -43,12 +43,15 @@ entity controlModules is
 			RA_addr : out STD_LOGIC_vector(3 downto 0);
 			WE, RE,lwvd_en : out STD_LOGIC;
 					wea : out STD_LOGIC_vector(0 downto 0);
-			en_Writeback : out STD_LOGIC;
+			run: in std_logic;
 			S_en : buffer STD_LOGIC;
 			S_write : out STD_LOGIC;
 			S_Read : out STD_LOGIC;
 			ext_wea : out STD_LOGIC_vector(0 downto 0);
+<<<<<<< HEAD
 			ext_addr_en:out STD_LOGIC);
+=======
+>>>>>>> e7f88fb7fa98be6f6c2849cc9411cdeadc184d57
 			--latch1 : out  STD_LOGIC;
 			--regBank : out  STD_LOGIC;
 			--PCcnt : out  STD_LOGIC;
@@ -59,7 +62,17 @@ entity controlModules is
 			--RBwrite : out  STD_LOGIC;
 			--RBread : out  STD_LOGIC;
 			--latch3 : out  STD_LOGIC
+<<<<<<< HEAD
 		
+=======
+			en_fetch : out std_logic ;
+			en_decode :out std_logic;
+			en_pipeline : out std_logic ;
+			en_operand :out std_logic ;
+			en_Writeback:out std_logic;
+			en_execute: out std_logic
+			);
+>>>>>>> e7f88fb7fa98be6f6c2849cc9411cdeadc184d57
 
 			
 
@@ -148,6 +161,23 @@ end if;
 	--pipeline: entity work.PipelineController 
 	--port map( clk,en,input,t1,t2,t3,t4,t5);
 
+process(run) 
+begin
+	if(run = '0') then
+		en_fetch <= '0';
+		en_decode <= '0';
+		en_pipeline <= '0' ;
+		en_operand <= '0' ;
+		en_execute <= '0';
+	else
+		en_fetch <= '1';
+		en_decode <= '1';
+		en_pipeline <= '1' ;
+		en_operand <= '1' ;
+		en_execute <= '1';
+	end if;
+end process;
+	
 
 end Combinational;
 
