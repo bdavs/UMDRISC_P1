@@ -89,7 +89,7 @@ signal en_decode : std_logic := '1';
 signal en_pipeline : std_logic := '1';
 signal en_operand : std_logic := '1';
 signal en_Writeback: std_logic := '1';
-signal en_Execute:  std_logic;
+signal en_execute:  std_logic;
 
 signal operand_read : std_logic := '1';
 signal operand_write : std_logic := '0';
@@ -190,7 +190,8 @@ port map(  CLK => clk,
            OPCODE  => operand_op_latch,
            CCR => ccr,
            ALU_OUT  => execute_alu_out,
-           LDST_OUT => execute_ldst_out
+           LDST_OUT => execute_ldst_out,
+			  en_execute => en_execute
 );
 	
 Write_Back_Stage: entity work.WriteBack
@@ -202,8 +203,8 @@ Port map(clk =>clk,
 				wea=>wea,
 				s_en=>S_en,
 				writeback_address=>writeback_addr,
-				ext_wea=>ext_wea
-				
+				ext_wea=>ext_wea,
+				en_write_back => en_Writeback
 			  );
 			
 	
@@ -229,15 +230,21 @@ port map(clk => clk,
 			RE => RE,
 			WE => WE,
 			t1 => t1,
+			run => run,
 			 t2 => t2,
 			 t3 => t3,
 			 t4 => t4,
 			 t5 => t5,
 			 wea=>wea,
-			 en_writeback=>en_Writeback,
 			 S_en =>S_en ,
 			S_write =>S_write ,
-			S_Read =>S_read
+			S_Read =>S_read,
+			en_fetch => en_fetch,
+			en_decode => en_decode,
+			en_pipeline => en_pipeline,
+			en_operand => en_operand,
+			en_Writeback => en_Writeback,
+			en_execute => en_execute
 			);
 
 			

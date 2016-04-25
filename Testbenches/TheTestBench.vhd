@@ -43,7 +43,15 @@ ARCHITECTURE behavior OF TheTestBench IS
     PORT(
          clk : IN  std_logic;
          rst : IN  std_logic;
-			int : IN std_logic_vector(3 downto 0)
+			int : IN std_logic_vector(3 downto 0);
+			wdata: in std_logic;
+			run: in std_logic;
+			dataDMP: in std_logic;
+			coreDMP: in std_logic;
+			instrDMP: in std_logic;
+			data: in std_logic_vector(15 downto 0);
+			address: in std_logic_vector(11 downto 0);
+			Debug_data : out std_logic_vector(15 downto 0)
         );
     END COMPONENT;
     
@@ -52,6 +60,14 @@ ARCHITECTURE behavior OF TheTestBench IS
    signal clk : std_logic := '0';
    signal rst : std_logic := '0';
 	signal int : std_logic_vector(3 downto 0);
+	signal wdata: std_logic;
+	signal run: std_logic;
+	signal dataDMP: std_logic;
+	signal coreDMP: std_logic;
+	signal instrDMP: std_logic;
+	signal data: std_logic_vector(15 downto 0);
+	signal address: std_logic_vector(11 downto 0);
+	signal Debug_data : std_logic_vector(15 downto 0);
 
    -- Clock period definitions
    constant period : time := 10 ns;
@@ -62,7 +78,15 @@ BEGIN
    uut: TopLevel PORT MAP (
           clk => clk,
           rst => rst,
-			 int => int
+			 int => int,
+			 wdata => wdata,
+			run => run,
+			dataDMP => dataDMP,
+			coreDMP => coreDMP,
+			instrDMP => instrDMP,
+			data => data,
+			address => address,
+			Debug_data => Debug_data
         );
 
    -- Clock process definitions
@@ -78,7 +102,7 @@ BEGIN
    begin		
       -- hold reset state for 100 ns.
       wait for 100 ns;	
-		int(0) <= '0';
+		run <= '0';
       wait for period*10;
 		
 

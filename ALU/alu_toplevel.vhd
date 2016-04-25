@@ -24,7 +24,9 @@ entity ALU is
            OPCODE   : in  STD_LOGIC_VECTOR (3 downto 0);
            CCR      : out STD_LOGIC_VECTOR (3 downto 0);
            ALU_OUT  : out STD_LOGIC_VECTOR (15 downto 0);
-           LDST_OUT : out STD_LOGIC_VECTOR (15 downto 0));
+           LDST_OUT : out STD_LOGIC_VECTOR (15 downto 0);
+			  en_execute: in std_logic
+			  );
 end ALU;
 
 architecture Structural of ALU is
@@ -116,7 +118,7 @@ begin
 	port map(
 			clk => clk,
 			input => ALU_OUT_tmp,
-			en => '1',
+			en => en_execute,
 			output => ALU_OUT);
 			
 	
@@ -125,7 +127,7 @@ begin
 	port map(
 			clk => clk,
 			input => ccr_tmp,
-			en => '1',
+			en => en_execute,
 			output => CCR);
 	
 	

@@ -173,7 +173,8 @@ port map(
 			clk => clk,
 			addr => addr,
 			writeEnable => writeEnable,
-			count => count
+			count => count,
+			en => en_fetch
 );
 
 InterruptController: entity work.InterruptController_fetch 

@@ -41,7 +41,8 @@ Port(clk : in std_logic;
 				 S_id_latch :in std_logic_vector(1 downto 0);
 				 S_addr_latch :in std_logic_vector(1 downto 0);
 			  Write_back :out STD_LOGIC_VECTOR (15 downto 0);
-			  Writeback_address: out std_logic_vector(4 downto 0)
+			  Writeback_address: out std_logic_vector(4 downto 0);
+			  en_write_back: in std_logic
 			  ); 
  end WriteBack;
 
@@ -111,7 +112,7 @@ Writeback_out_latch: entity work.reg
 	port map(
 			clk => clk,
 			input => Write_back_m,
-			en => '1',
+			en => en_write_back,
 			output => Write_back);
 
 end Behavioral;
