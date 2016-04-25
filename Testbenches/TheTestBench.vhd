@@ -101,10 +101,12 @@ BEGIN
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
-      wait for 100 ns;	
+      --wait for 100 ns;	
 		run <= '1';
       wait for period*10;
 		run <= '0';
+		wait for period*40;
+		run <= '1';
 		
 
       -- insert stimulus here 
