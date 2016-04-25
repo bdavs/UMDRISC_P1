@@ -52,7 +52,7 @@ entity controlModules is
 
 			ext_addr_en:out STD_LOGIC;
 
-			ext_addr_en:out STD_LOGIC;
+		
 
 			--latch1 : out  STD_LOGIC;
 			--regBank : out  STD_LOGIC;

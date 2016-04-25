@@ -97,11 +97,11 @@ signal en_Execute:  std_logic;
 signal ext_addr_en:  std_logic;
 signal lwvd_en:  std_logic;
 
-signal en_execute:  std_logic;
+--signal en_execute:  std_logic;
 
-signal en_Execute:  std_logic;
-signal ext_addr_en:  std_logic;
-signal lwvd_en:  std_logic;
+--signal en_Execute:  std_logic;
+--signal ext_addr_en:  std_logic;
+--signal lwvd_en:  std_logic;
 
 
 signal operand_read : std_logic := '1';
@@ -261,7 +261,7 @@ port map(clk => clk,
 			 t5 => t5,
 			 wea=>wea,
 			 ext_wea=>ext_wea,
-			 en_writeback=>en_Writeback,
+			 --en_writeback=>en_Writeback,
 			 S_en =>S_en ,
 			 ID=>S_id,
 			S_write =>S_write ,
@@ -271,11 +271,11 @@ port map(clk => clk,
 			S_Read =>S_read,
 			lwvd_en=>lwvd_en,
 
-			S_Read =>S_read,
+			--S_Read =>S_read,
 
-			ext_addr_en=>ext_addr_en,
-			S_Read =>S_read,
-			lwvd_en=>lwvd_en,
+			--ext_addr_en=>ext_addr_en,
+			--S_Read =>S_read,
+			--lwvd_en=>lwvd_en,
 
 			en_fetch => en_fetch,
 			en_decode => en_decode,

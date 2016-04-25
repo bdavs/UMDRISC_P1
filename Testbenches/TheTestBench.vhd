@@ -102,8 +102,9 @@ BEGIN
    begin		
       -- hold reset state for 100 ns.
       wait for 100 ns;	
-		run <= '0';
+		run <= '1';
       wait for period*10;
+		run <= '0';
 		
 
       -- insert stimulus here 
