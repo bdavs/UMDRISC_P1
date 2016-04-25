@@ -48,10 +48,7 @@ entity controlModules is
 			S_write : out STD_LOGIC;
 			S_Read : out STD_LOGIC;
 			ext_wea : out STD_LOGIC_vector(0 downto 0);
-<<<<<<< HEAD
-			ext_addr_en:out STD_LOGIC);
-=======
->>>>>>> e7f88fb7fa98be6f6c2849cc9411cdeadc184d57
+			ext_addr_en:out STD_LOGIC;
 			--latch1 : out  STD_LOGIC;
 			--regBank : out  STD_LOGIC;
 			--PCcnt : out  STD_LOGIC;
@@ -62,9 +59,7 @@ entity controlModules is
 			--RBwrite : out  STD_LOGIC;
 			--RBread : out  STD_LOGIC;
 			--latch3 : out  STD_LOGIC
-<<<<<<< HEAD
 		
-=======
 			en_fetch : out std_logic ;
 			en_decode :out std_logic;
 			en_pipeline : out std_logic ;
@@ -72,7 +67,6 @@ entity controlModules is
 			en_Writeback:out std_logic;
 			en_execute: out std_logic
 			);
->>>>>>> e7f88fb7fa98be6f6c2849cc9411cdeadc184d57
 
 			
 

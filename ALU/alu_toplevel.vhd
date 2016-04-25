@@ -28,14 +28,11 @@ entity ALU is
            OPCODE   : in  STD_LOGIC_VECTOR (3 downto 0);
            CCR      : out STD_LOGIC_VECTOR (3 downto 0);
            ALU_OUT  : out STD_LOGIC_VECTOR (15 downto 0);
-<<<<<<< HEAD
            LDST_OUT : out STD_LOGIC_VECTOR (15 downto 0);
-			  EXT_OUT : out STD_LOGIC_VECTOR (15 downto 0));
-=======
-           LDST_OUT : out STD_LOGIC_VECTOR (15 downto 0);
-			  en_execute: in std_logic
+			  EXT_OUT : out STD_LOGIC_VECTOR (15 downto 0);
+			  en_execute: in std_logic 
 			  );
->>>>>>> e7f88fb7fa98be6f6c2849cc9411cdeadc184d57
+
 end ALU;
 
 architecture Structural of ALU is
@@ -132,8 +129,7 @@ begin
 	port map(
 			clk => clk,
 			input => ALU_OUT_tmp,
-<<<<<<< HEAD
-			en => '1',
+			en => en_execute,
 			output => ALU_OUT);
 			
 	ext_out_latch: entity work.reg
@@ -141,13 +137,8 @@ begin
 	port map(
 			clk => clk,
 			input => EXT_OUT_tmp,
-			en => '1',
-			output => EXT_OUT);
-=======
 			en => en_execute,
-			output => ALU_OUT);
->>>>>>> e7f88fb7fa98be6f6c2849cc9411cdeadc184d57
-			
+			output => EXT_OUT);
 	
 	ccr_latch: entity work.reg
 	generic map (n => 4)
