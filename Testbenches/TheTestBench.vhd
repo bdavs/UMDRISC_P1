@@ -89,7 +89,7 @@ BEGIN
 			Debug_data => Debug_data
         );
 
-   -- Clock process definitions
+   -- Clock pro cess definitions
    gen_Clock: process
     begin
         clk <= '0'; wait for period;
@@ -103,7 +103,7 @@ BEGIN
       -- hold reset state for 100 ns.
       --wait for 100 ns;	
 		run <= '1';
-     
+      
 		
 
       -- insert stimulus here 

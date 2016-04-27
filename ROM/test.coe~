@@ -1,0 +1,374 @@
+Processing Stage 1
+Opening file test.asm
+******************************************************************** TEST.ASM *******************************************************************
+;INITIALIZE A FEW REGISTERS
+ADDI  R0, 2    ; ADDI R0<-2             R0=2
+ADDI  R1, 1    ; ADDI R1<-1             R1=1
+ADDI  R2, 5    ; ADDI R2<-4             R2=4
+ADDI  R3, 3    ; ADDI R3<-3             R3=3
+
+;DELAY
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+
+;TEST ADD
+ADD   R0, R1   ; ADD  R0<-R0 + R1       R0=3
+
+;DELAY
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+
+;TEST SUB
+SUB R2, R1  ;R2=4
+
+;DELAY
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+
+;TEST AND
+AND   R3, R1   ; AND  R3<-R3 & R1       R3=1
+
+;DELAY
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+
+;TEST OR
+OR    R0, R2   ; OR   R0<-R0 OR R2      R0=6
+
+;DELAY
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+
+;TEST MOVE
+MOV   R10, R3   ; R10 <- R3              R10=1
+
+;DELAY
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+
+;TEST ADDI
+ADDI  R3, 3    ; ADDI R3<-3             R3=3
+
+;DELAY
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+
+;TEST ANDI
+ANDI  R0, 5    ; ANDI R0<-R0 & 5        R0=4
+
+;DELAY
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+
+;SHIFT LEFT
+SL    R10, 3   ; R10<-R10[15:3&000]      R10=8
+
+;DELAY
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+
+;SHIFT RIGHT
+SR    R10, 1   ; R10 [0& 14:0]          R10=4
+
+;DELAY
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+
+;STORE WORD
+SW    R1, $0F  ; DATAMEM[0F] <- [R1]    DM[0F]=1
+
+;DELAY
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+
+;LOAD WORD
+LW    R5, $0F  ; R5 <- DATAMEM[0F]      R5=1
+
+;DELAY
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+
+;LOAD WORD VECTOR
+LWV		R0,	S0,	255	; B000FF
+
+
+;DELAY
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+
+;STORE WORD VECTOR
+SWV		R1,	S1,	256	; C14100
+
+;DELAY
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+
+;JUMP
+JAL   R0, 06 
+
+;DELAY
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+;DELAY
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+ADDI  R4, 0    ; ADDI R1<-1             R1=1
+
+;RETURN
+
+RTL   R0, 0  ;E000 : LEAVE R0 AND 0 FOR IT TO ASSEMBLE PROPERLY
+
+;BRANCH
+
+
+******************************************************************* !TEST.ASM *******************************************************************
+Parsed file test.asm into 134 lines.
+Removing Comments Started
+**************************************************************** Removed Comments ***************************************************************
+ADDI	R0,	2
+ADDI	R1,	1
+ADDI	R2,	5
+ADDI	R3,	3
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+ADD	R0,	R1
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+SUB	R2,	R1
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+AND	R3,	R1
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+OR	R0,	R2
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+MOV	R10,	R3
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R3,	3
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+ANDI	R0,	5
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+SL	R10,	3
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+SR	R10,	1
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+SW	R1,	$0F
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+LW	R5,	$0F
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+LWV	R0,	S0,	255
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+SWV	R1,	S1,	256
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+JAL	R0,	06
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+RTL	R0,	0
+*************************************************************** !Removed Comments! **************************************************************
+Removing Comments Complete
+Processing Labels
+***************************************************************** Process Labels ****************************************************************
+No Labels in code
+**************************************************************** !Process Labels! ***************************************************************
+*************************************************************** Label Removed Code **************************************************************
+ADDI	R0,	2
+ADDI	R1,	1
+ADDI	R2,	5
+ADDI	R3,	3
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+ADD	R0,	R1
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+SUB	R2,	R1
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+AND	R3,	R1
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+OR	R0,	R2
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+MOV	R10,	R3
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R3,	3
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+ANDI	R0,	5
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+SL	R10,	3
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+SR	R10,	1
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+SW	R1,	$0F
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+LW	R5,	$0F
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+LWV	R0,	S0,	255
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+SWV	R1,	S1,	256
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+JAL	R0,	06
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+ADDI	R4,	0
+RTL	R0,	0
+************************************************************** !Label Removed Code! *************************************************************
+Processing Labels Complete
+Stage 1 Complete
+Processing Stage 2
+Stage 2 Complete
+Process Complete
+
+
+Hexadecimal OUTPUT:
+OAB   : RR [0,1,2,3,4]
+OA[IM]:  I [5,6,7,8,9,A,D,E]
+OAS[I]:  D [B,C]
+OM[IM]:  B [F]
+5002
+5101
+5205
+5303
+5400
+5400
+5400
+0010
+5400
+5400
+5400
+1210
+5400
+5400
+5400
+2310
+5400
+5400
+5400
+3020
+5400
+5400
+5400
+4A30
+5400
+5400
+5400
+5303
+5400
+5400
+5400
+6005
+5400
+5400
+5400
+7A03
+5400
+5400
+5400
+8A01
+5400
+5400
+5400
+A10F
+5400
+5400
+5400
+5400
+950F
+5400
+5400
+5400
+B0FF
+5400
+5400
+5400
+C140
+5400
+5400
+5400
+D006
+5400
+5400
+5400
+5400
+5400
+5400
+E000
+
+NOTES:
+O : opcode
+A : Register A
+B : Register B
+I/IM : Immediate value
+S : Shadow Register + Special Instruction

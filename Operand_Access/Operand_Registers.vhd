@@ -101,8 +101,8 @@ port map(
 			Read_AddrB => Read_AddrB,
 			Write_AddrA => Write_AddrA,
 			Data_inA => Data_inA,
-			Data_outA => Data_outA_int,
-			Data_outB => Data_outB_int
+			Data_outA => Data_outA_jmp,
+			Data_outB => Data_outB_jmp
 );
 sel <= int_mode & jmp_mode;
 with sel select 
@@ -120,7 +120,20 @@ with sel select
 		'1' when "01", --only if ints are disabled and jumps are enabled
 		'0' when others;		
 
-	
+with sel select
+	Data_outA <= 
+		Data_outA_regular when "00",
+		Data_outA_int when "10" | "11",
+		Data_outA_jmp when "01",
+		x"0000" when others;
+		
+with sel select
+	Data_outB <= 
+		Data_outB_regular when "00",
+		Data_outB_int when "10" | "11",
+		Data_outB_jmp when "01",
+		x"0000" when others;
+		
 --with OP select
 --			LDST_OUT <=
 --				Shadow when "1100",
