@@ -88,9 +88,9 @@ BEGIN
    begin		
       -- hold reset state for 100 ns.
       wait for 100 ns;	
-
-      wait for clk_period/2;
 		input <= x"123";
+      wait for clk_period/2;
+
 		push <= '1';
 		wait for clk_period;
 		input <= x"210";
