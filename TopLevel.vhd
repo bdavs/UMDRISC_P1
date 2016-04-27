@@ -129,7 +129,7 @@ signal br_stall: std_logic:='0';
 signal ROM_Debug: std_logic_vector(15 downto 0);
 signal Core_Debug: std_logic_vector(15 downto 0);
 signal Ext_Debug: std_logic_vector(15 downto 0);
-
+signal Data_mem_Debug: std_logic_vector(15 downto 0);
 
 signal Debug_selector: std_logic_vector(2 downto 0);
 begin
