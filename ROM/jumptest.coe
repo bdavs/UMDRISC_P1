@@ -1,0 +1,63 @@
+Processing Stage 1
+Opening file jumptest.asm
+****************************************************************** JUMPTEST.ASM *****************************************************************
+ADDI R0, 1
+JMP R0, 05
+ADDI R0, 1
+ADDI R0, 1
+ADDI R0, 1
+ADDI R0, 2
+RTL R0, 0
+
+***************************************************************** !JUMPTEST.ASM *****************************************************************
+Parsed file jumptest.asm into 7 lines.
+Removing Comments Started
+**************************************************************** Removed Comments ***************************************************************
+ADDI	R0,	1
+JMP	R0,	05
+ADDI	R0,	1
+ADDI	R0,	1
+ADDI	R0,	1
+ADDI	R0,	2
+RTL	R0,	0
+*************************************************************** !Removed Comments! **************************************************************
+Removing Comments Complete
+Processing Labels
+***************************************************************** Process Labels ****************************************************************
+Labels:
+{'JMP': 1}
+**************************************************************** !Process Labels! ***************************************************************
+*************************************************************** Label Removed Code **************************************************************
+ADDI	R0,	1
+	R0, 05
+ADDI	R0,	1
+ADDI	R0,	1
+ADDI	R0,	1
+ADDI	R0,	2
+RTL	R0,	0
+************************************************************** !Label Removed Code! *************************************************************
+Processing Labels Complete
+Stage 1 Complete
+Processing Stage 2
+Stage 2 Complete
+Process Complete
+
+
+Hexadecimal OUTPUT:
+OAB   : RR [0,1,2,3,4]
+OA[IM]:  I [5,6,7,8,9,A,D,E]
+OAS[I]:  D [B,C]
+OM[IM]:  B [F]
+5001
+5001
+5001
+5001
+5002
+E000
+
+NOTES:
+O : opcode
+A : Register A
+B : Register B
+I/IM : Immediate value
+S : Shadow Register + Special Instruction
