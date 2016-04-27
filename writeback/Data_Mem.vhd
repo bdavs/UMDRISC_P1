@@ -46,7 +46,9 @@ ENTITY Data_Mem IS
     wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     addra : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
     dina : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-    douta : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+    clkb : IN STD_LOGIC;
+    addrb : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+    doutb : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
   );
 END Data_Mem;
 
@@ -58,7 +60,9 @@ COMPONENT wrapped_Data_Mem
     wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     addra : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
     dina : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-    douta : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+    clkb : IN STD_LOGIC;
+    addrb : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+    doutb : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
   );
 END COMPONENT;
 
@@ -98,7 +102,7 @@ END COMPONENT;
       c_initb_val => "0",
       c_interface_type => 0,
       c_load_init_file => 0,
-      c_mem_type => 0,
+      c_mem_type => 1,
       c_mux_pipeline_stages => 0,
       c_prim_type => 1,
       c_read_depth_a => 256,
@@ -136,7 +140,9 @@ U0 : wrapped_Data_Mem
     wea => wea,
     addra => addra,
     dina => dina,
-    douta => douta
+    clkb => clkb,
+    addrb => addrb,
+    doutb => doutb
   );
 -- synthesis translate_on
 

@@ -41,7 +41,10 @@ port( clk: in std_logic;
 		int: in std_logic_vector (3 downto 0);
 		int_mode : out std_logic;
 		jmp_mode : out std_logic;
-		output: out std_logic_vector(15 downto 0)
+		output: out std_logic_vector(15 downto 0);
+		run: in std_logic;
+		Debug_address: in std_logic_vector(11 downto 0);
+		ROM_Debug: out std_logic_vector(15 downto 0)
 		);
 end fetch_toplevel;
 
@@ -81,7 +84,7 @@ signal stall_cnt_in: std_logic_vector(1 downto 0) := (others => '0');
 
 signal SEL : std_logic_vector(1 downto 0) := "00";
 
-
+signal ROM_Address: std_logic_vector(11 downto 0);
 begin
 
 
@@ -168,12 +171,13 @@ end if;
 end process;
 
 
-ProgramCounter_fetch: entity work.ProgramCounter
+ProgramCounter: entity work.ProgramCounter
 port map(
 			clk => clk,
 			addr => addr,
 			writeEnable => writeEnable,
-			count => count
+			count => count,
+			en => en_fetch
 );
 
 InterruptController: entity work.InterruptController_fetch 
@@ -204,7 +208,7 @@ port map(
 	
 	
 
-PCstack_fetch: entity work.PCstack
+PCstack: entity work.PCstack
 generic map( width => 12)
 port map(
 		  input => count,
@@ -213,15 +217,22 @@ port map(
 		  pop => pop,
 		  clk => clk
 );
-  
-ROM_fetch: entity work.ROM
+
+with run select
+ROM_Address <=
+	count when '1',
+	Debug_address when '0',
+	count when others;
+	
+ROM: entity work.ROM
 port map(
 			ADDRA => count,
 			CLKA => clk,
 			DOUTA => inst
 );
 
-		
+ROM_Debug <= inst;
+
 fetch_latch: entity work.reg
 port map(
 			clk => clk,

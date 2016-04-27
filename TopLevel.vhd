@@ -74,6 +74,11 @@ signal S_en : std_logic := '1';
 signal S_write : std_logic := '1';
 signal S_read : std_logic := '1';
 signal S_out_latch : std_logic_vector(15 downto 0):= (others => '0');
+signal external_address : std_logic_vector(15 downto 0):= (others => '0');
+signal S_id : std_logic_vector(1 downto 0):= (others => '0');
+signal S_id_latch : std_logic_vector(1 downto 0):= (others => '0');
+signal S_addr : std_logic_vector(1 downto 0):= (others => '0');
+signal S_addr_latch : std_logic_vector(1 downto 0):= (others => '0');
 signal S_out : std_logic_vector(15 downto 0):= (others => '0');
 
 
@@ -87,7 +92,17 @@ signal en_decode : std_logic := '1';
 signal en_pipeline : std_logic := '1';
 signal en_operand : std_logic := '1';
 signal en_Writeback: std_logic := '1';
+
 signal en_Execute:  std_logic;
+signal ext_addr_en:  std_logic;
+signal lwvd_en:  std_logic;
+
+--signal en_execute:  std_logic;
+
+--signal en_Execute:  std_logic;
+--signal ext_addr_en:  std_logic;
+--signal lwvd_en:  std_logic;
+
 
 signal operand_read : std_logic := '1';
 signal operand_write : std_logic := '0';
@@ -99,6 +114,7 @@ signal ccr: std_logic_vector(3 downto 0):= (others => '0');
 
 signal execute_alu_out: std_logic_vector(15 downto 0):= (others => '0');
 signal execute_ldst_out: std_logic_vector(15 downto 0):= (others => '0');
+signal EXT_OUT: std_logic_vector(15 downto 0):= (others => '0');
 
 signal RE: std_logic:='0'; 
 signal WE: std_logic:='0'; 
@@ -110,7 +126,23 @@ signal move: std_logic_vector(15 downto 0);
 
 signal br_stall: std_logic:='0';
 
+signal ROM_Debug: std_logic_vector(15 downto 0);
+signal Core_Debug: std_logic_vector(15 downto 0);
+signal Ext_Debug: std_logic_vector(15 downto 0);
+signal Data_mem_Debug: std_logic_vector(15 downto 0);
+
+signal Debug_selector: std_logic_vector(2 downto 0);
 begin
+
+--Debug Mux
+Debug_selector <= instrDMP & coreDMP & dataDMP;
+with Debug_selector select
+Debug_data <= 
+	Core_Debug when "010", --core
+	Ext_Debug when "001", --instr
+	ROM_Debug when "100", --data
+	x"1995" when others; --bad input
+	
 
 junk_stuff: entity work.stuff
 port map(
@@ -139,7 +171,10 @@ port map(
 			br_stall => br_stall,
 			move_and_en => move,
 			en_fetch => en_fetch,
-			output => inst
+			output => inst,
+			run => run,
+			Debug_address => address,
+			ROM_Debug => ROM_Debug
 			);
 
 Decode_top_level: entity work.Decode_top			
@@ -148,7 +183,9 @@ port map(	clk => clk,
 		op_latch => op,
 		Imm_latch => Imm,
 		RA_addr_latch => RA_addr,
-		RB_addr_latch => RB_addr		
+		RB_addr_latch => RB_addr,
+		S_id_latch=>S_id,
+		S_addr_latch=>S_addr
 );	
 
 
@@ -163,6 +200,8 @@ port map(	clk => clk,
 		S_en =>S_en, 
 		S_write => S_write,
 		S_Read=>S_read,
+		S_id=>S_id_latch,
+		S_addr=>S_addr,
 		S_out_latch=>S_out_latch,
 		Writeback_Addr =>Writeback_Addr,
 		execute_alu_out  =>execute_alu_out,
@@ -172,7 +211,10 @@ port map(	clk => clk,
 		Imm =>Imm,
 		Write_Back =>Write_back,
 		op => op,
-		en_operand  =>	en_operand
+		en_operand  =>	en_operand,
+		run => run,
+		Debug_address => address,
+		Core_Debug => Core_Debug
 		);
 	
 
@@ -183,8 +225,13 @@ port map(  CLK => clk,
 			  S_out_latch=>S_out_latch,
            OPCODE  => operand_op_latch,
            CCR => ccr,
+			  S_ID=>s_id,
+			  S_addr=>S_addr_latch,
            ALU_OUT  => execute_alu_out,
-           LDST_OUT => execute_ldst_out
+			  EXT_OUT=>EXT_OUT,
+           LDST_OUT => execute_ldst_out,
+			  en_execute => en_execute
+
 );
 	
 Write_Back_Stage: entity work.WriteBack
@@ -192,11 +239,19 @@ Port map(clk =>clk,
            execute_alu_out_latch => execute_alu_out,
            execute_ldst_out_latch =>execute_ldst_out,
 			  en_Writeback =>en_Writeback,
+			  external_address=>EXT_OUT,
 			  Write_back =>Write_back,
 				wea=>wea,
+				lwvd_en=>lwvd_en,
 				s_en=>S_en,
-				ext_wea=>ext_wea
-				
+				S_id_latch=>S_id_latch,
+				S_addr_latch=>S_addr_latch,
+				writeback_address=>writeback_addr,
+				ext_wea=>ext_wea,
+
+				ext_addr_en=>ext_addr_en,
+
+				en_write_back => en_Writeback
 			  );
 			
 	
@@ -218,19 +273,39 @@ ControlModules_top: entity work.ControlModules
 port map(clk => clk,
 			op => operand_op_latch,
 			ccr => ccr,
-			RA_addr => Writeback_Addr,
 			RE => RE,
 			WE => WE,
 			t1 => t1,
+			run => run,
 			 t2 => t2,
 			 t3 => t3,
 			 t4 => t4,
 			 t5 => t5,
 			 wea=>wea,
-			 en_writeback=>en_Writeback,
+			 ext_wea=>ext_wea,
+			 --en_writeback=>en_Writeback,
 			 S_en =>S_en ,
+			 ID=>S_id,
 			S_write =>S_write ,
-			S_Read =>S_read
+
+
+			ext_addr_en=>ext_addr_en,
+			S_Read =>S_read,
+			lwvd_en=>lwvd_en,
+
+			--S_Read =>S_read,
+
+			--ext_addr_en=>ext_addr_en,
+			--S_Read =>S_read,
+			--lwvd_en=>lwvd_en,
+
+			en_fetch => en_fetch,
+			en_decode => en_decode,
+			en_pipeline => en_pipeline,
+			en_operand => en_operand,
+			en_Writeback => en_Writeback,
+			en_execute => en_execute
+
 			);
 
 			

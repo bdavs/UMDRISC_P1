@@ -24,6 +24,7 @@ entity ALU_Mux is
            MEMORY    : in  STD_LOGIC_VECTOR (15 downto 0);
 			  Vector    : in  STD_LOGIC_VECTOR (15 downto 0);
 			  Shadow    : in  STD_LOGIC_VECTOR (15 downto 0);
+			  external    : in  STD_LOGIC_VECTOR (15 downto 0);
 			  ldst_address    : in  STD_LOGIC_VECTOR (15 downto 0);
 			  MOVE      : in  STD_LOGIC_VECTOR (15 downto 0);
 			  CCR_MOVE : in  STD_LOGIC_VECTOR (3 downto 0);
@@ -31,6 +32,7 @@ entity ALU_Mux is
            CCR_LOGIC : in  STD_LOGIC_VECTOR (3 downto 0);
            ALU_OUT   : out STD_LOGIC_VECTOR (15 downto 0);
 			   LDST_OUT   : out STD_LOGIC_VECTOR (15 downto 0);
+				EXT_OUT   : out STD_LOGIC_VECTOR (15 downto 0);
            CCR_OUT   : out STD_LOGIC_VECTOR (3 downto 0));
 end ALU_Mux;
 
@@ -59,9 +61,16 @@ begin
 	 with OP select
 			LDST_OUT <=
 				Shadow when "1100",
+				shadow when "1011",
 				ldst_address when "1010",
 				ldst_address when "1001",
 				shadow    when OTHERS; 
+				
+	with OP select
+			EXT_OUT<=
+				external when "1100",
+				external when others;
+				
     with OP select
         CCR_OUT <=
             CCR_ARITH when "0000",     -- ADD

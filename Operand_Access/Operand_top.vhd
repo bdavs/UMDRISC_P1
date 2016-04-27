@@ -39,6 +39,8 @@ port(clk : in std_logic;
 		S_en : in std_logic;
 		S_write : in std_logic;
 		S_Read : in std_logic;
+		s_addr: in std_logic_vector(1 downto 0);
+		s_id: in std_logic_vector(1 downto 0);
 		RA_addr : in std_logic_vector(3 downto 0);
 		RB_addr : in std_logic_vector(3 downto 0);
 		Write_Back : in std_logic_vector(15 downto 0);
@@ -50,7 +52,9 @@ port(clk : in std_logic;
 		operand_op_latch : out std_logic_vector(3 downto 0);
 		op : in std_logic_vector(3 downto 0);
 		Imm : in std_logic_vector(3 downto 0);
-		
+		run: in std_logic;
+		Debug_address: in std_logic_vector (11 downto 0);
+		Core_Debug: out std_logic_vector(15 downto 0);
 
 		en_operand  : in std_logic	
 );
@@ -65,17 +69,25 @@ signal RA_data : std_logic_vector(15 downto 0);
 signal RB_data : std_logic_vector(15 downto 0);
 signal full_imm : std_logic_vector(15 downto 0);
 signal S_out : std_logic_vector(15 downto 0);
-signal S_addr : std_logic_vector(1 downto 0);
-
+signal RA_addr_Debug: std_logic_vector(3 downto 0);
+--signal S_addr : std_logic_vector(1 downto 0);
+--signal int_mode : std_logic;
+--signal jmp_mode : std_logic; --CHANGE THIS TO AN INPUT ONCE YOU NEED IT BOBBY
 begin
-	
+
+with run select
+RA_addr_Debug <=
+	RA_addr when '1',
+	Debug_address(3 downto 0) when '0',
+	RA_addr when others;
+
 operand: entity work.Operand_Registers
 port map(
 			Clock => clk,
 			Enable => en_operand,
 			Read => RE,
 			Write => WE,
-			Read_AddrA => RA_addr,
+			Read_AddrA => RA_addr_Debug,
 			int_mode => int_mode,
 			jmp_mode => jmp_mode,
 			Read_AddrB => RB_addr,
@@ -84,11 +96,15 @@ port map(
 			Data_outA => RA_data,
 			Data_outB => RB_data
 );
+
+Core_Debug <= RA_data;
+
 Shadow: entity work.Shadow_Register
 port map(
 				clock => clk,
-           Data_in =>RA_data,
-           addrA=>S_addr,
+           Data_in =>Write_Back,
+           Read_addrA=>S_addr,
+			  Write_addrA=>Writeback_Addr(1 downto 0),
 			  S_en => S_en,
 			  S_write=>S_write,
 			    S_read=>S_read,
@@ -123,7 +139,8 @@ port map(
 			input => S_out,
 			en => en_operand,
 			output => S_out_latch);
-						
+			
+
 			
 
 			
