@@ -85,7 +85,7 @@ signal S_out : std_logic_vector(15 downto 0):= (others => '0');
 signal RB_addr : std_logic_vector(3 downto 0):= (others => '0');
 signal RB_data : std_logic_vector(15 downto 0):= (others => '0');
 signal B : std_logic_vector(15 downto 0):= (others => '0');
-signal Imm : std_logic_vector(3 downto 0):= (others => '0');
+signal Imm_w : std_logic_vector(3 downto 0):= (others => '0');
 
 signal en_fetch : std_logic := '1';
 signal en_decode : std_logic := '1';
@@ -181,11 +181,12 @@ Decode_top_level: entity work.Decode_top
 port map(	clk => clk,
 		inst => inst,
 		op_latch => op,
-		Imm_latch => Imm,
+		Imm_latch => Imm_w,
 		RA_addr_latch => RA_addr,
 		RB_addr_latch => RB_addr,
 		S_id_latch=>S_id,
-		S_addr_latch=>S_addr
+		S_addr_latch=>S_addr,
+		en_decode=>en_decode
 );	
 
 
@@ -200,7 +201,7 @@ port map(	clk => clk,
 		S_en =>S_en, 
 		S_write => S_write,
 		S_Read=>S_read,
-		S_id=>S_id_latch,
+		S_id=>S_id,
 		S_addr=>S_addr,
 		S_out_latch=>S_out_latch,
 		Writeback_Addr =>Writeback_Addr,
@@ -208,7 +209,7 @@ port map(	clk => clk,
 		RA_data_latch =>RA_data,
 		RB_data_latch =>RB_data,
 		operand_op_latch =>operand_op_latch,
-		Imm =>Imm,
+		Imm =>Imm_w,
 		Write_Back =>Write_back,
 		op => op,
 		en_operand  =>	en_operand,
@@ -226,7 +227,7 @@ port map(  CLK => clk,
            OPCODE  => operand_op_latch,
            CCR => ccr,
 			  S_ID=>s_id,
-			  S_addr=>S_addr_latch,
+			  S_addr=>S_addr,
            ALU_OUT  => execute_alu_out,
 			  EXT_OUT=>EXT_OUT,
            LDST_OUT => execute_ldst_out,
@@ -244,8 +245,8 @@ Port map(clk =>clk,
 				wea=>wea,
 				lwvd_en=>lwvd_en,
 				s_en=>S_en,
-				S_id_latch=>S_id_latch,
-				S_addr_latch=>S_addr_latch,
+				S_id_latch=>S_id,
+				S_addr_latch=>S_addr,
 				writeback_address=>writeback_addr,
 				ext_wea=>ext_wea,
 
