@@ -168,7 +168,7 @@ end if;
 end process;
 
 
-ProgramCounter: entity work.ProgramCounter
+ProgramCounter_fetch: entity work.ProgramCounter
 port map(
 			clk => clk,
 			addr => addr,
@@ -204,7 +204,7 @@ port map(
 	
 	
 
-PCstack: entity work.PCstack
+PCstack_fetch: entity work.PCstack
 generic map( width => 12)
 port map(
 		  input => count,
@@ -214,7 +214,7 @@ port map(
 		  clk => clk
 );
   
-ROM: entity work.ROM
+ROM_fetch: entity work.ROM
 port map(
 			ADDRA => count,
 			CLKA => clk,

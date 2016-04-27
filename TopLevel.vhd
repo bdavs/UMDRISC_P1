@@ -142,7 +142,7 @@ port map(
 			output => inst
 			);
 
-Decode_top: entity work.Decode_top			
+Decode_top_level: entity work.Decode_top			
 port map(	clk => clk,
 		inst => inst,
 		op_latch => op,
@@ -152,7 +152,7 @@ port map(	clk => clk,
 );	
 
 
-operand_top: entity work.Operand_top
+operand_top_level: entity work.Operand_top
 port map(	clk => clk,
 		RE => RE,
 		WE => WE,
@@ -214,7 +214,7 @@ port map (
 			 );
 
 		
-ControlModules: entity work.ControlModules
+ControlModules_top: entity work.ControlModules
 port map(clk => clk,
 			op => operand_op_latch,
 			ccr => ccr,
