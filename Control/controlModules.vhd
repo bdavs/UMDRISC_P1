@@ -83,6 +83,20 @@ begin
 
 	--signal t1, t2, t3, t4, t5 : STD_LOGIC_VECTOR(15 downto 0);
 
+--process(clk)
+--begin
+-- if(t5(15 downto 12) = (x"0" or x"1" or x"2" or x"3" or x"4" or x"5" or x"6" or x"7" or x"8" or x"9" or x"B") )then
+--	WE <= '1';
+-- else
+--	WE <= '0' ;
+--	end if;
+--end process;
+
+with t5(15 downto 12) select
+	WE <= 
+		'1' when x"0" | x"1" | x"2" | x"3" | x"4" | x"5" | x"6" | x"7" | x"8" | x"9" | x"B",
+		'0' when others;
+
 process(OP)
 begin
 
@@ -106,8 +120,8 @@ case OP is
 
 ext_addr_en<='0';
  RE <= '1';
- WE <= '0' ;
  
+
  if(OP="1010")then
  wea<="1";
  else
@@ -135,7 +149,7 @@ end if;
 
 if (OP/="1011" and ID="11")then --lwvs 
  S_write <= '1' ;
- WE<='0';
+ --WE<='0';
  else 
  S_write<='0';
  end if;

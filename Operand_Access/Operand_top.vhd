@@ -140,8 +140,7 @@ port map(
 			en => en_operand,
 			output => S_out_latch);
 			
-
-			
+		
 
 			
 operand_latch_RB_data: entity work.reg
