@@ -43,8 +43,10 @@ ARCHITECTURE behavior OF fetch_tb IS
     PORT(
          clk : IN  std_logic;
          rst : IN  std_logic;
+			run : IN std_logic;
          en_fetch : IN  std_logic;
          move_and_en : IN  std_logic_vector(15 downto 0);
+			debug_address: IN  std_logic_vector(11 downto 0);
          br_stall : IN  std_logic;
          int : IN  std_logic_vector(3 downto 0);
          output : OUT  std_logic_vector(15 downto 0)
@@ -55,8 +57,10 @@ ARCHITECTURE behavior OF fetch_tb IS
    --Inputs
    signal clk : std_logic := '0';
    signal rst : std_logic := '0';
+	signal run : std_logic := '1';
    signal en_fetch : std_logic := '1';
    signal move_and_en : std_logic_vector(15 downto 0) := (others => '0');
+   signal debug_address : std_logic_vector(11 downto 0) := (others => '0');
    signal br_stall : std_logic := '0';
    signal int : std_logic_vector(3 downto 0) := (others => '0');
 
@@ -72,6 +76,8 @@ BEGIN
    uut: fetch_toplevel PORT MAP (
           clk => clk,
           rst => rst,
+			 run => run,
+			 debug_address => debug_address,
           en_fetch => en_fetch,
           move_and_en => move_and_en,
           br_stall => br_stall,
@@ -93,6 +99,7 @@ BEGIN
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
+		run <= '1';
       wait for 100 ns;	
 
       wait for clk_period*10;
