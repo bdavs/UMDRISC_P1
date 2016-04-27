@@ -52,7 +52,9 @@ port(clk : in std_logic;
 		operand_op_latch : out std_logic_vector(3 downto 0);
 		op : in std_logic_vector(3 downto 0);
 		Imm : in std_logic_vector(3 downto 0);
-		
+		run: in std_logic;
+		Debug_address: in std_logic_vector (11 downto 0);
+		Core_Debug: out std_logic_vector(15 downto 0);
 
 		en_operand  : in std_logic	
 );
@@ -67,18 +69,25 @@ signal RA_data : std_logic_vector(15 downto 0);
 signal RB_data : std_logic_vector(15 downto 0);
 signal full_imm : std_logic_vector(15 downto 0);
 signal S_out : std_logic_vector(15 downto 0);
+signal RA_addr_Debug: std_logic_vector(3 downto 0);
 --signal S_addr : std_logic_vector(1 downto 0);
 --signal int_mode : std_logic;
 --signal jmp_mode : std_logic; --CHANGE THIS TO AN INPUT ONCE YOU NEED IT BOBBY
 begin
-	
+
+with run select
+RA_addr_Debug <=
+	RA_addr when '1',
+	Debug_address(3 downto 0) when '0',
+	RA_addr when others;
+
 operand: entity work.Operand_Registers
 port map(
 			Clock => clk,
 			Enable => en_operand,
 			Read => RE,
 			Write => WE,
-			Read_AddrA => RA_addr,
+			Read_AddrA => RA_addr_Debug,
 			int_mode => int_mode,
 			jmp_mode => jmp_mode,
 			Read_AddrB => RB_addr,
@@ -87,6 +96,9 @@ port map(
 			Data_outA => RA_data,
 			Data_outB => RB_data
 );
+
+Core_Debug <= RA_data;
+
 Shadow: entity work.Shadow_Register
 port map(
 				clock => clk,

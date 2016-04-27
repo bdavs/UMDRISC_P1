@@ -126,7 +126,23 @@ signal move: std_logic_vector(15 downto 0);
 
 signal br_stall: std_logic:='0';
 
+signal ROM_Debug: std_logic_vector(15 downto 0);
+signal Core_Debug: std_logic_vector(15 downto 0);
+signal Ext_Debug: std_logic_vector(15 downto 0);
+
+
+signal Debug_selector: std_logic_vector(2 downto 0);
 begin
+
+--Debug Mux
+Debug_selector <= instrDMP & coreDMP & dataDMP;
+with Debug_selector select
+Debug_data <= 
+	Core_Debug when "010", --core
+	Ext_Debug when "001", --instr
+	ROM_Debug when "100", --data
+	x"1995" when others; --bad input
+	
 
 junk_stuff: entity work.stuff
 port map(
@@ -155,7 +171,10 @@ port map(
 			br_stall => br_stall,
 			move_and_en => move,
 			en_fetch => en_fetch,
-			output => inst
+			output => inst,
+			run => run,
+			Debug_address => address,
+			ROM_Debug => ROM_Debug
 			);
 
 Decode_top: entity work.Decode_top			
@@ -192,7 +211,10 @@ port map(	clk => clk,
 		Imm =>Imm,
 		Write_Back =>Write_back,
 		op => op,
-		en_operand  =>	en_operand
+		en_operand  =>	en_operand,
+		run => run,
+		Debug_address => address,
+		Core_Debug => Core_Debug
 		);
 	
 
