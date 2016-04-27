@@ -41,13 +41,12 @@ entity PCstack is
 end PCstack;
 
 architecture Behavioral of PCstack is
-signal stack_pointer : std_logic_vector(1 downto 0) := (others => '1');
-signal temp1 : std_logic_vector(1 downto 0):= (others => '1');
-signal temp2 : std_logic_vector(1 downto 0):= (others => '1');
-signal temp : std_logic_vector(1 downto 0):= (others => '1');
-signal SEL : std_logic_vector(1 downto 0) := (others => '0');
-signal Idontknow : std_logic:='0';
-signal whatamidoing : std_logic_vector(1 downto 0);
+signal stack_pointer : std_logic_vector(1 downto 0) := (others => '0');
+--signal temp1 : std_logic_vector(1 downto 0):= (others => '1');
+--signal temp2 : std_logic_vector(1 downto 0):= (others => '1');
+--signal temp : std_logic_vector(1 downto 0):= (others => '1');
+--signal SEL : std_logic_vector(1 downto 0) := (others => '0');
+
 
 type ram_type is array (0 to depth-1) of
 	std_logic_vector(width-1 downto 0);
@@ -85,14 +84,13 @@ begin
 	
 	process(clk)
 	begin
-	if(clk'event and clk = '0')then
-	temp <= stack_pointer;
-		if(push = '1')then
+	if(falling_edge(clk))then
+	--temp <= stack_pointer;
+		if(push = '1' and stack_pointer /= "11")then
 			stack_pointer<= stack_pointer + '1';
 			tmp_ram(conv_integer(stack_pointer)) <= input;
-			--stack_pointer <= stack_pointer + '1';
-		elsif(pop = '1')then
-			output <= tmp_ram(conv_integer(stack_pointer));
+		elsif(pop = '1'  and stack_pointer /= "00")then
+			output <= tmp_ram(conv_integer(stack_pointer - 1 ));
 			stack_pointer <= stack_pointer - '1';
 		else
 			output <= (others => 'Z');
