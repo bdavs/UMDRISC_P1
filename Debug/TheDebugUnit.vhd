@@ -63,6 +63,8 @@ signal enter_data: std_logic:= '0';
 signal selector: std_logic_vector(1 downto 0);
 signal write_data: std_logic:= '0';
 signal write_data_flag: std_logic:= '0';
+
+signal run_flag:std_logic:='0';
 begin
 
 Keyboard: entity work.Keyboard_controller
@@ -123,10 +125,16 @@ SSeg: entity work.SSegDriver
 process(ascii_ready,CLK)
 begin
 	if(CLK'event and CLK = '1') then
+		if(run_flag = '1') then
+			run <= '0';
+			run_flag <= '0';
+		end if;
+		
 		if(ascii_ready = '1') then
 			if(ascii = x"74") then
 				--key r (run the processor)
 				run <= '1';
+				run_flag <= '1';
 				--reset the signals
 				enter_data <= '0';
 				address_en <= '1';
