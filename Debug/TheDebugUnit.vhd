@@ -45,9 +45,7 @@ end TheDebugUnit;
 architecture Behavioral of TheDebugUnit is
 signal Debug_data: std_logic_vector(15 downto 0);
 signal RISC_data: std_logic_vector(15 downto 0);
-signal DataDMP:  std_logic;
-signal CoreDMP:  std_logic;
-signal instrDMP: std_logic;
+
 signal Data: std_logic_vector (15 downto 0);
 signal Addr: std_logic_vector (11 downto 0);
 signal dpc : std_logic_vector(3 downto 0);
@@ -63,6 +61,10 @@ signal enter_data: std_logic:= '0';
 signal selector: std_logic_vector(1 downto 0);
 signal write_data: std_logic:= '0';
 signal write_data_flag: std_logic:= '0';
+
+signal Stage: std_logic_vector(2 downto 0);
+signal UMDRISC_CLK: std_logic;
+signal interrupts: std_logic_vector(3 downto 0);
 
 signal run_flag:std_logic:='0';
 begin
@@ -108,103 +110,112 @@ SSeg: entity work.SSegDriver
 			
 	Data <= x"00" & SW;
 	Addr <= x"0" & sw_latch;
+	interrupts <= "0" & buttons(3 downto 1);
 	UMDRISC: entity work.TopLevel
-	port map(	clk => CLK,
+	port map(	clk => buttons(0),
 		rst => '0',
-		int => buttons,
+		int => interrupts,
 		wdata => write_data,
 		run => run,
-		dataDMP => dataDMP,
-		coreDMP => coreDMP,
-		instrDMP => instrDMP,
+		Stage => Stage,
 		data => Data,
 		address => Addr,
 		Debug_data => RISC_data
 );	
-			
-process(ascii_ready,CLK)
+run <= '1';			
+process(ascii_ready)
 begin
-	if(CLK'event and CLK = '1') then
+	--if(CLK'event and CLK = '1') then
 --		if(run_flag = '1') then
 --			run <= '0';
 --			run_flag <= '0';
 --		end if;
 		
 		if(ascii_ready = '1') then
-			if(ascii = x"74") then
-				--key r (run the processor)
-				run <= '1';
-				--run_flag <= '1';
-				--reset the signals
-				enter_data <= '0';
-				address_en <= '1';
-			end if;
+--			if(ascii = x"74") then
+--				--key r (run the processor)
+--				run <= '1';
+--				--run_flag <= '1';
+--				--reset the signals
+--				enter_data <= '0';
+--				address_en <= '1';
+--			end if;
 			
-			if(run <= '1') then --run operations
-				if(ascii = x"73")then
-					--key s (stop the processor)
-					run <= '0';
-				end if;
-			end if;
+--			if(run <= '1') then --run operations
+--				if(ascii = x"73")then
+--					--key s (stop the processor)
+--					run <= '0';
+--				end if;
+--			end if;
 			
-			if(run <= '0') then --stopped
-				if(ascii = x"0d") then
-					--key enter 
-					if(enter_data = '0') then
-						enter_data <= '1';
-						--save value on register
-						address_en <= '0';
-						
-					end if;
-					
-					if(enter_data = '1') then
-						enter_data <= '0';
-						--write data and release latch
-						address_en <= '1';
-						write_data <= '1';
-						write_data_flag <= '1';
-					end if;                 
+--			if(run <= '0') then --stopped
+--				if(ascii = x"0d") then
+--					--key enter 
+--					if(enter_data = '0') then
+--						enter_data <= '1';
+--						--save value on register
+--						address_en <= '0';
+--						
+--					end if;
+--					
+--					if(enter_data = '1') then
+--						enter_data <= '0';
+--						--write data and release latch
+--						address_en <= '1';
+--						write_data <= '1';
+--						write_data_flag <= '1';
+--					end if;                 
+--				end if;
+				
+				if(ascii = x"31") then
+					--key 1 
+					Stage <= "000";
 				end if;
 				
-				if(ascii = x"63") then
-					--key c 
-					DataDMP <= '0'  ;
-					CoreDMP <= '1' ;
-					instrDMP <= '0';
+				if(ascii = x"32") then
+					--key 2 
+					Stage <= "001";
 				end if;
-				if(ascii = x"64") then
-					--key d 
-					DataDMP <= '1'  ;
-					CoreDMP <= '0' ;
-					instrDMP <= '0';
+				
+				if(ascii = x"33") then
+					--key 3 
+					Stage <= "010";
 				end if;
-				if(ascii = x"69") then
-					--key i 
-					DataDMP <= '0'  ;
-					CoreDMP <= '0' ;
-					instrDMP <= '1';
+				
+				if(ascii = x"34") then
+					--key 4 
+					Stage <= "011";
 				end if;
+				
+				if(ascii = x"35") then
+					--key 5 
+					Stage <= "100";
+				end if;
+				
 			end if;
 			
-		end if;
+		--end if;
 		
 
-		if(write_data_flag = '1') then
-			write_data <= '0';
-			write_data_flag <= '0';
-		end if;
-		
-	end if;
+--		if(write_data_flag = '1') then
+--			write_data <= '0';
+--			write_data_flag <= '0';
+--		end if;
+--		
+	--end if;
 end process;
 
+	
+	
+Debug_data <= RISC_data;
 
-selector <= run & enter_data;
-with selector select 
-	Debug_data <= 
-		x"00" & SW when "01",
-		RISC_data when "00",
-		x"ECE3" when "10" | "11",
-		x"0000" when others;
+--selector <= run & enter_data;
+--with selector select 
+--	Debug_data <= 
+--		x"00" & SW when "01",
+--		RISC_data when "00",
+--		RISC_data when "10" | "11",
+--		x"0000" when others;
 
 --with OP select
 --        ALU_OUT <=

@@ -46,9 +46,7 @@ ARCHITECTURE behavior OF TheTestBench IS
 			int : IN std_logic_vector(3 downto 0);
 			wdata: in std_logic;
 			run: in std_logic;
-			dataDMP: in std_logic;
-			coreDMP: in std_logic;
-			instrDMP: in std_logic;
+			Stage: in std_logic_vector(2 downto 0);
 			data: in std_logic_vector(15 downto 0);
 			address: in std_logic_vector(11 downto 0);
 			Debug_data : out std_logic_vector(15 downto 0)
@@ -62,9 +60,7 @@ ARCHITECTURE behavior OF TheTestBench IS
 	signal int : std_logic_vector(3 downto 0);
 	signal wdata: std_logic;
 	signal run: std_logic;
-	signal dataDMP: std_logic;
-	signal coreDMP: std_logic;
-	signal instrDMP: std_logic;
+	signal Stage: std_logic_vector(2 downto 0);
 	signal data: std_logic_vector(15 downto 0);
 	signal address: std_logic_vector(11 downto 0);
 	signal Debug_data : std_logic_vector(15 downto 0);
@@ -81,9 +77,7 @@ BEGIN
 			 int => int,
 			 wdata => wdata,
 			run => run,
-			dataDMP => dataDMP,
-			coreDMP => coreDMP,
-			instrDMP => instrDMP,
+			Stage => Stage,
 			data => data,
 			address => address,
 			Debug_data => Debug_data
@@ -102,6 +96,7 @@ BEGIN
    begin		
       -- hold reset state for 100 ns.
 		run <= '1';
+		
 --      wait for period*4;	
 --		run <= '0';
 --      wait for period*4;	

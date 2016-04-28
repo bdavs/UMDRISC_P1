@@ -1,7 +1,11 @@
 ##############################################################
 #
 # Xilinx Core Generator version 14.7
+<<<<<<< HEAD
 # Date: Thu Apr 28 20:19:08 2016
+=======
+# Date: Thu Apr 28 21:00:43 2016
+>>>>>>> 4a59b6b3035560a929495109d2e9d5968399c3de
 #
 ##############################################################
 #
@@ -46,7 +50,7 @@ CSET axi_id_width=4
 CSET axi_slave_type=Memory_Slave
 CSET axi_type=AXI4_Full
 CSET byte_size=9
-CSET coe_file=.\swlw_vectortest.coe
+CSET coe_file=.\test.coe
 CSET collision_warnings=ALL
 CSET component_name=ROM
 CSET disable_collision_warnings=false
@@ -105,4 +109,4 @@ CSET write_width_b=16
 MISC pkg_timestamp=2012-11-19T16:22:25Z
 # END Extra information
 GENERATE
-# CRC: bba215bc
+# CRC: 1d05e4ce
