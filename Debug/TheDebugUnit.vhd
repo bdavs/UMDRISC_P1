@@ -125,16 +125,16 @@ SSeg: entity work.SSegDriver
 process(ascii_ready,CLK)
 begin
 	if(CLK'event and CLK = '1') then
-		if(run_flag = '1') then
-			run <= '0';
-			run_flag <= '0';
-		end if;
+--		if(run_flag = '1') then
+--			run <= '0';
+--			run_flag <= '0';
+--		end if;
 		
 		if(ascii_ready = '1') then
 			if(ascii = x"74") then
 				--key r (run the processor)
 				run <= '1';
-				run_flag <= '1';
+				--run_flag <= '1';
 				--reset the signals
 				enter_data <= '0';
 				address_en <= '1';
