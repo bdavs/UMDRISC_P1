@@ -45,9 +45,7 @@ end TheDebugUnit;
 architecture Behavioral of TheDebugUnit is
 signal Debug_data: std_logic_vector(15 downto 0);
 signal RISC_data: std_logic_vector(15 downto 0);
-signal DataDMP:  std_logic;
-signal CoreDMP:  std_logic;
-signal instrDMP: std_logic;
+
 signal Data: std_logic_vector (15 downto 0);
 signal Addr: std_logic_vector (11 downto 0);
 signal dpc : std_logic_vector(3 downto 0);

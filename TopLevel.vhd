@@ -151,7 +151,7 @@ Debug_data <=
 
 Stage5 <= Write_back;
 Stage4 <= execute_alu_out;
-Stage3 <= A(7 downto 0) & B(7 downto 0);
+Stage3 <= x"de" & B(7 downto 0); 
 Stage2 <= x"add" & RA_addr;
 Stage1 <= inst;
 
