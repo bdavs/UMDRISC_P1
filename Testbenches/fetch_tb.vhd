@@ -46,7 +46,7 @@ ARCHITECTURE behavior OF fetch_tb IS
 			run : IN std_logic;
          en_fetch : IN  std_logic;
          move_and_en : IN  std_logic_vector(15 downto 0);
-			debug_address: IN  std_logic_vector(11 downto 0);
+			debug_address : IN  std_logic_vector(11 downto 0);
          br_stall : IN  std_logic;
          int : IN  std_logic_vector(3 downto 0);
          output : OUT  std_logic_vector(15 downto 0)
@@ -113,6 +113,11 @@ move_and_en <= "1101000000000001";
 move_and_en <= "0000000000000001";
 		wait for clk_period*3;
 		move_and_en <= "1110000000000001";
+		wait for clk_period;
+		move_and_en <= "0000000000000000";	
+		wait for clk_period;
+		int <= "1000";
+		
       -- insert stimulus here 
 		
 
