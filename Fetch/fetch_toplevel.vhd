@@ -226,7 +226,7 @@ ROM_Address <=
 	
 ROM: entity work.ROM
 port map(
-			ADDRA => count,
+			ADDRA => ROM_Address,
 			CLKA => clk,
 			DOUTA => inst
 );
