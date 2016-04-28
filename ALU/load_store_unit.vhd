@@ -33,27 +33,13 @@ architecture Behavioral of Load_Store_Unit is
 	 signal reg2 : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
 
 begin
+
 with OP select
-	w_en <= 
-			'1' when "1010" ,
-			'1' when "1001" ,
-			'0' when OTHERS;
-		
-    --w_en <= '1' when OP="1010" else '0';
+result2 <=  IMMED when "1010",
+				IMMED(7 downto 0) & IMMED(15 downto 8) when  "1001",
+				IMMED when others;
 
-    process(CLK)
-    begin
-        if (CLK'event and CLK='1') then
-            if (w_en = '1') then
-                reg <= A;
-					 reg2<=IMMED;
-				
-            end if;
-        end if;
-    end process;
-
-    RESULT <= reg;
-	 result2<=reg2;
+    RESULT <=  A;
 
 end Behavioral;
 

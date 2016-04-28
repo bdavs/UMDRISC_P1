@@ -45,7 +45,7 @@ port(clk : in std_logic;
 		RB_addr : in std_logic_vector(3 downto 0);
 		Write_Back : in std_logic_vector(15 downto 0);
 		Writeback_Addr : in std_logic_vector(3 downto 0);
-		execute_alu_out  : in std_logic_vector(15 downto 0);
+		--execute_alu_out  : in std_logic_vector(15 downto 0);
 		RA_data_latch : out std_logic_vector(15 downto 0);
 		RB_data_latch : out std_logic_vector(15 downto 0);
 		S_out_latch : out std_logic_vector(15 downto 0);
@@ -124,13 +124,13 @@ port map(
 );
 
 
-operand_latch_RA_data: entity work.reg
-generic map (n => 16)
-port map(
-			clk => clk,
-			input => RA_data,
-			en => en_operand,
-			output => RA_data_latch);
+--operand_latch_RA_data: entity work.reg
+--generic map (n => 16)
+--port map(
+--			clk => clk,
+--			input => RA_data,
+--			en => en_operand,
+--			output => RA_data_latch);
 
 S_out_latch_data: entity work.reg
 generic map (n => 16)
@@ -159,6 +159,13 @@ port map(
 			en => en_operand,
 			output => operand_op_latch);
 			
+RA_data_latch <= RA_data;
+--process(clk)
+--			begin 
+--			if (falling_edge(clk))then
+--			
+--			end if;
+--			end process;
 
 			
 end Behavioral;

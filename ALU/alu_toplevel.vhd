@@ -49,6 +49,7 @@ architecture Structural of ALU is
 	 signal vector     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
 	 signal Shadow     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
 	 	 signal external     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
+		 
     signal logic     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
     signal shift     : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
 	 signal move      : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
@@ -137,12 +138,7 @@ begin
 	port map(
 			clk => clk,
 			input => ALU_OUT_tmp,
-
-
-		
-
 			en => en_execute,
-
 			output => ALU_OUT);
 			
 	ext_out_latch: entity work.reg

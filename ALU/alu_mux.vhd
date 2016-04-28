@@ -57,7 +57,8 @@ begin
 				MOVE		 when "1111",
 				Vector    when "1011",
 				vector    when "1100",
-            MEMORY    when OTHERS;     -- SW
+            MEMORY    when "1010",
+				memory 	 when others;	-- SW
 	 with OP select
 			LDST_OUT <=
 				Shadow when "1100",

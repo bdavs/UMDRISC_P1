@@ -71,7 +71,7 @@ entity controlModules is
 			en_pipeline : out std_logic ;
 			en_operand :out std_logic ;
 			en_Writeback:out std_logic;
-			en_Writeback_ctrl:out std_logic;
+			en_writeback_ctrl:out std_logic;
 			en_execute: out std_logic
 			);
 
@@ -81,6 +81,7 @@ entity controlModules is
 end controlModules;
 
 architecture Combinational of controlModules is
+signal stop_flag : std_logic:='0';
 begin
 
 	--signal t1, t2, t3, t4, t5 : STD_LOGIC_VECTOR(15 downto 0);
@@ -111,6 +112,7 @@ case t5(15 downto 12) is
 		when x"0"=>
 		en_writeback<='1';
 		Write_Addr_sel<='0';
+		
 	
 		when x"1"=>
 		en_writeback<='1';
@@ -147,6 +149,7 @@ case t5(15 downto 12) is
 		when "1001"=>
 			en_writeback<='1';
 			Write_Addr_sel<='0';
+			en_writeback_ctrl<='1';
 		
 		when "1011"=>
 			en_writeback<='1';
@@ -155,13 +158,10 @@ case t5(15 downto 12) is
 		when others=>
 			en_writeback<='0';
 			Write_Addr_sel<='1';
+			en_writeback_ctrl<='0';
 		
 		end case;
-end process;
-
-process(OP)
-begin
-	case OP is
+		case t5(15 downto 12) is
 		when "1011"=>
 			S_en<='1';
 		when "1100"=>
@@ -174,7 +174,7 @@ ext_addr_en<='0';
  
  
 
- if(OP="1010")then
+ if(t4(15 downto 12)="1010")then
  wea<="1";
  lwvd_en<='0';
  else
@@ -188,20 +188,20 @@ ext_addr_en<='0';
  S_read<='0';
  end if;
  
- if(OP="1100")then
+ if(t5(15 downto 12)="1100")then
  ext_wea<="1";
  else
  ext_wea<="0";
  end if;
  
-if (OP/="1011" and ID="01")then --lwvd
+if (t5(15 downto 12)/="1011" and ID="01")then --lwvd
 --RA_addr <= t4(11 downto 8);
 lwvd_en<='1';
 wea<="1";
 ext_wea<="0";
 end if;
 
-if (OP/="1011" and ID="11")then --lwvs 
+if (t5(15 downto 12)/="1011" and ID="11")then --lwvs 
  S_write <= '1' ;
  --WE<='0';
  s_EN<='1';
@@ -210,15 +210,14 @@ if (OP/="1011" and ID="11")then --lwvs
  s_EN<='0';
  end if;
  
-if (OP/="1100" and ID="01")then
+if (t5(15 downto 12)/="1100" and ID="01")then
 wea<="0";
 ext_wea<="1";
 ext_addr_en<='1';
 end if;
+end process;
 
 
- end process;
- 
 
  
  --RegBankCMD: entity work.RegBankCMD
@@ -230,17 +229,28 @@ end if;
 
 	--pipeline: entity work.PipelineController 
 	--port map( clk,en,input,t1,t2,t3,t4,t5);
+	process(clk,t4)
+	begin
+	if (rising_edge(clk))then
+	if (t4(15 downto 12) ="1001" or t4(15 downto 12) ="1010" )then
+		stop_flag<='1' ;
+		else 
+		stop_flag<='0';
+		end if;
 
-process(run) 
+	end if;
+	end process;
+	
+process(stop_flag) 
 begin
-	if(run = '0') then
+	if(stop_flag = '1' ) then
 		en_fetch <= '0';
 		en_decode <= '0';
 		en_pipeline <= '0' ;
 		en_operand <= '0' ;
 		en_execute <= '0';
-	
 	else
+	
 		en_fetch <= '1';
 		en_decode <= '1';
 		en_pipeline <= '1' ;

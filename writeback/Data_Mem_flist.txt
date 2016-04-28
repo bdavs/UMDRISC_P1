@@ -53,4 +53,5 @@ Data_Mem\simulation\timing\wave_mti.do
 Data_Mem\simulation\timing\wave_ncsim.sv
 Data_Mem_flist.txt
 Data_Mem_xmdf.tcl
+_xmsgs\pn_parser.xmsgs
 summary.log
