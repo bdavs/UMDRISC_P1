@@ -154,14 +154,21 @@ port map(
 			IN_2 => ext_out,
 			MOUT => Write_back_m);
 			
-
-Writeback_out_latch: entity work.reg
-	generic map (n => 16)
-	port map(
-			clk => clk,
-			input => Write_back_m,
-			en => en_Writeback,
-			output => Write_back);
+			process(clk)
+			begin 
+			if (falling_edge(clk))then
+			Write_back <= Write_back_m;
+			end if;
+			end process;
+			
+--
+--Writeback_out_latch: entity work.reg
+--	generic map (n => 16)
+--	port map(
+--			clk => clk,
+--			input => Write_back_m,
+--			en => en_Writeback,
+--			output => Write_back);
 
 end Behavioral;
 

@@ -104,10 +104,10 @@ with t5(15 downto 12) select
 --		'1' when x"0" | x"1" | x"2" | x"3" | x"4" | x"5" | x"6" | x"7" | x"8" | x"9" | x"B",
 --		'0' when others;
 
-process(OP)
+process(t5)
 begin
 
-case OP is
+case t5(15 downto 12) is
 		when x"0"=>
 		en_writeback<='1';
 		Write_Addr_sel<='0';
@@ -157,8 +157,11 @@ case OP is
 			Write_Addr_sel<='1';
 		
 		end case;
-		
-case OP is
+end process;
+
+process(OP)
+begin
+	case OP is
 		when "1011"=>
 			S_en<='1';
 		when "1100"=>

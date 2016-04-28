@@ -92,7 +92,8 @@ signal en_decode : std_logic := '1';
 signal en_pipeline : std_logic := '1';
 signal en_operand : std_logic := '1';
 signal en_Writeback: std_logic := '1';
-signal Write_Addr_sel: std_logic := '1';
+
+signal Write_Addr_sel: std_logic := '0';
 
 signal en_Execute:  std_logic;
 signal ext_addr_en:  std_logic;
@@ -245,7 +246,7 @@ Port map(clk =>clk,
 			  external_address=>EXT_OUT,
 			  Write_back =>Write_back,
 				wea=>wea,
-				RA_addr=>t5(15 downto 12),
+				RA_addr=>t5(11 downto 8),
 				lwvd_en=>lwvd_en,
 				s_en=>S_en,
 				S_id_latch=>S_id,
