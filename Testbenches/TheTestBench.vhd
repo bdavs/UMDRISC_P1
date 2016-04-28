@@ -102,7 +102,25 @@ BEGIN
    begin		
       -- hold reset state for 100 ns.
 		run <= '1';
-      wait for 100 ns;	
+--      wait for period*4;	
+--		run <= '0';
+--      wait for period*4;	
+--		run <= '1';
+--      wait for period*4;	
+--		run <= '0';
+--      wait for period*4;	
+--		run <= '1';
+--      wait for period*4;	
+--		run <= '0';
+--      wait for period*4;	
+--		run <= '1';
+--      wait for period*4;	
+--		run <= '0';
+--      wait for period*4;
+--		run <= '1';
+--      wait for period*4;	
+--		run <= '0';
+--      wait for period*4;		
 		
       
 		
