@@ -36,9 +36,7 @@ port(	clk : in std_logic;
 		int : in std_logic_vector( 3 downto 0);
 		wdata: in std_logic;
 		run: in std_logic;
-		dataDMP: in std_logic;
-		coreDMP: in std_logic;
-		instrDMP: in std_logic;
+		Stage: in std_logic_vector(2 downto 0);
 		data: in std_logic_vector(15 downto 0);
 		address: in std_logic_vector(11 downto 0);
 		Debug_data : out std_logic_vector(15 downto 0)
@@ -129,26 +127,33 @@ signal move: std_logic_vector(15 downto 0);
 
 signal br_stall: std_logic:='0';
 
-signal ROM_Debug: std_logic_vector(15 downto 0);
+signal Stage1: std_logic_vector(15 downto 0);
 signal Core_Debug: std_logic_vector(15 downto 0);
-signal Ext_Debug: std_logic_vector(15 downto 0);
+signal Stage2: std_logic_vector(15 downto 0);
 signal Data_mem_Debug: std_logic_vector(15 downto 0);
-
+signal Stage3: std_logic_vector(15 downto 0);
+signal Stage4: std_logic_vector(15 downto 0);
+signal Stage5: std_logic_vector(15 downto 0);
 signal ROM_Debug_signal:std_logic_vector(15 downto 0);
 signal Debug_selector: std_logic_vector(2 downto 0);
 begin
 
 --Debug Mux
-Debug_selector <= instrDMP & coreDMP & dataDMP;
-with Debug_selector select
+--Debug_selector <= instrDMP & coreDMP & dataDMP;
+with Stage select
 Debug_data <= 
-	Core_Debug when "010", --core
-	Ext_Debug when "001", --instr
-	ROM_Debug when "100", --data
-	x"1995" when others; --bad input
-	
-Ext_Debug <= x"add" & RA_addr;
-ROM_Debug <= inst;  
+	Stage1 when "000", 
+	Stage2 when "001", 
+	Stage3 when "010", 
+	Stage4 when "011",
+	Stage5 when "100",
+	x"ECE3" when others; --bad input
+
+Stage5 <= Write_back;
+Stage4 <= execute_alu_out;
+Stage3 <= A(7 downto 0) & B(7 downto 0);
+Stage2 <= x"add" & RA_addr;
+Stage1 <= inst;
 
 junk_stuff: entity work.stuff
 port map(

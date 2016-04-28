@@ -64,6 +64,7 @@ signal selector: std_logic_vector(1 downto 0);
 signal write_data: std_logic:= '0';
 signal write_data_flag: std_logic:= '0';
 
+signal Stage: std_logic_vector(2 downto 0);
 signal UMDRISC_CLK: std_logic;
 signal interrupts: std_logic_vector(3 downto 0);
 
@@ -118,15 +119,13 @@ SSeg: entity work.SSegDriver
 		int => interrupts,
 		wdata => write_data,
 		run => run,
-		dataDMP => dataDMP,
-		coreDMP => coreDMP,
-		instrDMP => instrDMP,
+		Stage => Stage,
 		data => Data,
 		address => Addr,
 		Debug_data => RISC_data
 );	
 run <= '1';			
-process(ascii_ready,CLK)
+process(ascii_ready)
 begin
 	--if(CLK'event and CLK = '1') then
 --		if(run_flag = '1') then
@@ -170,25 +169,29 @@ begin
 --					end if;                 
 --				end if;
 				
-				if(ascii = x"63") then
-					--key c 
-					DataDMP <= '0'  ;
-					CoreDMP <= '1' ;
-					instrDMP <= '0';
+				if(ascii = x"31") then
+					--key 1 
+					Stage <= "000";
 				end if;
 				
-				if(ascii = x"64") then
-					--key d 
-					DataDMP <= '1'  ;
-					CoreDMP <= '0' ;
-					instrDMP <= '0';
+				if(ascii = x"32") then
+					--key 2 
+					Stage <= "001";
 				end if;
 				
-				if(ascii = x"69") then
-					--key i 
-					DataDMP <= '0'  ;
-					CoreDMP <= '0' ;
-					instrDMP <= '1';
+				if(ascii = x"33") then
+					--key 3 
+					Stage <= "010";
+				end if;
+				
+				if(ascii = x"34") then
+					--key 4 
+					Stage <= "011";
+				end if;
+				
+				if(ascii = x"35") then
+					--key 5 
+					Stage <= "100";
 				end if;
 				
 			end if;
@@ -204,14 +207,17 @@ begin
 	--end if;
 end process;
 
+	
+	
+Debug_data <= RISC_data;
 
-selector <= run & enter_data;
-with selector select 
-	Debug_data <= 
-		x"00" & SW when "01",
-		RISC_data when "00",
-		RISC_data when "10" | "11",
-		x"0000" when others;
+--selector <= run & enter_data;
+--with selector select 
+--	Debug_data <= 
+--		x"00" & SW when "01",
+--		RISC_data when "00",
+--		RISC_data when "10" | "11",
+--		x"0000" when others;
 
 --with OP select
 --        ALU_OUT <=
