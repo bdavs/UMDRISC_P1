@@ -134,6 +134,7 @@ signal Core_Debug: std_logic_vector(15 downto 0);
 signal Ext_Debug: std_logic_vector(15 downto 0);
 signal Data_mem_Debug: std_logic_vector(15 downto 0);
 
+signal ROM_Debug_signal:std_logic_vector(15 downto 0);
 signal Debug_selector: std_logic_vector(2 downto 0);
 begin
 
@@ -146,6 +147,8 @@ Debug_data <=
 	ROM_Debug when "100", --data
 	x"1995" when others; --bad input
 	
+Ext_Debug <= x"add" & RA_addr;
+ROM_Debug <= inst;  
 
 junk_stuff: entity work.stuff
 port map(
@@ -177,7 +180,7 @@ port map(
 			output => inst,
 			run => run,
 			Debug_address => address,
-			ROM_Debug => ROM_Debug
+			ROM_Debug => ROM_Debug_signal
 			);
 
 Decode_top_level: entity work.Decode_top			

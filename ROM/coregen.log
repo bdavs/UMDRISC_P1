@@ -1,6 +1,24 @@
 INFO:sim:172 - Generating IP...
 Applying current project options...
 Finished applying current project options.
+ERROR:sim - Unable to find .\tes.coe
+ERROR:sim -    Coregen is looking for Z:\UMDRISC_P1\ROM\tes.coe
+ERROR:sim - Unable to find .\te.coe
+ERROR:sim -    Coregen is looking for Z:\UMDRISC_P1\ROM\te.coe
+ERROR:sim - Unable to find .\t.coe
+ERROR:sim -    Coregen is looking for Z:\UMDRISC_P1\ROM\t.coe
+ERROR:sim - Unable to find .\.coe
+ERROR:sim -    Coregen is looking for Z:\UMDRISC_P1\ROM\.coe
+ERROR:sim - Unable to find .\o.coe
+ERROR:sim -    Coregen is looking for Z:\UMDRISC_P1\ROM\o.coe
+ERROR:sim - Unable to find .\ou.coe
+ERROR:sim -    Coregen is looking for Z:\UMDRISC_P1\ROM\ou.coe
+ERROR:sim - Unable to find .\out.coe
+ERROR:sim -    Coregen is looking for Z:\UMDRISC_P1\ROM\out.coe
+ERROR:sim - Unable to find .\outp.coe
+ERROR:sim -    Coregen is looking for Z:\UMDRISC_P1\ROM\outp.coe
+ERROR:sim - Unable to find .\outpu.coe
+ERROR:sim -    Coregen is looking for Z:\UMDRISC_P1\ROM\outpu.coe
 WARNING:sim - A core named 'ROM' already exists in the project. Output products
    for this core may be overwritten.
 Resolving generics for 'ROM'...
