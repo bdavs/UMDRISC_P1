@@ -98,6 +98,7 @@ with t5(15 downto 12) select
 	WE <= 
 		'1' when x"0" | x"1" | x"2" | x"3" | x"4" | x"5" | x"6" | x"7" | x"8" | x"9" | x"B",
 		'0' when others;
+			RE <= '1';
 --with t5(15 downto 12) select
 --	en_writeback <= 
 --		'1' when x"0" | x"1" | x"2" | x"3" | x"4" | x"5" | x"6" | x"7" | x"8" | x"9" | x"B",
@@ -110,39 +111,51 @@ case OP is
 		when x"0"=>
 		en_writeback<='1';
 		Write_Addr_sel<='0';
+	
 		when x"1"=>
 		en_writeback<='1';
 		Write_Addr_sel<='0';
+	
 		when x"2"=>
 		en_writeback<='1';
 		Write_Addr_sel<='0';
+	
 		when x"3"=>
 		en_writeback<='1';
 		Write_Addr_sel<='0';
+		
 		when X"4"=>
 		en_writeback<='1';
 		Write_Addr_sel<='0';
+	
 		when x"5"=>
 		en_writeback<='1';
 		Write_Addr_sel<='0';
+	
 		when x"6"=>
 		en_writeback<='1';
 		Write_Addr_sel<='0';
+		
 		when x"7"=>
 		en_writeback<='1';
 		Write_Addr_sel<='0';
+		
 		when x"8"=>
 		en_writeback<='1';
 		Write_Addr_sel<='0';
+		
 		when "1001"=>
 			en_writeback<='1';
 			Write_Addr_sel<='0';
+		
 		when "1011"=>
 			en_writeback<='1';
 			Write_Addr_sel<='0';
+	
 		when others=>
 			en_writeback<='0';
 			Write_Addr_sel<='1';
+		
 		end case;
 		
 case OP is
@@ -155,7 +168,7 @@ case OP is
 		end case;
 
 ext_addr_en<='0';
- RE <= '1';
+ 
  
 
  if(OP="1010")then
@@ -188,8 +201,10 @@ end if;
 if (OP/="1011" and ID="11")then --lwvs 
  S_write <= '1' ;
  --WE<='0';
+ s_EN<='1';
  else 
  S_write<='0';
+ s_EN<='0';
  end if;
  
 if (OP/="1100" and ID="01")then

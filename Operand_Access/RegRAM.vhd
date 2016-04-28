@@ -39,7 +39,7 @@ architecture behavioral of RegRAM is
 
 type ram_type is array (0 to depth-1) of
 	std_logic_vector(width-1 downto 0);
-signal tmp_ram: ram_type;
+signal tmp_ram: ram_type:=(others =>(others=>'0'));
 
 begin	
 
@@ -48,15 +48,15 @@ begin
     begin
 	if (Clock'event and Clock='1') then
 	   if (Enable='1') then
-		if (Read='1') then
-		    -- built in function conv_integer change the type
-		    -- from std_logic_vector to integer
-		    Data_outA <= tmp_ram(conv_integer(Read_AddrA)); 
-		    Data_outB <= tmp_ram(conv_integer(Read_AddrB)); 
-		else
-		    Data_outA <= (Data_outA'range => 'Z');
-	       Data_outB <= (Data_outB'range => 'Z');
-		end if;
+			if (Read='1') then
+				 -- built in function conv_integer change the type
+				 -- from std_logic_vector to integer
+				 Data_outA <= tmp_ram(conv_integer(Read_AddrA)); 
+				 Data_outB <= tmp_ram(conv_integer(Read_AddrB)); 
+			else
+				 Data_outA <= (Data_outA'range => 'Z');
+				 Data_outB <= (Data_outB'range => 'Z');
+			end if;
 	   end if;
 	end if;
     end process;
@@ -65,11 +65,11 @@ begin
     process(Clock, Write)
     begin
 	if (Clock'event and Clock='0') then
-	    if Enable='1' then
-		if Write='1' then
+	   if Enable='1' then
+			if Write='1' then
 		    tmp_ram(conv_integer(Write_AddrA)) <= Data_inA;
-		end if;
-	    end if;
+			end if;
+	   end if;
 	end if;
     end process;
 

@@ -47,17 +47,21 @@ end PipelineController;
 architecture Structural of PipelineController is
 	signal t1_out, t2_out, t3_out, t4_out, t5_out : STD_LOGIC_VECTOR (15 downto 0);
 begin
-
-	U1: entity work.reg 
-	port map( clk    => clk,
-              en    => en,
-              input  => input,
-              output => t1_out);
+	process(input)
+	begin
+		t1_out <= input;
+	end process;
+	
+--	U1: entity work.reg 
+--	port map( clk    => clk,
+--              en    => en,
+--              input  => input,
+--              output => t1_out);
 				  
 	U2: entity work.reg 
 	port map( clk    => clk,
               en    => en,
-              input  => t1_out,
+              input  =>  t1_out,
               output => t2_out);
 				  
 	U3: entity work.reg 
