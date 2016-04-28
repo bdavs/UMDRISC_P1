@@ -78,7 +78,7 @@ signal move: std_logic_vector(11 downto 0):= (others => '0');
 
 signal stall_ready : std_logic:='0';
 signal stall_finished : std_logic := '0';
-signal stall_cnt_in: std_logic_vector(1 downto 0) := (others => '0');
+signal stall_cnt: std_logic_vector(1 downto 0) := (others => '0');
 --signal stall_cnt_out: std_logic_vector(1 downto 0) := (others => '0');
 --signal stall_temp: std_logic_vector(15 downto 0) := (others => '0');
 
@@ -111,14 +111,14 @@ if (clk'event and clk = '0')then
 	end if;
 	
 	--stall
-	if (stall_ready = '0' and br_stall = '0' and stall_cnt_in = "00")then
+	if (stall_ready = '0' and br_stall = '0' and stall_cnt = "00")then
 		latch_input <= inst;
-		stall_cnt_in <= "00";
+		stall_cnt <= "00";
 		push <= '0';
 		stall_finished <= '0';
 		--pop = '0';
-	elsif((stall_ready = '1' and stall_cnt_in = "00") or br_stall = '1')then --first instance
-		stall_cnt_in <= stall_cnt_in + 1; 
+	elsif((stall_ready = '1' and stall_cnt = "00") or br_stall = '1')then --first instance
+		stall_cnt <= stall_cnt + 1; 
 		latch_input <= nop_inst;
 		stall_finished <= '0';
 		if (move_and_en(15 downto 12) = "1111")then
@@ -127,19 +127,19 @@ if (clk'event and clk = '0')then
 			push <= '1';
 		end if;
 		--pop = '0';
-	elsif(stall_cnt_in = "01" or stall_cnt_in = "10" or stall_cnt_in = "00")then --stalling
-		stall_cnt_in <= stall_cnt_in + 1; 
+	elsif(stall_cnt = "01" or stall_cnt = "10" or stall_cnt = "00")then --stalling
+		stall_cnt <= stall_cnt + 1; 
 		latch_input <= nop_inst;
 		push <= '0';
 		stall_finished <= '0';
 		--pop = '0';
-	elsif(stall_ready = '1' and stall_cnt_in ="11")then --(stall done)
-		stall_cnt_in <= "00";
+	elsif(stall_ready = '1' and stall_cnt ="11")then --(stall done)
+		stall_cnt <= "00";
 		stall_finished <= '1';
 		push <= '0';
 	else 
 		latch_input <= inst;
-		stall_cnt_in <= "00";
+		stall_cnt <= "00";
 		push <= '0';
 		stall_finished <= '0';		--pop = '0';
 	end if;
@@ -154,7 +154,7 @@ if (clk'event and clk = '0')then
 
 	else
 		pop <= '0';
-		if(stall_ready = '1' and stall_cnt_in ="11")then 
+		if(stall_ready = '1' and stall_cnt ="11")then 
 			if (int /= "0000")then
 				int_mode <= '1';
 				jmp_mode <= '0';
