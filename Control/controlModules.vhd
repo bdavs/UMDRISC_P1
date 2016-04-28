@@ -40,7 +40,7 @@ entity controlModules is
 			ID:in std_logic_vector(1 downto 0);
 			ccr : in STD_LOGIC_vector(3 downto 0);
 			t1, t2, t3, t4, t5 : in STD_LOGIC_VECTOR(15 downto 0);
-			RA_addr : out STD_LOGIC_vector(3 downto 0);
+		
 			WE, RE,lwvd_en : out STD_LOGIC;
 					wea : out STD_LOGIC_vector(0 downto 0);
 			run: in std_logic;
@@ -48,6 +48,7 @@ entity controlModules is
 			S_write : out STD_LOGIC;
 			S_Read : out STD_LOGIC;
 			ext_wea : out STD_LOGIC_vector(0 downto 0);
+			Write_Addr_sel  :out std_logic;
 
 
 			ext_addr_en:out STD_LOGIC;
@@ -70,6 +71,7 @@ entity controlModules is
 			en_pipeline : out std_logic ;
 			en_operand :out std_logic ;
 			en_Writeback:out std_logic;
+			en_Writeback_ctrl:out std_logic;
 			en_execute: out std_logic
 			);
 
@@ -96,19 +98,53 @@ with t5(15 downto 12) select
 	WE <= 
 		'1' when x"0" | x"1" | x"2" | x"3" | x"4" | x"5" | x"6" | x"7" | x"8" | x"9" | x"B",
 		'0' when others;
+--with t5(15 downto 12) select
+--	en_writeback <= 
+--		'1' when x"0" | x"1" | x"2" | x"3" | x"4" | x"5" | x"6" | x"7" | x"8" | x"9" | x"B",
+--		'0' when others;
 
 process(OP)
 begin
 
 case OP is
+		when x"0"=>
+		en_writeback<='1';
+		Write_Addr_sel<='0';
+		when x"1"=>
+		en_writeback<='1';
+		Write_Addr_sel<='0';
+		when x"2"=>
+		en_writeback<='1';
+		Write_Addr_sel<='0';
+		when x"3"=>
+		en_writeback<='1';
+		Write_Addr_sel<='0';
+		when X"4"=>
+		en_writeback<='1';
+		Write_Addr_sel<='0';
+		when x"5"=>
+		en_writeback<='1';
+		Write_Addr_sel<='0';
+		when x"6"=>
+		en_writeback<='1';
+		Write_Addr_sel<='0';
+		when x"7"=>
+		en_writeback<='1';
+		Write_Addr_sel<='0';
+		when x"8"=>
+		en_writeback<='1';
+		Write_Addr_sel<='0';
 		when "1001"=>
-			en_Writeback<='1';
+			en_writeback<='1';
+			Write_Addr_sel<='0';
 		when "1011"=>
-			en_Writeback<='1';
+			en_writeback<='1';
+			Write_Addr_sel<='0';
 		when others=>
-			en_Writeback<='0';
+			en_writeback<='0';
+			Write_Addr_sel<='1';
 		end case;
-
+		
 case OP is
 		when "1011"=>
 			S_en<='1';
@@ -124,8 +160,10 @@ ext_addr_en<='0';
 
  if(OP="1010")then
  wea<="1";
+ lwvd_en<='0';
  else
  wea<="0";
+ lwvd_en<='1';
  end if;
  
  if(S_en='1')then
@@ -183,6 +221,7 @@ begin
 		en_pipeline <= '0' ;
 		en_operand <= '0' ;
 		en_execute <= '0';
+	
 	else
 		en_fetch <= '1';
 		en_decode <= '1';

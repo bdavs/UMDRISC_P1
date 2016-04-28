@@ -36,7 +36,9 @@ Port(clk : in std_logic;
            execute_ldst_out_latch : in STD_LOGIC_VECTOR (15 downto 0);
 			  external_address: in STD_LOGIC_VECTOR (15 downto 0);
 			  en_Writeback  : in std_logic;
+			  en_Writeback_ctrl  : in std_logic;
 			   ext_addr_en  : in std_logic;
+				RA_addr : in std_logic_vector(3 downto 0);
 		
 			   wea  : in std_logic_vector(0 downto 0);
 				ext_wea  : in std_logic_vector(0 downto 0);
@@ -45,12 +47,13 @@ Port(clk : in std_logic;
 				 S_id_latch :in std_logic_vector(1 downto 0);
 				 S_addr_latch :in std_logic_vector(1 downto 0);
 			  Write_back :out STD_LOGIC_VECTOR (15 downto 0);
+			   Write_Addr_sel  : in std_logic;
 
 
-			  Writeback_address: out std_logic_vector(3 downto 0);
+			  Writeback_address: out std_logic_vector(3 downto 0)
 
 		
-			  en_write_back: in std_logic
+			  --en_write_back: in std_logic
 
 			
 			  ); 
@@ -71,9 +74,18 @@ signal ext_out  : STD_LOGIC_VECTOR (15 downto 0);
 
 signal Datamem_in  : STD_LOGIC_VECTOR (15 downto 0);
 signal D_addr :std_logic_vector(15 downto 0);
+signal S_addr :std_logic_vector(3 downto 0);
 --signal wea : STD_LOGIC_VECTOR (0 downto 0);
 begin
 D_addr<=execute_ldst_out_latch;
+S_addr<="00" & S_addr_latch;
+WB_addr_mux: entity work.mux_2to1
+generic map(width => 4)
+port map(
+			SEL => Write_Addr_sel,
+			IN_1 => RA_addr,
+			IN_2 => S_addr,
+			MOUT => Writeback_address);
 
 
 ext_mem : entity work.Ext_mem
@@ -126,7 +138,7 @@ port map(
 writeback_mux: entity work.mux_2to1
 generic map(width => 16)
 port map(
-			SEL => en_Writeback,
+			SEL => en_writeback_ctrl,
 			IN_1 => execute_alu_out_latch,
 			IN_2 => LD_latch,
 			MOUT => f_Write_back);
@@ -148,7 +160,7 @@ Writeback_out_latch: entity work.reg
 	port map(
 			clk => clk,
 			input => Write_back_m,
-			en => en_write_back,
+			en => en_Writeback,
 			output => Write_back);
 
 end Behavioral;

@@ -92,10 +92,11 @@ signal en_decode : std_logic := '1';
 signal en_pipeline : std_logic := '1';
 signal en_operand : std_logic := '1';
 signal en_Writeback: std_logic := '1';
+signal Write_Addr_sel: std_logic := '1';
 
 signal en_Execute:  std_logic;
 signal ext_addr_en:  std_logic;
-signal lwvd_en:  std_logic;
+signal lwvd_en:  std_logic:='0';
 
 --signal en_execute:  std_logic;
 
@@ -118,6 +119,7 @@ signal EXT_OUT: std_logic_vector(15 downto 0):= (others => '0');
 
 signal RE: std_logic:='0'; 
 signal WE: std_logic:='0'; 
+signal en_writeback_ctrl: std_logic:='0';
 
 signal int_mode: std_logic:='0'; 
 signal jmp_mode: std_logic:='0';
@@ -243,16 +245,20 @@ Port map(clk =>clk,
 			  external_address=>EXT_OUT,
 			  Write_back =>Write_back,
 				wea=>wea,
+				RA_addr=>t5(15 downto 12),
 				lwvd_en=>lwvd_en,
 				s_en=>S_en,
 				S_id_latch=>S_id,
 				S_addr_latch=>S_addr,
 				writeback_address=>writeback_addr,
 				ext_wea=>ext_wea,
+				Write_Addr_sel=>Write_Addr_sel,
+				en_writeback_ctrl=>en_writeback_ctrl,
+				
 
-				ext_addr_en=>ext_addr_en,
+				ext_addr_en=>ext_addr_en
 
-				en_write_back => en_Writeback
+				--en_write_back => en_Writeback
 			  );
 			
 	
