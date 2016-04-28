@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/home/bobby/UMDRISC/r3/fetch_tb_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="fetch_tb" />
+            <top_module name="std_logic_1164" />
+            <top_module name="std_logic_arith" />
+            <top_module name="std_logic_textio" />
+            <top_module name="std_logic_unsigned" />
+            <top_module name="textio" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="10" />
+   <wvobject fp_name="/fetch_tb/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/move_and_en" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">move_and_en[15:0]</obj_property>
+      <obj_property name="ObjectShortName">move_and_en[15:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/br_stall" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">br_stall</obj_property>
+      <obj_property name="ObjectShortName">br_stall</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/int" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">int[3:0]</obj_property>
+      <obj_property name="ObjectShortName">int[3:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/output" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">output[15:0]</obj_property>
+      <obj_property name="ObjectShortName">output[15:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/jmp_mode" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">jmp_mode</obj_property>
+      <obj_property name="ObjectShortName">jmp_mode</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/int_mode" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">int_mode</obj_property>
+      <obj_property name="ObjectShortName">int_mode</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/stall_cnt" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">stall_cnt[1:0]</obj_property>
+      <obj_property name="ObjectShortName">stall_cnt[1:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/count" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">count[11:0]</obj_property>
+      <obj_property name="ObjectShortName">count[11:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/fetch_tb/uut/stall_ready" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">stall_ready</obj_property>
+      <obj_property name="ObjectShortName">stall_ready</obj_property>
+   </wvobject>
+</wave_config>

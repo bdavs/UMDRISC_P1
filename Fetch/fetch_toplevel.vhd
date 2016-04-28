@@ -39,8 +39,8 @@ port( clk: in std_logic;
 		move_and_en: in std_logic_vector(15 downto 0);
 		br_stall: in std_logic;
 		int: in std_logic_vector (3 downto 0);
-		int_mode : out std_logic;
-		jmp_mode : out std_logic;
+		int_mode : out std_logic:= '0';
+		jmp_mode : out std_logic:= '0';
 		output: out std_logic_vector(15 downto 0);
 		run: in std_logic;
 		Debug_address: in std_logic_vector(11 downto 0);
@@ -154,8 +154,8 @@ if (clk'event and clk = '0')then
 
 	else
 		pop <= '0';
-		if(stall_ready = '1' and stall_cnt ="11")then 
-			if (int /= "0000")then
+		if(stall_cnt ="11")then 
+			if (int /= "0000")then --or stall_ready = '1' ?
 				int_mode <= '1';
 				jmp_mode <= '0';
 			else 

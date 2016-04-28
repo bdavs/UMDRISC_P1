@@ -114,7 +114,10 @@ move_and_en <= "0000000000000001";
 		wait for clk_period*3;
 		move_and_en <= "1110000000000001";
 		wait for clk_period;
-		move_and_en <= "0000000000000000";		
+		move_and_en <= "0000000000000000";	
+		wait for clk_period;
+		int <= "1000";
+		
       -- insert stimulus here 
 		
 
