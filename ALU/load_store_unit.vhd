@@ -34,11 +34,7 @@ architecture Behavioral of Load_Store_Unit is
 
 begin
 
-with OP select
-result2 <=  IMMED when "1010",
-				IMMED(7 downto 0) & IMMED(15 downto 8) when  "1001",
-				IMMED when others;
-
+	 result2 <=  IMMED; 
     RESULT <=  A;
 
 end Behavioral;

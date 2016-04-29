@@ -229,35 +229,35 @@ end process;
 
 	--pipeline: entity work.PipelineController 
 	--port map( clk,en,input,t1,t2,t3,t4,t5);
-	process(clk,t4)
-	begin
-	if (rising_edge(clk))then
-	if (t4(15 downto 12) ="1001" or t4(15 downto 12) ="1010" )then
-		stop_flag<='1' ;
-		else 
-		stop_flag<='0';
-		end if;
-
-	end if;
-	end process;
-	
-process(stop_flag) 
-begin
-	if(stop_flag = '1' ) then
-		en_fetch <= '0';
-		en_decode <= '0';
-		en_pipeline <= '0' ;
-		en_operand <= '0' ;
-		en_execute <= '0';
-	else
-	
+--	process(clk,t4)
+--	begin
+--	if (rising_edge(clk))then
+--	if (t4(15 downto 12) ="1001" or t4(15 downto 12) ="1010" )then
+--		stop_flag<='1' ;
+--		else 
+--		stop_flag<='0';
+--		end if;
+--
+--	end if;
+--	end process;
+--	
+--process(stop_flag) 
+--begin
+--	if(stop_flag = '1' ) then
+--		en_fetch <= '0';
+--		en_decode <= '0';
+--		en_pipeline <= '0' ;
+--		en_operand <= '0' ;
+--		en_execute <= '0';
+--	else
+--	
 		en_fetch <= '1';
 		en_decode <= '1';
 		en_pipeline <= '1' ;
 		en_operand <= '1' ;
 		en_execute <= '1';
-	end if;
-end process;
+--	end if;
+--end process;
 	
 
 end Combinational;

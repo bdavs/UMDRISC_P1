@@ -78,6 +78,7 @@ signal S_id_latch : std_logic_vector(1 downto 0):= (others => '0');
 signal S_addr : std_logic_vector(1 downto 0):= (others => '0');
 signal S_addr_latch : std_logic_vector(1 downto 0):= (others => '0');
 signal S_out : std_logic_vector(15 downto 0):= (others => '0');
+signal result2 : std_logic_vector(15 downto 0):= (others => '0');
 
 
 
@@ -247,10 +248,14 @@ port map(  CLK => clk,
 
 );
 
+with t3(15 downto 12) select
+result2 <=  t2(7 downto 0) & execute_ldst_out(7 downto 0) when "1001",
+				execute_ldst_out when others;
+				
 Write_Back_Stage: entity work.WriteBack
 Port map(clk =>clk,
            execute_alu_out_latch => execute_alu_out,
-           execute_ldst_out_latch =>execute_ldst_out,
+           execute_ldst_out_latch =>result2,
 			  en_Writeback =>en_Writeback,
 			  external_address=>EXT_OUT,
 			  Write_back =>Write_back,
