@@ -96,14 +96,15 @@ begin
 --end process;
 process(clk)
 begin
-
+if (rising_edge(clk))then
 case t5(15 downto 12) is
 	when x"0" | x"1" | x"2" | x"3" | x"4" | x"5" | x"6" | x"7" | x"8" | x"9" | x"B" =>
 		WE <= '1';
 	when others =>
 		WE <= '0';
-		end case;
-		end process;
+	end case;
+	end if;
+end process;
 			RE <= '1';
 --with t5(15 downto 12) select
 --	en_writeback <= 
