@@ -113,14 +113,21 @@ if(Clock'event and Clock = '1') then
 
 	if(sel = "00")then
 		reg_reg_en <= '1';
-		int_reg_en <= '1';
-		jmp_reg_en <= '1';
-	else
-		reg_reg_en <= '0';
 		int_reg_en <= '0';
 		jmp_reg_en <= '0';
 	end if;
 
+	if(sel = "10" or sel = "11") then
+		reg_reg_en <= '0';
+		int_reg_en <= '1';
+		jmp_reg_en <= '0';
+	end if;
+	
+	if(sel = "01") then
+		reg_reg_en <= '0';
+		int_reg_en <= '0';
+		jmp_reg_en <= '1';
+	end if;
 
 	if(sel = "00") then
 		Data_outA <= Data_outA_regular;

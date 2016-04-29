@@ -37,7 +37,7 @@ port( clk: in std_logic;
 		rst: in std_logic;
 		en_fetch: in std_logic := '1';
 		move_and_en: in std_logic_vector(15 downto 0);
-		--br_stall: in std_logic;
+		branch: in std_logic;
 		int: in std_logic_vector (3 downto 0);
 		int_mode : out std_logic:= '0';
 		jmp_mode : out std_logic:= '0';
@@ -76,10 +76,12 @@ signal reset: std_logic_vector(11 downto 0) := (others => '0');
 signal int_writeEnable: std_logic:='0';
 
 signal move: std_logic_vector(11 downto 0):= (others => '0');
+signal save_branch_thing: std_logic_vector(11 downto 0):= (others => '0');
 
 signal stall_ready : std_logic:='0';
 signal stall_finished : std_logic := '0';
 signal stall_cnt: std_logic_vector(1 downto 0) := (others => '0');
+signal save_jmp_addr: std_logic_vector(11 downto 0) := (others => '0');
 --signal stall_cnt_out: std_logic_vector(1 downto 0) := (others => '0');
 signal br_stall: std_logic := '0';
 
@@ -88,6 +90,8 @@ signal en_cnt: std_logic := '1';
 signal enable: std_logic := '1';
 
 signal ROM_Address: std_logic_vector(11 downto 0);
+
+signal branch_or_jump: std_logic_vector(11 downto 0);
 begin
 
 
@@ -104,9 +108,29 @@ end process;
 
 --stall_temp <= output;
 
+process(latch_input)
+begin
+	if (latch_input(15 downto 12) = x"F")then
+		save_branch_thing <= count;
+	end if;
+end process;
+
+process(latch_input,stall_cnt)
+begin
+if (latch_input(15 downto 12) = x"d" or latch_input(15 downto 12) = x"F")then
+	save_jmp_addr <= latch_input(11 downto 0);
+	en_cnt <= '0';
+elsif(stall_cnt ="11")then
+	en_cnt <= '1';
+end if;
+end process;
+
 process(clk)
 begin
 if (clk'event and clk = '0')then
+
+
+
 
 move <= move_and_en(11 downto 0);
 
@@ -114,7 +138,7 @@ move <= move_and_en(11 downto 0);
 	if(int_writeEnable ='1')then 
 		SEL <= "01";
 		writeEnable <= '1';
-	elsif(move_and_en(15 downto 12)="1101" or move_and_en(15 downto 12)="1111")then
+	elsif(move_and_en(15 downto 12)="1101" or move_and_en(15 downto 12)="1111" or stall_cnt /= "00")then
 		writeEnable <= '1';
 		SEL <= "10";
 	elsif(pop='1')then
@@ -133,13 +157,13 @@ move <= move_and_en(11 downto 0);
 		stall_cnt <= "00";
 		push <= '0';
 		stall_finished <= '0';
-		en_cnt <= '1';
+		--en_cnt <= '1';
 		--pop = '0';
 	elsif((stall_ready = '1' and stall_cnt = "00") or br_stall = '1')then --first instance
 		stall_cnt <= stall_cnt + 1; 
 		latch_input <= nop_inst;
 		stall_finished <= '0';
-		en_cnt <= '0';
+		--en_cnt <= '0';
 		if (latch_output(15 downto 12) = "1101")then
 			push <= '1';
 		else
@@ -151,19 +175,19 @@ move <= move_and_en(11 downto 0);
 		latch_input <= nop_inst;
 		push <= '0';
 		stall_finished <= '0';
-		en_cnt <= '0';
+		--en_cnt <= '0';
 		--pop = '0';
 	elsif(stall_ready = '1' and stall_cnt ="11")then --(stall done)
 		stall_cnt <= "00";
 		stall_finished <= '1';
 		push <= '0';
-		en_cnt <= '1';
+		--en_cnt <= '1';
 	else 
 		latch_input <= inst;
 		stall_cnt <= "00";
 		push <= '0';
 		stall_finished <= '0';		--pop = '0';
-		en_cnt <= '1';
+		--en_cnt <= '1';
 	end if;
 
 	
@@ -186,13 +210,13 @@ move <= move_and_en(11 downto 0);
 			end if;
 		end if;
 	end if;
-		
-	
+
 end if;
 
 end process;
 
 enable <= (en_fetch and en_cnt);
+
 ProgramCounter: entity work.ProgramCounter
 port map(
 			clk => clk,
@@ -215,7 +239,11 @@ port map ( 	clk => clk,
 			);
 			
 			
-			
+
+branch_or_jump <=
+				save_branch_thing when (move_and_en(15 downto 12) = x"F" and branch = '1') else --branch fails
+				save_jmp_addr when move_and_en(15 downto 12) = x"D" else
+				save_jmp_addr;
 
 PCMux: entity work.mux_4to1
 generic map( width => 12)
@@ -223,12 +251,10 @@ port map(
 	SEL  => SEL,
 	IN_1 => outp,
 	IN_2 => int_addr,
-	IN_3 => move,
+	IN_3 => branch_or_jump,
 	IN_4 => reset,
 	MOUT => addr
 	);
-	
-	
 
 PCstack: entity work.PCstack
 generic map( width => 12)

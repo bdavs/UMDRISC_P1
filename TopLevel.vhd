@@ -53,7 +53,7 @@ signal inst : std_logic_vector(15 downto 0):= (others => '0');
 signal inst_latch : std_logic_vector(15 downto 0):= (others => '0'); 
 
 signal run:  std_logic;
-
+signal branch:  std_logic;
 signal op : std_logic_vector(3 downto 0):= (others => '0'); 
 signal operand_op_latch : std_logic_vector(3 downto 0):= (others => '0'); 
 
@@ -180,15 +180,15 @@ port map(
 			clk => clk,
 			move => move,
 			execute_alu_out => execute_alu_out,
-			--br_stall => br_stall,
-			t5 => t4,
+			branch => branch,
+			t4 => t4,
 			--inst =>  inst,
 			A => A,
 			B => B,
 			RA_data => RA_Data,
 			RB_data => RB_Data,
 			op => op,
-			t2 => t2,
+			t3 => t3,
 			ccr => ccr
 			);
 			
@@ -199,6 +199,7 @@ port map(
 			rst => rst,
 			int_mode => int_mode,
 			jmp_mode => jmp_mode,
+			branch => branch,
 			--br_stall => br_stall,
 			move_and_en => move,
 			en_fetch => en_fetch,

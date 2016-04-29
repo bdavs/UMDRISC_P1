@@ -34,9 +34,9 @@ entity stuff is
            move : out  STD_LOGIC_VECTOR (15 downto 0);
            execute_alu_out : in  STD_LOGIC_VECTOR (15 downto 0);
            --br_stall : out  STD_LOGIC;
-           t5 : in  STD_LOGIC_VECTOR (15 downto 0);
-           t2 : in  STD_LOGIC_VECTOR (15 downto 0);
-           --inst : in  STD_LOGIC_VECTOR (15 downto 0);
+           t4 : in  STD_LOGIC_VECTOR (15 downto 0);
+           t3 : in  STD_LOGIC_VECTOR (15 downto 0);
+           branch : out  STD_LOGIC;
            A : out  STD_LOGIC_VECTOR (15 downto 0);
            B : out  STD_LOGIC_VECTOR (15 downto 0);
            RA_Data : in  STD_LOGIC_VECTOR (15 downto 0);
@@ -61,20 +61,24 @@ begin
 --end process;
 
 -- move signal ...super gross, right?
-move <= (t5(15 downto 12) and execute_alu_out(15)&"111") & execute_alu_out(11 downto 0);
+move <= t4(15 downto 12) & execute_alu_out(11 downto 0);
 
+
+with execute_alu_out(15) select
+branch <= '1' when  '1',
+		    '0' when others;
 
 	
 	
 	with op select
 		A <=
 			RA_data when "0000" | "0001" |"0010" |"0011" |"0100" |"0101" |"0110" |"0111" |"1000" |"1001" |"1010" |"1011" | "1100",
-			t2(11 downto 8) & ccr & x"00" when "1101" | "1110" |"1111",
+			--t3(11 downto 8) & ccr & x"00" when "1101" | "1110" |"1111",
 			RA_data when others;
-	with t2(15 downto 12) select
+	with t3(15 downto 12) select
 		B <=
 			RB_data when "0000" | "0001" |"0010" |"0011" |"0100" |"0101" |"0110" |"0111" |"1000" |"1001" |"1010" |"1011" | "1100",
-			t2(11 downto 0)  & x"0" when "1101" | "1110" |"1111",
+			x"0" & t3(11 downto 0)   when "1101" | "1110" |"1111",
 			RB_data when others;
 
 end Behavioral;
