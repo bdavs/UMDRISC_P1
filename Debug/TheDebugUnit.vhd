@@ -108,15 +108,15 @@ SSeg: entity work.SSegDriver
 			en => address_en,
 			output => sw_latch);
 			
-	Data <= x"00" & SW;
-	Addr <= x"0" & sw_latch;
+	--Data <= x"00" & SW;
+	--Addr <= x"0" & sw_latch;
 	interrupts <= "0" & buttons(3 downto 1);
 	UMDRISC: entity work.TopLevel
 	port map(	clk => buttons(0),
 		rst => '0',
 		int => interrupts,
 		wdata => write_data,
-		run => run,
+--		run => run,
 		Stage => Stage,
 		data => Data,
 		address => Addr,
@@ -192,6 +192,11 @@ begin
 					Stage <= "100";
 				end if;
 				
+				
+				if(ascii = x"64") then
+					--key d 
+					Stage <= "101";
+				end if;
 			end if;
 			
 		--end if;
@@ -208,7 +213,7 @@ end process;
 	
 	
 Debug_data <= RISC_data;
-
+Addr <= x"0" & SW;
 --selector <= run & enter_data;
 --with selector select 
 --	Debug_data <= 

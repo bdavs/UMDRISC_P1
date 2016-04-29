@@ -1,6 +1,7 @@
 # Output products list for <Data_Mem>
 Data_Mem.asy
 Data_Mem.gise
+Data_Mem.mif
 Data_Mem.ngc
 Data_Mem.sym
 Data_Mem.vhd

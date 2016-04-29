@@ -48,8 +48,9 @@ Port(clk : in std_logic;
 				 S_addr_latch :in std_logic_vector(1 downto 0);
 			  Write_back :out STD_LOGIC_VECTOR (15 downto 0);
 			   Write_Addr_sel  : in std_logic;
-
-
+				Debug_address: in std_logic_vector(11 downto 0);
+				run: in std_logic;
+				Debug_data: out std_logic_vector(15 downto 0);
 			  Writeback_address: out std_logic_vector(3 downto 0)
 
 		
@@ -71,6 +72,8 @@ signal f_write_back  : STD_LOGIC_VECTOR (15 downto 0);
 signal write_back_m  : STD_LOGIC_VECTOR (15 downto 0);
 
 signal ext_out  : STD_LOGIC_VECTOR (15 downto 0);
+
+signal DataMem_Debug: std_logic_vector(7 downto 0);
 
 signal Datamem_in  : STD_LOGIC_VECTOR (15 downto 0);
 signal D_addr :std_logic_vector(15 downto 0);
@@ -116,6 +119,12 @@ port map(
 			IN_2 => ext_out,
 			MOUT => Datamem_in);
 
+with run select
+DataMem_Debug <=
+	D_addr(15 downto 8) when '1',
+	Debug_address(7 downto 0) when '0',
+	D_addr(15 downto 8) when others;
+
 
 Writeback: entity work.Data_Mem
 port map(
@@ -123,11 +132,12 @@ port map(
 	clkb => not clk,
     wea =>wea,
     addra =>D_addr(7 downto 0),
-	 addrb => D_addr(15 downto 8),
+	 addrb => DataMem_Debug,
     dina =>Datamem_in,
     doutb =>LD_latch);
 	 
-	 
+ Debug_data <= LD_latch;
+ 
 --clka : IN STD_LOGIC;
 --    wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
 --    addra : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
