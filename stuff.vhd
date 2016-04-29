@@ -33,10 +33,10 @@ entity stuff is
     Port ( clk : in  STD_LOGIC;
            move : out  STD_LOGIC_VECTOR (15 downto 0);
            execute_alu_out : in  STD_LOGIC_VECTOR (15 downto 0);
-           br_stall : out  STD_LOGIC;
+           --br_stall : out  STD_LOGIC;
            t4 : in  STD_LOGIC_VECTOR (15 downto 0);
            t2 : in  STD_LOGIC_VECTOR (15 downto 0);
-           inst : in  STD_LOGIC_VECTOR (15 downto 0);
+           --inst : in  STD_LOGIC_VECTOR (15 downto 0);
            A : out  STD_LOGIC_VECTOR (15 downto 0);
            B : out  STD_LOGIC_VECTOR (15 downto 0);
            RA_Data : in  STD_LOGIC_VECTOR (15 downto 0);
@@ -49,16 +49,16 @@ architecture Behavioral of stuff is
 
 begin
 
-process(clk)
-begin
-if (clk'event and clk = '1')then
-	if (inst(15 downto 12) = "1111")then
-		br_stall <= '1';
-	else
-		br_stall <= '0';
-	end if;
-end if;
-end process;
+--process(clk)
+--begin
+--if (clk'event and clk = '1')then
+--	if (inst(15 downto 12) = "1111" or inst(15 downto 12) = "1101" or inst(15 downto 12) = "1110" )then
+--		br_stall <= '1';
+--	else
+--		br_stall <= '0';
+--	end if;
+--end if;
+--end process;
 -- move signal ...super gross, right?
 move <= (t4(15 downto 12) and execute_alu_out(15)&"111") & execute_alu_out(11 downto 0);
 

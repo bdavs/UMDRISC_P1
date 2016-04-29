@@ -77,13 +77,10 @@ signal S_id : std_logic_vector(1 downto 0):= (others => '0');
 signal S_id_latch : std_logic_vector(1 downto 0):= (others => '0');
 signal S_addr : std_logic_vector(1 downto 0):= (others => '0');
 signal S_addr_latch : std_logic_vector(1 downto 0):= (others => '0');
-<<<<<<< HEAD
+
+
 signal S_out : std_logic_vector(15 downto 0):= (others => '0');
 signal result2 : std_logic_vector(15 downto 0):= (others => '0');
-
-=======
-signal S_out : std_logic_vector(15 downto 0):= (others => '0');
->>>>>>> 88791e6d92abdae9d8ee8b6165d12d72643badc0
 
 
 signal RB_addr : std_logic_vector(3 downto 0):= (others => '0');
@@ -174,9 +171,9 @@ port map(
 			clk => clk,
 			move => move,
 			execute_alu_out => execute_alu_out,
-			br_stall => br_stall,
+			--br_stall => br_stall,
 			t4 => t4,
-			inst =>  inst,
+			--inst =>  inst,
 			A => A,
 			B => B,
 			RA_data => RA_Data,
@@ -193,7 +190,7 @@ port map(
 			rst => rst,
 			int_mode => int_mode,
 			jmp_mode => jmp_mode,
-			br_stall => br_stall,
+			--br_stall => br_stall,
 			move_and_en => move,
 			en_fetch => en_fetch,
 			output => inst,
@@ -258,17 +255,14 @@ port map(  CLK => clk,
            LDST_OUT => execute_ldst_out,
 			  en_execute => en_execute
 
-<<<<<<< HEAD
+
 );
 
 with t3(15 downto 12) select
 result2 <=  t2(7 downto 0) & execute_ldst_out(7 downto 0) when "1001",
 				execute_ldst_out when others;
 				
-=======
-);
-	
->>>>>>> 88791e6d92abdae9d8ee8b6165d12d72643badc0
+
 Write_Back_Stage: entity work.WriteBack
 Port map(clk =>clk,
            execute_alu_out_latch => execute_alu_out,
@@ -334,7 +328,6 @@ port map(clk => clk,
 			lwvd_en=>lwvd_en,
 
 			--S_Read =>S_read,
-
 			--ext_addr_en=>ext_addr_en,
 			--S_Read =>S_read,
 			--lwvd_en=>lwvd_en,
