@@ -169,6 +169,7 @@ port map(
 			move => move,
 			execute_alu_out => execute_alu_out,
 			branch => branch,
+			t5 => t5,
 			t4 => t4,
 			A => A,
 			B => B,

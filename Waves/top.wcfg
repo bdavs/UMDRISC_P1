@@ -14,7 +14,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="42" />
+   <WVObjectSize size="46" />
    <wvobject fp_name="/thetestbench/uut/ccr" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">ccr[3:0]</obj_property>
       <obj_property name="ObjectShortName">ccr[3:0]</obj_property>
@@ -557,5 +557,21 @@
       <obj_property name="ElementShortName">full_imm[15:0]</obj_property>
       <obj_property name="ObjectShortName">full_imm[15:0]</obj_property>
       <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/thetestbench/uut/operand_top_level/we" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">we</obj_property>
+      <obj_property name="ObjectShortName">we</obj_property>
+   </wvobject>
+   <wvobject fp_name="/thetestbench/uut/operand_top_level/re" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">re</obj_property>
+      <obj_property name="ObjectShortName">re</obj_property>
+   </wvobject>
+   <wvobject fp_name="/thetestbench/uut/operand_top_level/operand/read_addrb" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">read_addrb[3:0]</obj_property>
+      <obj_property name="ObjectShortName">read_addrb[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/thetestbench/uut/operand_top_level/operand/data_outb" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">data_outb[15:0]</obj_property>
+      <obj_property name="ObjectShortName">data_outb[15:0]</obj_property>
    </wvobject>
 </wave_config>
