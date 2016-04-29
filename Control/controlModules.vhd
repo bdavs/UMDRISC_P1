@@ -44,7 +44,7 @@ entity controlModules is
 			WE, RE,lwvd_en : out STD_LOGIC;
 					wea : out STD_LOGIC_vector(0 downto 0);
 			run: in std_logic;
-			S_en : buffer STD_LOGIC;
+			S_en : out STD_LOGIC;
 			S_write : out STD_LOGIC;
 			S_Read : out STD_LOGIC;
 			ext_wea : out STD_LOGIC_vector(0 downto 0);
@@ -182,11 +182,7 @@ ext_addr_en<='0';
  lwvd_en<='1';
  end if;
  
- if(S_en='1')then
- S_read<='1';
- else
- S_read<='0';
- end if;
+ 
  
  if(t5(15 downto 12)="1100")then
  ext_wea<="1";
@@ -195,25 +191,42 @@ ext_addr_en<='0';
  end if;
  
 if (t5(15 downto 12)/="1011" and ID="01")then --lwvd
---RA_addr <= t4(11 downto 8);
 lwvd_en<='1';
 wea<="1";
+S_Read<='1';
+ s_en<='1';
 ext_wea<="0";
+else
+lwvd_en<='0';
+wea<="0";
+S_Read<='0';
+s_en<='0';
+ext_wea<="1";
 end if;
+
+
 
 if (t5(15 downto 12)/="1011" and ID="11")then --lwvs 
  S_write <= '1' ;
- --WE<='0';
- s_EN<='1';
- else 
- S_write<='0';
- s_EN<='0';
+ s_en<='1';
+ else
+  S_write <= '0';
+ s_en<='0';
  end if;
  
 if (t5(15 downto 12)/="1100" and ID="01")then
 wea<="0";
 ext_wea<="1";
 ext_addr_en<='1';
+S_Read<='1';
+ s_en<='1';
+ else
+ wea<="1";
+ext_wea<="0";
+ext_addr_en<='0';
+S_Read<='0';
+ s_en<='0';
+
 end if;
 end process;
 

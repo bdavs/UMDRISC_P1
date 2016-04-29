@@ -37,7 +37,7 @@ port( clk: in std_logic;
 		rst: in std_logic;
 		en_fetch: in std_logic := '1';
 		move_and_en: in std_logic_vector(15 downto 0);
-		br_stall: in std_logic;
+		--br_stall: in std_logic;
 		int: in std_logic_vector (3 downto 0);
 		int_mode : out std_logic:= '0';
 		jmp_mode : out std_logic:= '0';
@@ -51,7 +51,7 @@ end fetch_toplevel;
 architecture Behavioral of fetch_toplevel is
 signal count: std_logic_vector(11 downto 0);
 signal inst: std_logic_vector(15 downto 0);
-signal nop_inst: std_logic_vector(15 downto 0) := x"A000";
+signal nop_inst: std_logic_vector(15 downto 0) := x"5000";
 signal latch_input: std_logic_vector(15 downto 0);
 
 signal outp: std_logic_vector(11 downto 0);
@@ -80,7 +80,7 @@ signal stall_ready : std_logic:='0';
 signal stall_finished : std_logic := '0';
 signal stall_cnt: std_logic_vector(1 downto 0) := (others => '0');
 --signal stall_cnt_out: std_logic_vector(1 downto 0) := (others => '0');
---signal stall_temp: std_logic_vector(15 downto 0) := (others => '0');
+signal br_stall: std_logic := '0';
 
 signal SEL : std_logic_vector(1 downto 0) := "00";
 
@@ -88,11 +88,25 @@ signal ROM_Address: std_logic_vector(11 downto 0);
 begin
 
 
+process(clk)
+begin
+if (clk'event and clk = '1')then
+	if (inst(15 downto 12) = "1111" or inst(15 downto 12) = "1101" or inst(15 downto 12) = "1110" )then
+		br_stall <= '1';
+	else
+		br_stall <= '0';
+	end if;
+end if;
+end process;
+
 --stall_temp <= output;
 
 process(clk)
 begin
 if (clk'event and clk = '0')then
+
+move <= move_and_en(11 downto 0);
+
 	--writeEnable and select for PC
 	if(int_writeEnable ='1')then 
 		SEL <= "01";
@@ -194,7 +208,7 @@ port map ( 	clk => clk,
 			
 			
 			
-move <= move_and_en(11 downto 0);
+
 PCMux: entity work.mux_4to1
 generic map( width => 12)
 port map(

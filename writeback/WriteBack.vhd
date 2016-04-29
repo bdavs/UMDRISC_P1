@@ -76,12 +76,13 @@ signal ext_out  : STD_LOGIC_VECTOR (15 downto 0);
 signal DataMem_Debug: std_logic_vector(7 downto 0);
 
 signal Datamem_in  : STD_LOGIC_VECTOR (15 downto 0);
-signal D_addr :std_logic_vector(15 downto 0);
+signal flipped :std_logic_vector(15 downto 0);
 signal S_addr :std_logic_vector(3 downto 0);
 signal Real_RA: std_logic_vector(15 downto 0):= (others => '0');
 --signal wea : STD_LOGIC_VECTOR (0 downto 0);
 begin
-D_addr<=execute_ldst_out_latch;
+flipped <= execute_ldst_out_latch(7 downto 0) & execute_ldst_out_latch(15 downto 8);
+--D_addr<=execute_ldst_out_latch;
 S_addr<="00" & S_addr_latch;
 WB_addr_mux: entity work.mux_2to1
 generic map(width => 4)
@@ -120,9 +121,9 @@ port map(
 
 with run select
 DataMem_Debug <=
-	execute_ldst_out_latch(15 downto 8) when '1',
+	flipped(15 downto 8) when '1',
 	Debug_address(7 downto 0) when '0',
-	execute_ldst_out_latch(15 downto 8) when others;
+	flipped(15 downto 8) when others;
 
 
 Writeback: entity work.Data_Mem

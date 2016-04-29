@@ -54,7 +54,7 @@ process (clk)
 			RA <= inst(11 downto 8);
 			Imm <= inst(3 downto 0);
 			RB <= inst(7 downto 4);
-			S_addr<=inst(6 downto 5);
+			S_addr<=inst(7 downto 6);
 			S_id<=inst(5 downto 4);
 		end if;
 	end process;

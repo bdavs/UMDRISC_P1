@@ -49,7 +49,7 @@ architecture Combinational of Vector_Unit is
   signal vector : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
    signal Shadow : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
 	   signal external : STD_LOGIC_VECTOR (15 downto 0) := (OTHERS => '0');
-
+signal ID1		: 	STD_LOGIC_VECTOR (1 downto 0);
 begin
     -- Give extra bit to accound for carry,overflow,negative
 
@@ -57,49 +57,28 @@ begin
     --b1 <= '0' & B;
 
     
-process(OP)
-	 begin
-	 a1 <= A;
-    b1 <= B;
-if	(OP="1011" and ID="00") then --LWV
-	shadow<=Shadow_data + b1;
-end if;
-
-if(OP="1011" and ID="01")then
-shadow<=a1;
-else if(OP="1011" and ID="11") then --LWVS
-vector<=a1 + b1;
-end if;
-end if;
-
-if(OP="1100" and ID="00")then --SWV
-vector<=a1;
-shadow<=Shadow_data + b1;
-end if;   
-
-if(OP="1100" and ID="01")then
-external<=Shadow_data + b1;
-shadow<=a1;
-end if;
+	ID1<=B(5 downto 4);
 
 
 
+--vector
+REsult2<=
+			A + B(3 downto 0) 				when (OP="1011" and ID1="11") else 
+			A 										when (OP="1100" and ID1="00")	else
+			x"0000";
+--shadow
+RESULT <= 
 
-
-				
-  
+			Shadow_data + B(3 downto 0)	when (OP="1011" and ID1="00")else
+			A   									when (OP="1011" and ID1="01")else
+			Shadow_data + B(3 downto 0) 	when (OP="1100" and ID1="00") else
+			A 										when (OP="1100" and ID1="00")else
+			x"0000";								
 			
-	
+--external			
+RESULT3<=
+			Shadow_data + B(3 downto 0) 	when (OP="1100" and ID1="00")else
+			x"0000";									
 
---    CCR(3) <= arith(7); -- Negative
---    CCR(2) <= '1' when arith(15 downto 0) = x"000000000000" else '0'; -- Zero
---    CCR(1) <= a1(15) xor arith(15); -- Overflow
---    CCR(0) <= arith(16); --Carry
-	
-
-end process; 
-RESULT <= shadow;
-REsult2 <=vector;
-RESULT3<=external; 
 end Combinational;
 
