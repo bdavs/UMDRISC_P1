@@ -2,11 +2,10 @@ memory_initialization_radix=16;
 memory_initialization_vector=
 5201,
 5301,
-F006,
+0230,
 5001,
 5101,
 5000,
 5102,
 5208,
-E000,
 5201;

@@ -62,7 +62,7 @@ end Operand_top;
 
 architecture Behavioral of Operand_top is
 
-signal operand_mux_sel: std_logic;
+signal operand_mux_sel: std_logic := '0';
 signal ALU_RB : std_logic_vector(15 downto 0);
 signal ALU_RA: std_logic_vector(15 downto 0);
 signal RA_data : std_logic_vector(15 downto 0);
@@ -70,6 +70,7 @@ signal RB_data : std_logic_vector(15 downto 0);
 signal full_imm : std_logic_vector(15 downto 0);
 signal S_out : std_logic_vector(15 downto 0);
 signal RA_addr_Debug: std_logic_vector(3 downto 0);
+signal operand_op_latch_t: std_logic_vector(3 downto 0);
 --signal S_addr : std_logic_vector(1 downto 0);
 --signal int_mode : std_logic;
 --signal jmp_mode : std_logic; --CHANGE THIS TO AN INPUT ONCE YOU NEED IT BOBBY
@@ -112,6 +113,11 @@ port map(
 ); 
 
 -- turn 8 bit imm into 16 bits
+
+with operand_op_latch_t select
+operand_mux_sel <= '0' when x"0" | x"1" | x"2" | x"3" | x"4",
+							'1' when others;
+
 full_imm <= "00000000" & RB_addr & Imm;
 
 operand_RB_mux: entity work.mux_2to1
@@ -157,8 +163,9 @@ port map(
 			clk => clk,
 			input => op,
 			en => en_operand,
-			output => operand_op_latch);
+			output => operand_op_latch_t);
 			
+operand_op_latch <= operand_op_latch_t;
 RA_data_latch <= RA_data;
 --process(clk)
 --			begin 
