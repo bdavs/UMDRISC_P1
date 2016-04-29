@@ -84,7 +84,6 @@ begin
 D_addr<=execute_ldst_out_latch;
 S_addr<="00" & S_addr_latch;
 WB_addr_mux: entity work.mux_2to1
-
 generic map(width => 4)
 port map(
 			SEL => Write_Addr_sel,
@@ -121,9 +120,9 @@ port map(
 
 with run select
 DataMem_Debug <=
-	D_addr(15 downto 8) when '1',
+	execute_ldst_out_latch(15 downto 8) when '1',
 	Debug_address(7 downto 0) when '0',
-	D_addr(15 downto 8) when others;
+	execute_ldst_out_latch(15 downto 8) when others;
 
 
 Writeback: entity work.Data_Mem
@@ -131,7 +130,7 @@ port map(
 	clka =>clk,
 	clkb => not clk,
     wea =>wea,
-    addra =>D_addr(7 downto 0),
+    addra =>execute_ldst_out_latch(7 downto 0),
 	 addrb => DataMem_Debug,
     dina =>Datamem_in,
     doutb =>LD_latch);
