@@ -23,31 +23,27 @@
 
   <files xmlns="http://www.xilinx.com/XMLSchema"/>
 
-<<<<<<< HEAD
   <transforms xmlns="http://www.xilinx.com/XMLSchema">
-    <transform xil_pn:end_ts="1461810411" xil_pn:name="TRAN_copyInitialToXSTAbstractSynthesis" xil_pn:start_ts="1461810411">
+    <transform xil_pn:end_ts="1460747340" xil_pn:name="TRAN_copyInitialToXSTAbstractSynthesis" xil_pn:start_ts="1460747340">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1461879838" xil_pn:name="TRAN_schematicsToHdl" xil_pn:prop_ck="-4700133436673292306" xil_pn:start_ts="1461879838">
+    <transform xil_pn:end_ts="1461354870" xil_pn:name="TRAN_schematicsToHdl" xil_pn:prop_ck="-4700133436673292306" xil_pn:start_ts="1461354870">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1461879838" xil_pn:name="TRAN_regenerateCores" xil_pn:prop_ck="3048257271547759924" xil_pn:start_ts="1461879838">
+    <transform xil_pn:end_ts="1461354870" xil_pn:name="TRAN_regenerateCores" xil_pn:prop_ck="3048257271547759924" xil_pn:start_ts="1461354870">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1461879838" xil_pn:name="TRAN_SubProjectAbstractToPreProxy" xil_pn:start_ts="1461879838">
+    <transform xil_pn:end_ts="1461354870" xil_pn:name="TRAN_SubProjectAbstractToPreProxy" xil_pn:start_ts="1461354870">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1461879838" xil_pn:name="TRAN_xawsTohdl" xil_pn:prop_ck="-5085234997656473876" xil_pn:start_ts="1461879838">
+    <transform xil_pn:end_ts="1461354870" xil_pn:name="TRAN_xawsTohdl" xil_pn:prop_ck="-5085234997656473876" xil_pn:start_ts="1461354870">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
   </transforms>
-=======
-  <transforms xmlns="http://www.xilinx.com/XMLSchema"/>
->>>>>>> 88791e6d92abdae9d8ee8b6165d12d72643badc0
 
 </generated_project>

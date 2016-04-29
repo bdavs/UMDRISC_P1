@@ -1,6 +1,15 @@
-INFO:sim:172 - Generating IP...
-Applying current project options...
-Finished applying current project options.
+Welcome to Xilinx CORE Generator.
+Help system initialized.
+The IP Catalog has been reloaded.
+Opening project file /home/bobby/UMDRISC_P1/ROM/coregen.cgp.
+Recustomize and Generate (Under Original Project Settings)INFO:sim:172 - Generating IP...
+ERROR:sim - Unable to find .\test.coe
+ERROR:sim -    Coregen is looking for /home/bobby/UMDRISC_P1/ROM/test.coe
+ERROR:sim - Unable to find .\test.coe
+ERROR:sim -    Coregen is looking for /home/bobby/UMDRISC_P1/ROM/test.coe
+ERROR:sim - An invalid core configuration has been detected during
+ERROR:sim -    Customization. Core parameters will be reset to their default
+   values.
 WARNING:sim - A core named 'ROM' already exists in the project. Output products
    for this core may be overwritten.
 Resolving generics for 'ROM'...
@@ -21,7 +30,6 @@ WARNING:sim - Overwriting existing file
 Delivered 1 file into directory /home/bobby/UMDRISC_P1/ROM/tmp/_cg/ROM
 Generating ASY schematic symbol...
 INFO:sim:949 - Finished generation of ASY schematic symbol.
-Generating SYM schematic symbol for 'ROM'...
 Generating metadata file...
 Regenerating ISE project file for 'ROM'...
 Generating ISE project...
@@ -34,8 +42,6 @@ Checking file "/home/bobby/UMDRISC_P1/ROM/tmp/_cg/ROM.ngc" for project device
 match ...
 File "/home/bobby/UMDRISC_P1/ROM/tmp/_cg/ROM.ngc" device information matches
 project device.
-Adding /home/bobby/UMDRISC_P1/ROM/tmp/_cg/ROM.sym -view all -origin_type
-imported
 Adding /home/bobby/UMDRISC_P1/ROM/tmp/_cg/ROM.vhd -view all -origin_type created
 INFO:HDLCompiler:1061 - Parsing VHDL file
    "/home/bobby/UMDRISC_P1/ROM/tmp/_cg/ROM.vhd" into library work
@@ -53,4 +59,5 @@ INFO:sim:948 - Finished FLIST file generation.
 Launching README viewer...
 Moving files to output directory...
 Finished moving files to output directory
-Wrote CGP file for project 'ROM'.
+Saved CGP file for project 'coregen'.
+Closed project file.
