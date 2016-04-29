@@ -33,7 +33,7 @@ use work.all;
 entity TopLevel is
 port(	clk : in std_logic;
 		rst : in std_logic;
-		int : in std_logic_vector( 3 downto 0);
+		int : in std_logic_vector( 3 downto 0):= "0000";
 		wdata: in std_logic;
 		Stage: in std_logic_vector(2 downto 0);
 		data: in std_logic_vector(15 downto 0);
@@ -181,7 +181,7 @@ port map(
 			move => move,
 			execute_alu_out => execute_alu_out,
 			--br_stall => br_stall,
-			t4 => t4,
+			t5 => t4,
 			--inst =>  inst,
 			A => A,
 			B => B,

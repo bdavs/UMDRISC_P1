@@ -94,6 +94,7 @@ BEGIN
    -- Stimulus process
    stim_proc: process
    begin		
+	int <= "0000";
       -- hold reset state for 100 ns.
 		--run <= '1';
 		
