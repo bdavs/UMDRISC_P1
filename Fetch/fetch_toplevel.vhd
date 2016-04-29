@@ -241,7 +241,7 @@ port map ( 	clk => clk,
 			
 
 branch_or_jump <=
-				save_branch_thing when (move_and_en(15 downto 12) = x"F" and branch = '1') else --branch fails
+				save_branch_thing when (move_and_en(15 downto 12) = x"F" and branch = '0') else --branch fails
 				save_jmp_addr when move_and_en(15 downto 12) = x"D" else
 				save_jmp_addr;
 
