@@ -53,6 +53,7 @@ signal count: std_logic_vector(11 downto 0);
 signal inst: std_logic_vector(15 downto 0);
 signal nop_inst: std_logic_vector(15 downto 0) := x"5000";
 signal latch_input: std_logic_vector(15 downto 0);
+signal latch_output: std_logic_vector(15 downto 0);
 
 signal outp: std_logic_vector(11 downto 0);
 
@@ -83,6 +84,8 @@ signal stall_cnt: std_logic_vector(1 downto 0) := (others => '0');
 signal br_stall: std_logic := '0';
 
 signal SEL : std_logic_vector(1 downto 0) := "00";
+signal en_cnt: std_logic := '1';
+signal enable: std_logic := '1';
 
 signal ROM_Address: std_logic_vector(11 downto 0);
 begin
@@ -90,7 +93,7 @@ begin
 
 process(clk)
 begin
-if (clk'event and clk = '1')then
+if (clk'event and clk = '0')then
 	if (inst(15 downto 12) = "1111" or inst(15 downto 12) = "1101" or inst(15 downto 12) = "1110" )then
 		br_stall <= '1';
 	else
@@ -130,15 +133,17 @@ move <= move_and_en(11 downto 0);
 		stall_cnt <= "00";
 		push <= '0';
 		stall_finished <= '0';
+		en_cnt <= '1';
 		--pop = '0';
 	elsif((stall_ready = '1' and stall_cnt = "00") or br_stall = '1')then --first instance
 		stall_cnt <= stall_cnt + 1; 
 		latch_input <= nop_inst;
 		stall_finished <= '0';
-		if (move_and_en(15 downto 12) = "1111")then
-			push <= '0';
-		else
+		en_cnt <= '0';
+		if (latch_output(15 downto 12) = "1101")then
 			push <= '1';
+		else
+			push <= '0';
 		end if;
 		--pop = '0';
 	elsif(stall_cnt = "01" or stall_cnt = "10" or stall_cnt = "00")then --stalling
@@ -146,16 +151,19 @@ move <= move_and_en(11 downto 0);
 		latch_input <= nop_inst;
 		push <= '0';
 		stall_finished <= '0';
+		en_cnt <= '0';
 		--pop = '0';
 	elsif(stall_ready = '1' and stall_cnt ="11")then --(stall done)
 		stall_cnt <= "00";
 		stall_finished <= '1';
 		push <= '0';
+		en_cnt <= '1';
 	else 
 		latch_input <= inst;
 		stall_cnt <= "00";
 		push <= '0';
 		stall_finished <= '0';		--pop = '0';
+		en_cnt <= '1';
 	end if;
 
 	
@@ -184,14 +192,14 @@ end if;
 
 end process;
 
-
+enable <= (en_fetch and en_cnt);
 ProgramCounter: entity work.ProgramCounter
 port map(
 			clk => clk,
 			addr => addr,
 			writeEnable => writeEnable,
 			count => count,
-			en => en_fetch
+			en => enable
 );
 
 InterruptController: entity work.InterruptController_fetch 
@@ -252,7 +260,9 @@ port map(
 			clk => clk,
 			input => latch_input,
 			en => en_fetch,
-			output => output
+			output => latch_output
 			);
+			
+output <= latch_output;
 
 end Behavioral;

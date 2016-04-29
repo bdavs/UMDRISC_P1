@@ -88,7 +88,7 @@ begin
 	--temp <= stack_pointer;
 		if(push = '1' and stack_pointer /= "11")then
 			stack_pointer<= stack_pointer + '1';
-			tmp_ram(conv_integer(stack_pointer)) <= input;
+			tmp_ram(conv_integer(stack_pointer)) <= input + 1;
 		elsif(pop = '1'  and stack_pointer /= "00")then
 			output <= tmp_ram(conv_integer(stack_pointer - 1 ));
 			stack_pointer <= stack_pointer - '1';
