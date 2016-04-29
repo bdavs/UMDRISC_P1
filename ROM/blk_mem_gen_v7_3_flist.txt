@@ -19,6 +19,8 @@ blk_mem_gen_v7_3/simulation/blk_mem_gen_v7_3_synth.vhd
 blk_mem_gen_v7_3/simulation/blk_mem_gen_v7_3_tb.vhd
 blk_mem_gen_v7_3/simulation/bmg_stim_gen.vhd
 blk_mem_gen_v7_3/simulation/bmg_tb_pkg.vhd
+blk_mem_gen_v7_3/simulation/checker.vhd
+blk_mem_gen_v7_3/simulation/data_gen.vhd
 blk_mem_gen_v7_3/simulation/functional/simcmds.tcl
 blk_mem_gen_v7_3/simulation/functional/simulate_isim.sh
 blk_mem_gen_v7_3/simulation/functional/simulate_mti.bat
