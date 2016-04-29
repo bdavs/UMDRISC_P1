@@ -1,0 +1,15 @@
+set -xsthdpdir "./_cg/_dbg/ROM_xsd"
+run
+-ifn "./_cg/_dbg/ROM.prj"
+-ifmt VHDL
+-ofmt NGC
+-ofn "./_cg/_dbg/ROM.ngc"
+-p xc3s500e-4fg320
+-iobuf NO
+-work_lib work
+-ent ROM
+-arch spartan3e
+-top ROM
+-bus_delimiter <>
+-lso "./_cg/_dbg/_default.lso"
+-use_new_parser yes
