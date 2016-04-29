@@ -35,7 +35,6 @@ port(	clk : in std_logic;
 		rst : in std_logic;
 		int : in std_logic_vector( 3 downto 0);
 		wdata: in std_logic;
-		run: in std_logic;
 		Stage: in std_logic_vector(2 downto 0);
 		data: in std_logic_vector(15 downto 0);
 		address: in std_logic_vector(11 downto 0);
@@ -53,7 +52,8 @@ signal t1, t2, t3, t4, t5: std_logic_vector (15 downto 0):= (others => '0');
 signal inst : std_logic_vector(15 downto 0):= (others => '0'); 
 signal inst_latch : std_logic_vector(15 downto 0):= (others => '0'); 
 
- 
+signal run:  std_logic;
+
 signal op : std_logic_vector(3 downto 0):= (others => '0'); 
 signal operand_op_latch : std_logic_vector(3 downto 0):= (others => '0'); 
 
@@ -77,9 +77,13 @@ signal S_id : std_logic_vector(1 downto 0):= (others => '0');
 signal S_id_latch : std_logic_vector(1 downto 0):= (others => '0');
 signal S_addr : std_logic_vector(1 downto 0):= (others => '0');
 signal S_addr_latch : std_logic_vector(1 downto 0):= (others => '0');
+<<<<<<< HEAD
 signal S_out : std_logic_vector(15 downto 0):= (others => '0');
 signal result2 : std_logic_vector(15 downto 0):= (others => '0');
 
+=======
+signal S_out : std_logic_vector(15 downto 0):= (others => '0');
+>>>>>>> 88791e6d92abdae9d8ee8b6165d12d72643badc0
 
 
 signal RB_addr : std_logic_vector(3 downto 0):= (others => '0');
@@ -129,6 +133,7 @@ signal move: std_logic_vector(15 downto 0);
 
 signal br_stall: std_logic:='0';
 
+
 signal Stage1: std_logic_vector(15 downto 0);
 signal Core_Debug: std_logic_vector(15 downto 0);
 signal Stage2: std_logic_vector(15 downto 0);
@@ -136,6 +141,7 @@ signal Data_mem_Debug: std_logic_vector(15 downto 0);
 signal Stage3: std_logic_vector(15 downto 0);
 signal Stage4: std_logic_vector(15 downto 0);
 signal Stage5: std_logic_vector(15 downto 0);
+signal DataDump: std_logic_vector(15 downto 0);
 signal ROM_Debug_signal:std_logic_vector(15 downto 0);
 signal Debug_selector: std_logic_vector(2 downto 0);
 begin
@@ -149,13 +155,19 @@ Debug_data <=
 	Stage3 when "010", 
 	Stage4 when "011",
 	Stage5 when "100",
+	DataDump when "101", 
 	x"ECE3" when others; --bad input
 
 Stage5 <= Write_back;
 Stage4 <= execute_alu_out;
-Stage3 <= x"de" & B(7 downto 0); 
+Stage3 <= A(7 downto 0) & B(7 downto 0);
 Stage2 <= x"add" & RA_addr;
 Stage1 <= inst;
+
+with Stage select
+run <=
+	'0' when "101",
+	'1' when others;
 
 junk_stuff: entity work.stuff
 port map(
@@ -246,12 +258,17 @@ port map(  CLK => clk,
            LDST_OUT => execute_ldst_out,
 			  en_execute => en_execute
 
+<<<<<<< HEAD
 );
 
 with t3(15 downto 12) select
 result2 <=  t2(7 downto 0) & execute_ldst_out(7 downto 0) when "1001",
 				execute_ldst_out when others;
 				
+=======
+);
+	
+>>>>>>> 88791e6d92abdae9d8ee8b6165d12d72643badc0
 Write_Back_Stage: entity work.WriteBack
 Port map(clk =>clk,
            execute_alu_out_latch => execute_alu_out,
@@ -269,8 +286,9 @@ Port map(clk =>clk,
 				ext_wea=>ext_wea,
 				Write_Addr_sel=>Write_Addr_sel,
 				en_writeback_ctrl=>en_writeback_ctrl,
-				
-
+				Debug_address => address,
+				run => run,
+				Debug_Data => DataDump,
 				ext_addr_en=>ext_addr_en
 
 				--en_write_back => en_Writeback
@@ -305,7 +323,6 @@ port map(clk => clk,
 			 t5 => t5,
 			 wea=>wea,
 			 ext_wea=>ext_wea,
-
 			 --en_writeback=>en_Writeback,
 			 S_en =>S_en ,
 			 ID=>S_id,
@@ -327,8 +344,7 @@ port map(clk => clk,
 			en_pipeline => en_pipeline,
 			en_operand => en_operand,
 			en_Writeback => en_Writeback,
-			en_execute => en_execute,
-			en_writeback_ctrl=>en_writeback_ctrl
+			en_execute => en_execute
 
 			);
 

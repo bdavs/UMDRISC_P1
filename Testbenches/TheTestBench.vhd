@@ -45,7 +45,7 @@ ARCHITECTURE behavior OF TheTestBench IS
          rst : IN  std_logic;
 			int : IN std_logic_vector(3 downto 0);
 			wdata: in std_logic;
-			run: in std_logic;
+--			run: in std_logic;
 			Stage: in std_logic_vector(2 downto 0);
 			data: in std_logic_vector(15 downto 0);
 			address: in std_logic_vector(11 downto 0);
@@ -59,7 +59,7 @@ ARCHITECTURE behavior OF TheTestBench IS
    signal rst : std_logic := '0';
 	signal int : std_logic_vector(3 downto 0);
 	signal wdata: std_logic;
-	signal run: std_logic;
+	--signal run: std_logic;
 	signal Stage: std_logic_vector(2 downto 0);
 	signal data: std_logic_vector(15 downto 0);
 	signal address: std_logic_vector(11 downto 0);
@@ -76,7 +76,7 @@ BEGIN
           rst => rst,
 			 int => int,
 			 wdata => wdata,
-			run => run,
+			--run => run,
 			Stage => Stage,
 			data => data,
 			address => address,
@@ -95,7 +95,7 @@ BEGIN
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
-		run <= '1';
+		--run <= '1';
 		
 --      wait for period*4;	
 --		run <= '0';

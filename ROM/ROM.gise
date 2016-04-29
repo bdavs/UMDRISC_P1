@@ -23,6 +23,7 @@
 
   <files xmlns="http://www.xilinx.com/XMLSchema"/>
 
+<<<<<<< HEAD
   <transforms xmlns="http://www.xilinx.com/XMLSchema">
     <transform xil_pn:end_ts="1461810411" xil_pn:name="TRAN_copyInitialToXSTAbstractSynthesis" xil_pn:start_ts="1461810411">
       <status xil_pn:value="SuccessfullyRun"/>
@@ -45,5 +46,8 @@
       <status xil_pn:value="ReadyToRun"/>
     </transform>
   </transforms>
+=======
+  <transforms xmlns="http://www.xilinx.com/XMLSchema"/>
+>>>>>>> 88791e6d92abdae9d8ee8b6165d12d72643badc0
 
 </generated_project>
